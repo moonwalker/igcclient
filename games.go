@@ -1,0 +1,78 @@
+package igcclient
+
+import (
+	. "github.com/moonwalker/igcclient/models"
+	"net/url"
+	"strconv"
+)
+
+type GamesService service
+
+// Gets a list available of Games supported by the system.
+func (s *GamesService) Games(data GameFilterModel) (response OperationResponseOfIEnumerableOfGameFront, err error) {
+	err = s.client.apiPost("/games", &data, &response, nil, nil)
+	return
+}
+
+// Gets the MD5 hash for the requested games list. This can be used to cache games request on the client.
+func (s *GamesService) MD5(data GameFilterModel) (response OperationResponseOfString, err error) {
+	err = s.client.apiPost("/games/md5", &data, &response, nil, nil)
+	return
+}
+
+// Gets all the Jackpots for the requested Currency
+func (s *GamesService) Jackpots(currency string) (response OperationResponseOfIEnumerableOfJackpot, err error) {
+	err = s.client.apiPost("/games/jackpots/"+url.QueryEscape(currency), nil, &response, nil, nil)
+	return
+}
+
+// Get a single Game by Game ID
+func (s *GamesService) GameById(gameId int) (response OperationResponseOfGameFront, err error) {
+	id := strconv.Itoa(gameId)
+	err = s.client.apiPost("/games/"+url.QueryEscape(id), nil, &response, nil, nil)
+	return
+}
+
+// Get the URL of the Game to be used in the iFrame or to redirect to
+func (s *GamesService) Url(gameId int, body GameURLModel) (response OperationResponseOfString, err error) {
+	id := strconv.Itoa(gameId)
+	err = s.client.apiPost("/games/url/"+url.QueryEscape(id), &body, &response, nil, nil)
+	return
+}
+
+// Get all last played games
+func (s *GamesService) LastPlayed(maxResults int, body GameUserInteractionDataModel, authToken string) (response OperationResponseOfIEnumerableOfLastPlayed, err error) {
+	max := strconv.Itoa(maxResults)
+	err = s.client.apiPost("/games/lastplayed?maxresults="+url.QueryEscape(max), &body, &response, nil, &authToken)
+	return
+}
+
+// Get all Game Categories by language alphaCode2
+func (s *GamesService) Categories(alphaCode2 string) (response OperationResponseOfIEnumerableOfCategory, err error) {
+	err = s.client.apiPost("/games/categories/"+url.QueryEscape(alphaCode2), nil, &response, nil, nil)
+	return
+}
+
+// Get details of all the games.
+func (s *GamesService) Details() (response OperationResponseOfIEnumerableOfGameDetails, err error) {
+	err = s.client.apiPost("/games/details", nil, &response, nil, nil)
+	return
+}
+
+// Get all recent game winners.
+func (s *GamesService) RecentWinners(body RecentWinnersV2RequestModel) (response OperationResponseOfIEnumerableOfRecentWinnersResponseModel, err error) {
+	err = s.client.apiPost("/v2/games/recentwinners", &body, &response, nil, nil)
+	return
+}
+
+// Get a list of all the Vendors
+func (s *GamesService) Vendors(enabledOnly bool) (response OperationResponseOfIEnumerableOfVendor, err error) {
+	eoStr := strconv.FormatBool(enabledOnly)
+	err = s.client.apiPost("/games/vendors?enabledonly="+url.QueryEscape(eoStr), nil, &response, nil, nil)
+	return
+}
+
+func (s *GamesService) AffiliateGameDetails() (response OperationalResponseOfIEnumerableOfGameDetailsAffiliates, err error) {
+	err = s.client.apiPost("/games/affiliategamedetails", nil, &response, nil, nil)
+	return
+}
