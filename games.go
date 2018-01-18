@@ -1,9 +1,10 @@
 package igcclient
 
 import (
-	. "github.com/moonwalker/igcclient/models"
 	"net/url"
 	"strconv"
+
+	. "github.com/moonwalker/igcclient/models"
 )
 
 type GamesService service
@@ -27,22 +28,22 @@ func (s *GamesService) Jackpots(currency string) (response OperationResponseOfIE
 }
 
 // Get a single Game by Game ID
-func (s *GamesService) GameById(gameId int) (response OperationResponseOfGameFront, err error) {
-	id := strconv.Itoa(gameId)
+func (s *GamesService) GameById(gameId int64) (response OperationResponseOfGameFront, err error) {
+	id := strconv.FormatInt(gameId, 10)
 	err = s.client.apiPost("/games/"+url.QueryEscape(id), nil, &response, nil, nil)
 	return
 }
 
 // Get the URL of the Game to be used in the iFrame or to redirect to
-func (s *GamesService) Url(gameId int, body GameURLModel) (response OperationResponseOfString, err error) {
-	id := strconv.Itoa(gameId)
+func (s *GamesService) Url(gameId int64, body GameURLModel) (response OperationResponseOfString, err error) {
+	id := strconv.FormatInt(gameId, 10)
 	err = s.client.apiPost("/games/url/"+url.QueryEscape(id), &body, &response, nil, nil)
 	return
 }
 
 // Get all last played games
-func (s *GamesService) LastPlayed(maxResults int, body GameUserInteractionDataModel, authToken string) (response OperationResponseOfIEnumerableOfLastPlayed, err error) {
-	max := strconv.Itoa(maxResults)
+func (s *GamesService) LastPlayed(maxResults int64, body GameUserInteractionDataModel, authToken string) (response OperationResponseOfIEnumerableOfLastPlayed, err error) {
+	max := strconv.FormatInt(maxResults, 10)
 	err = s.client.apiPost("/games/lastplayed?maxresults="+url.QueryEscape(max), &body, &response, nil, &authToken)
 	return
 }
