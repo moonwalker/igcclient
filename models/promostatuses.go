@@ -1,6 +1,6 @@
 package models
 
 type PromoStatuses struct {
-	StatusId *int    `json:"StatusId,omitempty"`
+	StatusId *int64  `json:"StatusId,omitempty"`
 	Name     *string `json:"Name,omitempty"`
 }

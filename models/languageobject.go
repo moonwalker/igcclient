@@ -1,7 +1,7 @@
 package models
 
 type LanguageObject struct {
-	LanguageID *int     `json:"LanguageID,omitempty"`
+	LanguageID *int64   `json:"LanguageID,omitempty"`
 	Alpha2Code *string  `json:"Alpha2Code,omitempty"`
 	Alpha3Code *string  `json:"Alpha3Code,omitempty"`
 	Language   *string  `json:"Language,omitempty"`

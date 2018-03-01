@@ -1,6 +1,6 @@
 package models
 
-type DeviceType int
+type DeviceType int64
 
 const (
 	DT_Desktop DeviceType = 1

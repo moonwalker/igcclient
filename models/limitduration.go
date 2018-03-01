@@ -1,6 +1,6 @@
 package models
 
-type LimitDuration int
+type LimitDuration int64
 
 const (
 	LD_24Hours    LimitDuration = 1

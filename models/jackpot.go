@@ -1,7 +1,7 @@
 package models
 
 type Jackpot struct {
-	GameId    int    `json:"GameId,omitempty"`    // The game identifier.
+	GameId    int64  `json:"GameId,omitempty"`    // The game identifier.
 	GameName  string `json:"GameName,omitempty"`  // The name of the game.
 	Vendor    string `json:"Vendor,omitempty"`    // The Game vendor.
 	Currency  string `json:"Currency,omitempty"`  // The currency. (ISO Alpha 3)

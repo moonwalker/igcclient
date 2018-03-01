@@ -1,6 +1,6 @@
 package models
 
-type VendorType int
+type VendorType int64
 
 const (
 	VT_Gaming   VendorType = 1

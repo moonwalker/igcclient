@@ -1,7 +1,7 @@
 package models
 
 type LastPlayed struct {
-	Id      *int     `json:"Id,omitempty"`
-	GameId  *int     `json:"GameId,omitempty"`
+	Id      *int64   `json:"Id,omitempty"`
+	GameId  *int64   `json:"GameId,omitempty"`
 	Created *IGCTime `json:"Created,omitempty"`
 }

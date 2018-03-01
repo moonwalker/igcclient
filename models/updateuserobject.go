@@ -12,5 +12,5 @@ type UpdateUserObject struct {
 	AllowsNewsAndOffers    *bool            `json:"AllowsNewsAndOffers,omitempty"`
 	AllowsNewsAndOffersSMS *bool            `json:"AllowsNewsAndOffersSMS,omitempty"`
 	AdditionalFields       *PartialUserData `json:"AdditionalFields,omitempty"`
-	LanguageID             *int             `json:"LanguageID,omitempty"`
+	LanguageID             *int64           `json:"LanguageID,omitempty"`
 }

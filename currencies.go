@@ -15,8 +15,8 @@ func (s *CurrenciesService) Currencies() (response OperationResponseOfListOfCurr
 }
 
 // Gets a single currency by currency ID
-func (s *CurrenciesService) CurrencyById(id int) (response OperationResponseOfCurrenciesObject, err error) {
-	i := strconv.Itoa(id)
+func (s *CurrenciesService) CurrencyById(id int64) (response OperationResponseOfCurrenciesObject, err error) {
+	i := strconv.FormatInt(id, 10)
 	err = s.client.apiPost("/currencies/"+url.QueryEscape(i), nil, &response, nil, nil)
 	return
 }

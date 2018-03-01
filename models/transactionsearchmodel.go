@@ -1,5 +1,5 @@
 package models
 
 type TransactionSearchModel struct {
-	TransactionId int `json:"TransactionId,omitempty"`
+	TransactionId int64 `json:"TransactionId,omitempty"`
 }

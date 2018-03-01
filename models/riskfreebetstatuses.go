@@ -1,6 +1,6 @@
 package models
 
-type RiskFreeBetStatuses int
+type RiskFreeBetStatuses int64
 
 const (
 	RFBS_Claimed   RiskFreeBetStatuses = 1

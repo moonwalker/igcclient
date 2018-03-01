@@ -1,22 +1,22 @@
 package models
 
 type PaymentMethod struct {
-	PaymentMethodID             *int     `json:"PaymentMethodID,omitempty"`
-	PaymentTypeID               *int     `json:"PaymentTypeID,omitempty"`
+	PaymentMethodID             *int64   `json:"PaymentMethodID,omitempty"`
+	PaymentTypeID               *int64   `json:"PaymentTypeID,omitempty"`
 	Image                       *string  `json:"Image,omitempty"`
 	IsDeposit                   *bool    `json:"IsDeposit,omitempty"`
 	IsLive                      *bool    `json:"IsLive,omitempty"`
 	Created                     *IGCTime `json:"Created,omitempty"`
 	LastEdited                  *IGCTime `json:"LastEdited,omitempty"`
-	CreatedBy                   *int     `json:"CreatedBy,omitempty"`
-	LastEditedBy                *int     `json:"LastEditedBy,omitempty"`
-	Sort                        *int     `json:"Sort,omitempty"`
+	CreatedBy                   *int64   `json:"CreatedBy,omitempty"`
+	LastEditedBy                *int64   `json:"LastEditedBy,omitempty"`
+	Sort                        *int64   `json:"Sort,omitempty"`
 	Description                 *string  `json:"Description,omitempty"`
 	CallExternalPaymentFunction *bool    `json:"CallExternalPaymentFunction,omitempty"`
 	ReturnJson                  *bool    `json:"ReturnJson,omitempty"`
-	ExternalPaymentFrameWidth   *int     `json:"ExternalPaymentFrameWidth,omitempty"`
-	ExternalPaymentFrameHeight  *int     `json:"ExternalPaymentFrameHeight,omitempty"`
-	ExternalPaymentFrameTop     *int     `json:"ExternalPaymentFrameTop,omitempty"`
+	ExternalPaymentFrameWidth   *int64   `json:"ExternalPaymentFrameWidth,omitempty"`
+	ExternalPaymentFrameHeight  *int64   `json:"ExternalPaymentFrameHeight,omitempty"`
+	ExternalPaymentFrameTop     *int64   `json:"ExternalPaymentFrameTop,omitempty"`
 	PaymentMethodCode           *string  `json:"PaymentMethodCode,omitempty"`
 	InstantPayment              *bool    `json:"InstantPayment,omitempty"`
 	RedirectToFullScreen        *bool    `json:"RedirectToFullScreen,omitempty"`
@@ -37,7 +37,7 @@ type PaymentMethod struct {
 	WithdrawFee                 *float64 `json:"WithdrawFee,omitempty"`
 	WithdrawMinFee              *float64 `json:"WithdrawMinFee,omitempty"`
 	WithdrawMaxFee              *float64 `json:"WithdrawMaxFee,omitempty"`
-	CaptureAfterMinutes         *int     `json:"CaptureAfterMinutes,omitempty"`
+	CaptureAfterMinutes         *int64   `json:"CaptureAfterMinutes,omitempty"`
 	TwoStepWithdraw             *bool    `json:"TwoStepWithdraw,omitempty"`
 	CardProcessing              *bool    `json:"CardProcessing,omitempty"`
 	BankTransfer                *bool    `json:"BankTransfer,omitempty"`

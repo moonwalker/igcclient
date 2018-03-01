@@ -1,7 +1,7 @@
 package models
 
 type VerificationType struct {
-	ID        *int    `json:"ID,omitempty"`
+	ID        *int64  `json:"ID,omitempty"`
 	Type      *string `json:"Type,omitempty"`
 	Notes     *string `json:"Notes,omitempty"`
 	IsLive    *bool   `json:"IsLive,omitempty"`

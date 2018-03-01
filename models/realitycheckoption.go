@@ -1,6 +1,6 @@
 package models
 
 type RealityCheckOption struct {
-	CountryId *int `json:"CountryId,omitempty"` // Country internal Id
-	Interval  *int `json:"Interval,omitempty"`  // Interval in seconds
+	CountryId *int64 `json:"CountryId,omitempty"` // Country internal Id
+	Interval  *int64 `json:"Interval,omitempty"`  // Interval in seconds
 }

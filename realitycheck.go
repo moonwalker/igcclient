@@ -15,8 +15,8 @@ func (s *RealityCheckService) GetUserRealityCheck(authToken string) (response Op
 }
 
 // Saves the reality check interval for the authenticated user
-func (s *RealityCheckService) SaveUserRealityCheck(interval int, authToken string) (response OperationResponse, err error) {
-	i := strconv.Itoa(interval)
+func (s *RealityCheckService) SaveUserRealityCheck(interval int64, authToken string) (response OperationResponse, err error) {
+	i := strconv.FormatInt(interval, 10)
 	err = s.client.apiPost("realitycheck/saveuserrealitycheck?interval="+url.QueryEscape(i), nil, &response, nil, &authToken)
 	return
 }

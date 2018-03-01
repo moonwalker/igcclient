@@ -1,6 +1,6 @@
 package models
 
-type LimitType int
+type LimitType int64
 
 const (
 	LT_Deposit         LimitType = 1

@@ -1,8 +1,8 @@
 package models
 
 type PaymentApiResponse struct {
-	TransactionId       *int               `json:"TransactionId,omitempty"`
-	StatusId            *int               `json:"StatusId,omitempty"`
+	TransactionId       *int64             `json:"TransactionId,omitempty"`
+	StatusId            *int64             `json:"StatusId,omitempty"`
 	PaymentMethodId     *string            `json:"PaymentMethodId,omitempty"`
 	PaymentTypeId       *string            `json:"PaymentTypeId,omitempty"`
 	PaymentCategoryId   *string            `json:"PaymentCategoryId,omitempty"`
@@ -20,8 +20,8 @@ type PaymentApiResponse struct {
 	MainPageBackUrl     *string            `json:"MainPageBackUrl,omitempty"`
 	BackUrl             *string            `json:"BackUrl,omitempty"`
 	ProviderUrl         *string            `json:"ProviderUrl,omitempty"`
-	ProviderFrameWidth  *int               `json:"ProviderFrameWidth,omitempty"`
-	ProviderFrameHeight *int               `json:"ProviderFrameHeight,omitempty"`
-	ProviderFrameTop    *int               `json:"ProviderFrameTop,omitempty"`
+	ProviderFrameWidth  *int64             `json:"ProviderFrameWidth,omitempty"`
+	ProviderFrameHeight *int64             `json:"ProviderFrameHeight,omitempty"`
+	ProviderFrameTop    *int64             `json:"ProviderFrameTop,omitempty"`
 	ExtraDetails        *map[string]string `json:"ExtraDetails,omitempty"`
 }

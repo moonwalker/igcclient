@@ -1,6 +1,6 @@
 package models
 
-type BonusStatus int
+type BonusStatus int64
 
 const (
 	BS_Available BonusStatus = 1 // The bonus which is currently available to player

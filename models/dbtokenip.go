@@ -9,6 +9,6 @@ type DBTokenIP struct {
 	DateCreated   *IGCTime `json:"DateCreated,omitempty"`
 	LastAccess    *IGCTime `json:"LastAccess,omitempty"`
 	IsInvalidated *bool    `json:"IsInvalidated,omitempty"`
-	AdminUserID   *int     `json:"AdminUserID,omitempty"`
+	AdminUserID   *int64   `json:"AdminUserID,omitempty"`
 	AdminUserName *string  `json:"AdminUserName,omitempty"`
 }

@@ -9,8 +9,8 @@ import (
 type DevicesService service
 
 // Get a single device by device ID
-func (s *DevicesService) DevicesById(deviceId int) (response OperationResponseOfDeviceTypeObject, err error) {
-	id := strconv.Itoa(deviceId)
+func (s *DevicesService) DevicesById(deviceId int64) (response OperationResponseOfDeviceTypeObject, err error) {
+	id := strconv.FormatInt(deviceId, 10)
 	err = s.client.apiPost("/devices/"+url.QueryEscape(id), nil, &response, nil, nil)
 	return
 }

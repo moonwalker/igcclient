@@ -167,7 +167,7 @@ type OperationResponseOfIEnumerableOfJackpot struct {
 
 type OperationResponseOfGameFront struct {
 	*OperationResponse
-	Data *Jackpot `json:"Data"`
+	Data *GameFront `json:"Data"`
 }
 
 type OperationResponseOfIEnumerableOfGameDetails struct {

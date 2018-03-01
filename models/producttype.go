@@ -1,6 +1,6 @@
 package models
 
-type ProductType int
+type ProductType int64
 
 const (
 	PT_Casino ProductType = 1

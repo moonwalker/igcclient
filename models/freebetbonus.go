@@ -1,7 +1,7 @@
 package models
 
 type FreeBetBonus struct {
-	BonusID            *int         `json:"BonusID,omitempty"`
+	BonusID            *int64       `json:"BonusID,omitempty"`
 	BonusName          *string      `json:"BonusName,omitempty"`
 	Status             *string      `json:"Status,omitempty"`
 	StartDate          *IGCTime     `json:"StartDate,omitempty"`

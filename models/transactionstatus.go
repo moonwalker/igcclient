@@ -1,6 +1,6 @@
 package models
 
-type TransactionStatus int
+type TransactionStatus int64
 
 const (
 	TS_Requested            TransactionStatus = 1

@@ -1,6 +1,6 @@
 package models
 
-type PromoCodeStatuses int
+type PromoCodeStatuses int64
 
 const (
 	PCS_Created   PromoCodeStatuses = 1

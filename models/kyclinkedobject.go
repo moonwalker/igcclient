@@ -1,17 +1,17 @@
 package models
 
 type KYCLinkedObject struct {
-	KycId            *int     `json:"KycId,omitempty"`
-	UserId           *int     `json:"UserId,omitempty"`
-	TypeId           *int     `json:"TypeId,omitempty"`
+	KycId            *int64   `json:"KycId,omitempty"`
+	UserId           *int64   `json:"UserId,omitempty"`
+	TypeId           *int64   `json:"TypeId,omitempty"`
 	Path             *string  `json:"Path,omitempty"` // Filename of the KYC object
-	Status           *int     `json:"Status,omitempty"`
+	Status           *int64   `json:"Status,omitempty"`
 	ReasonText       *string  `json:"ReasonText,omitempty"`
 	StatusMessage    *string  `json:"StatusMessage,omitempty"`
 	Expires          *string  `json:"Expires,omitempty"`
 	DateUploaded     *IGCTime `json:"DateUploaded,omitempty"`
 	DateVerified     *IGCTime `json:"DateVerified,omitempty"`
-	LastModifiedBy   *int     `json:"LastModifiedBy,omitempty"`
+	LastModifiedBy   *int64   `json:"LastModifiedBy,omitempty"`
 	DateLastModified *IGCTime `json:"DateLastModified,omitempty"`
 	DateCreated      *IGCTime `json:"DateCreated,omitempty"`
 	KycTypeName      *string  `json:"KycTypeName,omitempty"`

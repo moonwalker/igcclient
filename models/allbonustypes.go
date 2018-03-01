@@ -1,6 +1,6 @@
 package models
 
-type AllBonusTypes int
+type AllBonusTypes int64
 
 const (
 	ABT_NoDeposit                    AllBonusTypes = 3

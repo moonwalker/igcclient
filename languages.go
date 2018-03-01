@@ -16,8 +16,8 @@ func (s *LanguagesService) Languages(isLiveOnly bool) (response OperationRespons
 }
 
 // Get language properties by language ID
-func (s *LanguagesService) LanguagesById(id int) (response OperationResponseOfLanguageObject, err error) {
-	i := strconv.Itoa(id)
+func (s *LanguagesService) LanguagesById(id int64) (response OperationResponseOfLanguageObject, err error) {
+	i := strconv.FormatInt(id, 10)
 	err = s.client.apiPost("/languages/"+url.QueryEscape(i), nil, &response, nil, nil)
 	return
 }

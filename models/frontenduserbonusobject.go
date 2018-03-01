@@ -11,11 +11,11 @@ type FrontEndUserBonusObject struct {
 	WageringAmount *float64 `json:"WageringAmount,omitempty"`
 	BonusWagering  *float64 `json:"BonusWagering,omitempty"`
 	WagerBy        *IGCTime `json:"WagerBy,omitempty"`
-	BonusId        *int     `json:"BonusId,omitempty"`
+	BonusId        *int64   `json:"BonusId,omitempty"`
 	ProductName    *string  `json:"ProductName,omitempty"`
-	UserBonusId    *int     `json:"UserBonusId,omitempty"`
+	UserBonusId    *int64   `json:"UserBonusId,omitempty"`
 	ForfeitAmount  *float64 `json:"ForfeitAmount,omitempty"`
-	OpenBets       *int     `json:"OpenBets,omitempty"`
+	OpenBets       *int64   `json:"OpenBets,omitempty"`
 	PromoCode      *string  `json:"PromoCode,omitempty"`
-	RedeemTypeId   *int     `json:"RedeemTypeId,omitempty"`
+	RedeemTypeId   *int64   `json:"RedeemTypeId,omitempty"`
 }

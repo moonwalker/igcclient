@@ -15,8 +15,8 @@ func (s *BanksService) Banks() (response OperationResponseOfListOfBankObject, er
 }
 
 // Get a single bank by Bank ID
-func (s *BanksService) BankById(id int) (response OperationResponseOfBankObject, err error) {
-	i := strconv.Itoa(id)
+func (s *BanksService) BankById(id int64) (response OperationResponseOfBankObject, err error) {
+	i := strconv.FormatInt(id, 10)
 	err = s.client.apiPost("/banks/"+url.QueryEscape(i), nil, &response, nil, nil)
 	return
 }

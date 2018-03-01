@@ -15,8 +15,8 @@ func (s *BonusesService) Bonuses(authToken string) (response OperationResponseOf
 }
 
 // Gets the user current bonuses X-Api-Key is required.
-func (s *BonusesService) BonusesByUserId(userId int, xApiKey string) (response OperationResponseOfListOfFrontEndUserBonusObject, err error) {
-	i := strconv.Itoa(userId)
+func (s *BonusesService) BonusesByUserId(userId int64, xApiKey string) (response OperationResponseOfListOfFrontEndUserBonusObject, err error) {
+	i := strconv.FormatInt(userId, 10)
 	err = s.client.apiPost("/bonuses?userid="+url.QueryEscape(i), nil, &response, &xApiKey, nil)
 	return
 }
@@ -40,8 +40,8 @@ func (s *BonusesService) Credit(promoCode string, authToken string) (response Op
 }
 
 // Credit bonus to user X-Api-Key is required
-func (s *BonusesService) CreditByUserId(promoCode string, userId int, xApiKey string) (response OperationResponseOfListOfBonusDetails, err error) {
-	i := strconv.Itoa(userId)
+func (s *BonusesService) CreditByUserId(promoCode string, userId int64, xApiKey string) (response OperationResponseOfListOfBonusDetails, err error) {
+	i := strconv.FormatInt(userId, 10)
 	err = s.client.apiPost("/bonuses/credit/"+url.QueryEscape(promoCode)+"?userid="+url.QueryEscape(i), nil, &response, &xApiKey, nil)
 	return
 }
@@ -65,15 +65,15 @@ func (s *BonusesService) GetAvailable(deviceTypeId string, xApiKey string) (resp
 }
 
 // Get a list of bonuses that are public and can be claimed by the logged in user (Bonuses that are 'IncludedInlist' and not 'Manual Bonuses') X-Api-Key header is required.
-func (s *BonusesService) GetAvailableByUserId(deviceTypeId string, userId int, authToken string) (response OperationResponseOfListOfPublicBonusesObject, err error) {
-	i := strconv.Itoa(userId)
+func (s *BonusesService) GetAvailableByUserId(deviceTypeId string, userId int64, authToken string) (response OperationResponseOfListOfPublicBonusesObject, err error) {
+	i := strconv.FormatInt(userId, 10)
 	err = s.client.apiPost("/bonuses/getavailable/"+url.QueryEscape(deviceTypeId)+"?userid="+url.QueryEscape(i), nil, &response, nil, &authToken)
 	return
 }
 
 // Forfeit user bonus
-func (s *BonusesService) Delete(userBonusId int, authToken string) (response OperationResponseOfBoolean, err error) {
-	i := strconv.Itoa(userBonusId)
+func (s *BonusesService) Delete(userBonusId int64, authToken string) (response OperationResponseOfBoolean, err error) {
+	i := strconv.FormatInt(userBonusId, 10)
 	err = s.client.apiPost("/bonuses/delete/"+url.QueryEscape(i), nil, &response, nil, &authToken)
 	return
 }
@@ -85,9 +85,9 @@ func (s *BonusesService) BonusCodeDetails(bonusCode string, authToken string) (r
 }
 
 // Add a Promo Code to a Bonus which can be claimed only by the logged in user
-func (s *BonusesService) PromoCodesAdd(bonusId int, promoCode string, promoValidity int, authToken string) (response OperationResponseOfBoolean, err error) {
-	bonus := strconv.Itoa(bonusId)
-	validity := strconv.Itoa(promoValidity)
+func (s *BonusesService) PromoCodesAdd(bonusId int64, promoCode string, promoValidity int64, authToken string) (response OperationResponseOfBoolean, err error) {
+	bonus := strconv.FormatInt(bonusId, 10)
+	validity := strconv.FormatInt(promoValidity, 10)
 	err = s.client.apiPost("/bonuses/promocodes/add/"+url.QueryEscape(bonus)+"/"+url.QueryEscape(promoCode)+"/"+url.QueryEscape(validity), nil, &response, nil, &authToken)
 	return
 }
@@ -99,8 +99,8 @@ func (s *BonusesService) PromoCodesPending(authToken string) (response Operation
 }
 
 // User rejects promo code
-func (s *BonusesService) PromoCodesReject(promoId int, authToken string) (response OperationResponseOfBoolean, err error) {
-	i := strconv.Itoa(promoId)
+func (s *BonusesService) PromoCodesReject(promoId int64, authToken string) (response OperationResponseOfBoolean, err error) {
+	i := strconv.FormatInt(promoId, 10)
 	err = s.client.apiPost("/bonuses/promocode/reject/"+url.QueryEscape(i), nil, &response, nil, &authToken)
 	return
 }

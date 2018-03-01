@@ -9,8 +9,8 @@ import (
 type RolesService service
 
 // Gets list of roles associated to a user
-func (s *RolesService) RolesByUserId(userId int, xApiKey string) (response OperationResponseOfIEnumerableOfRoleResponse, err error) {
-	id := strconv.Itoa(userId)
+func (s *RolesService) RolesByUserId(userId int64, xApiKey string) (response OperationResponseOfIEnumerableOfRoleResponse, err error) {
+	id := strconv.FormatInt(userId, 10)
 	err = s.client.apiPost("/roles/user?userId="+url.QueryEscape(id), nil, &response, &xApiKey, nil)
 	return
 }
