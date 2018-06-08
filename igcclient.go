@@ -24,6 +24,7 @@ type IGCClient struct {
 	RealityCheck      *RealityCheckService
 	ResponsibleGaming *ResponsibleGamingService
 	Roles             *RolesService
+	SecurityQuestions *SecurityQuestionsService
 	User              *UserService
 	UserVerification  *UserVerificationService
 	Validation        *ValidationService
@@ -57,6 +58,7 @@ func NewIGCClient(baseUrl string) (client *IGCClient, err error) {
 	client.RealityCheck = (*RealityCheckService)(&client.common)
 	client.ResponsibleGaming = (*ResponsibleGamingService)(&client.common)
 	client.Roles = (*RolesService)(&client.common)
+	client.SecurityQuestions = (*SecurityQuestionsService)(&client.common)
 	client.User = (*UserService)(&client.common)
 	client.UserVerification = (*UserVerificationService)(&client.common)
 	client.Validation = (*ValidationService)(&client.common)

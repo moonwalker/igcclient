@@ -299,3 +299,8 @@ type OperationResponseOfObject struct {
 	*OperationResponse
 	Data *string `json:"Data"`
 }
+
+type OperationResponseOfListOfSecurityQuestionModel struct {
+	*OperationResponse
+	Data *[]SecurityQuestionModel `json:"Data"`
+}
