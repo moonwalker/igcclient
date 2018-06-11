@@ -304,3 +304,8 @@ type OperationResponseOfListOfSecurityQuestionModel struct {
 	*OperationResponse
 	Data *[]SecurityQuestionModel `json:"Data"`
 }
+
+type OperationResponseOfIEnumerableOfUserLimitResponse struct {
+	*OperationResponse
+	Data *[]UserLimitResponse `json:"Data"`
+}
