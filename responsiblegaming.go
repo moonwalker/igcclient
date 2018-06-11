@@ -74,4 +74,3 @@ func (s *ResponsibleGamingService) GetLimits(authToken string) (response Operati
 	err = s.client.apiPost("/v2/ResponsibleGaming/Limits/GetLimits", nil, &response, nil, &authToken)
 	return
 }
-g
