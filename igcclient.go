@@ -32,14 +32,14 @@ type IGCClient struct {
 	Validation        *ValidationService
 	Wallet            *WalletService
 
-	log *logger.Logger
+	log logger.Logger
 }
 
 type service struct {
 	client *IGCClient
 }
 
-func NewIGCClient(baseUrl string, log *logger.Logger) (client *IGCClient, err error) {
+func NewIGCClient(baseUrl string, log logger.Logger) (client *IGCClient, err error) {
 	if baseUrl == "" {
 		err = errors.New("baseUrl can not be empty")
 		return
@@ -114,7 +114,7 @@ func (c IGCClient) apiPost(endpoint string, body interface{}, data interface{}, 
 	logInfo["URL"] = c.baseUrl + endpoint
 
 	if c.log != nil {
-		(*c.log).Info("Request to IGC api", logInfo)
+		c.log.Info("Request to IGC api", logInfo)
 	}
 
 	return json.Unmarshal([]byte(s), data)
