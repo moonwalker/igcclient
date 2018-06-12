@@ -6,7 +6,7 @@ import (
 	"errors"
 	"net/http"
 
-	"github.com/sirupsen/logrus"
+	"github.com/moonwalker/logger"
 )
 
 type IGCClient struct {
@@ -32,15 +32,14 @@ type IGCClient struct {
 	Validation        *ValidationService
 	Wallet            *WalletService
 
-	log *logrus.Logger
+	log *logger.Logger
 }
 
 type service struct {
 	client *IGCClient
-
 }
 
-func NewIGCClient(baseUrl string, log *logrus.Logger) (client *IGCClient, err error) {
+func NewIGCClient(baseUrl string, log *logger.Logger) (client *IGCClient, err error) {
 	if baseUrl == "" {
 		err = errors.New("baseUrl can not be empty")
 		return
@@ -48,7 +47,7 @@ func NewIGCClient(baseUrl string, log *logrus.Logger) (client *IGCClient, err er
 	client = &IGCClient{
 		HttpClient: http.DefaultClient,
 		baseUrl:    baseUrl,
-		log: log,
+		log:        log,
 	}
 
 	client.common.client = client
@@ -112,10 +111,10 @@ func (c IGCClient) apiPost(endpoint string, body interface{}, data interface{}, 
 
 	logInfo["Response"] = s
 	logInfo["StatusCode"] = resp.StatusCode
-	logInfo["URL"] = c.baseUrl+endpoint
+	logInfo["URL"] = c.baseUrl + endpoint
 
 	if c.log != nil {
-		c.log.Info("Request to IGC api", logInfo)
+		(*c.log).Info("Request to IGC api", logInfo)
 	}
 
 	return json.Unmarshal([]byte(s), data)
