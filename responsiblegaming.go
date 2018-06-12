@@ -33,7 +33,7 @@ func (s *ResponsibleGamingService) TimeoutCategories() (response OperationRespon
 }
 
 //Retrieves all timeout durations.
-func (s *ResponsibleGamingService) TimeoutDurations() (response OperationResponseOfListOfSelfExclusionCategory, err error) {
+func (s *ResponsibleGamingService) TimeoutDurations() (response OperationResponseOfListOfSelfExclusionCategoryDuration, err error) {
 	err = s.client.apiPost("/v2/ResponsibleGaming/Timeout/Durations", nil, &response, nil, nil)
 	return
 }
