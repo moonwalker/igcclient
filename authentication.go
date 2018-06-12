@@ -26,7 +26,7 @@ func (s *AuthenticationService) Logout(authToken string) (response OperationResp
 }
 
 // Authenticate a user using a one time challenge token.
-// param challangeToken: challenge token aquired from Poker/GetChallengeToken
+// param challengeToken: challenge token aquired from Poker/GetChallengeToken
 func (s *AuthenticationService) AuthenticateWithChallenge(challengeToken string) (response OperationResponseOfGuid, err error) {
 	err = s.client.apiPost("/v2/authentication/authenticatewithchallenge?challengeToken="+url.QueryEscape(challengeToken), nil, &response, nil, nil)
 	return
