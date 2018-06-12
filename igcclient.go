@@ -5,6 +5,8 @@ import (
 	"encoding/json"
 	"errors"
 	"net/http"
+
+	"github.com/sirupsen/logrus"
 )
 
 type IGCClient struct {
@@ -29,13 +31,16 @@ type IGCClient struct {
 	UserVerification  *UserVerificationService
 	Validation        *ValidationService
 	Wallet            *WalletService
+
+	log *logrus.Logger
 }
 
 type service struct {
 	client *IGCClient
+
 }
 
-func NewIGCClient(baseUrl string) (client *IGCClient, err error) {
+func NewIGCClient(baseUrl string, log *logrus.Logger) (client *IGCClient, err error) {
 	if baseUrl == "" {
 		err = errors.New("baseUrl can not be empty")
 		return
@@ -43,6 +48,7 @@ func NewIGCClient(baseUrl string) (client *IGCClient, err error) {
 	client = &IGCClient{
 		HttpClient: http.DefaultClient,
 		baseUrl:    baseUrl,
+		log: log,
 	}
 
 	client.common.client = client
@@ -71,6 +77,8 @@ func (c IGCClient) apiPost(endpoint string, body interface{}, data interface{}, 
 	b := new(bytes.Buffer)
 	json.NewEncoder(b).Encode(body)
 
+	logInfo := make(map[string]interface{})
+
 	req, err := http.NewRequest("POST", c.baseUrl+endpoint, b)
 	if err != nil {
 		return err
@@ -78,14 +86,17 @@ func (c IGCClient) apiPost(endpoint string, body interface{}, data interface{}, 
 
 	if authToken != nil && *authToken != "" {
 		req.Header.Add("AuthenticationToken", *authToken)
+		logInfo["AuthenticationToken"] = *authToken
 	}
 
 	if xApiKey != nil && *xApiKey != "" {
 		req.Header.Add("X-Api-Key", *xApiKey)
+		logInfo["X-Api-Key"] = true
 	}
 
 	if b != nil {
 		req.Header.Add("Content-Type", "application/json")
+		logInfo["Data"] = data
 	}
 
 	resp, e := c.HttpClient.Do(req)
@@ -95,5 +106,17 @@ func (c IGCClient) apiPost(endpoint string, body interface{}, data interface{}, 
 
 	defer resp.Body.Close()
 
-	return json.NewDecoder(resp.Body).Decode(data)
+	buf := new(bytes.Buffer)
+	buf.ReadFrom(resp.Body)
+	s := buf.String()
+
+	logInfo["Response"] = s
+	logInfo["StatusCode"] = resp.StatusCode
+	logInfo["URL"] = c.baseUrl+endpoint
+
+	if c.log != nil {
+		c.log.Info("Request to IGC api", logInfo)
+	}
+
+	return json.Unmarshal([]byte(s), data)
 }
