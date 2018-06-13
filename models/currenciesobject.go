@@ -1,7 +1,7 @@
 package models
 
 type CurrenciesObject struct {
-	CurrencyId     *int64   `json:"CurrencyId,omitempty"`
+	CurrencyID     *int64   `json:"CurrencyId,omitempty"`
 	Code           *string  `json:"Code,omitempty"`
 	Description    *string  `json:"Description,omitempty"`
 	Multiplier     *int64   `json:"Multiplier,omitempty"`

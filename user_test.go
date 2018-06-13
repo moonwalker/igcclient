@@ -3,10 +3,11 @@ package igcclient
 import (
 	"bytes"
 	"encoding/json"
-	"github.com/moonwalker/igcclient/models"
 	"net/http"
 	"strconv"
 	"testing"
+
+	"github.com/moonwalker/igcclient/models"
 )
 
 func TestUserService_AcceptTerms(t *testing.T) {
@@ -266,7 +267,7 @@ func TestUserService_GetUsersWithNoActivity(t *testing.T) {
 	defer teardown()
 
 	fromdate := "2017-09-19"
-	limit := 2
+	limit := int64(2)
 
 	mux.HandleFunc("/user/getuserswithnoactivity", func(w http.ResponseWriter, r *http.Request) {
 		s := true
@@ -280,7 +281,7 @@ func TestUserService_GetUsersWithNoActivity(t *testing.T) {
 			*success = false
 		}
 		q2int, _ := strconv.Atoi(q2)
-		if q2int != limit {
+		if int64(q2int) != limit {
 			t.Errorf("Wrong limit")
 			*success = false
 		}
@@ -288,7 +289,7 @@ func TestUserService_GetUsersWithNoActivity(t *testing.T) {
 		w.Write([]byte("{\"Data\":[{\"UserId\":1},{\"UserId\":2}],\"Success\":" + strconv.FormatBool(*success) + ",\"Errors\":[]}"))
 	})
 
-	response, err := client.User.GetUsersWithNoActivity(fromdate, limit, xApiKey)
+	response, err := client.User.GetUsersWithNoActivity(fromdate, limit, xAPIKey)
 	if err != nil {
 		t.Errorf(err.Error())
 	}
@@ -335,7 +336,7 @@ func TestUserService_KYCByUserId(t *testing.T) {
 		}
 	})
 
-	response, err := client.User.KYCByUserId(1, xApiKey)
+	response, err := client.User.KYCByUserId(1, xAPIKey)
 	if err != nil {
 		t.Errorf(err.Error())
 	}
@@ -352,7 +353,7 @@ func TestUserService_KYCUpload(t *testing.T) {
 	defer teardown()
 
 	data := []byte("data")
-	kycid := 1
+	kycid := int64(1)
 	extension := "extension"
 
 	mux.HandleFunc("/user/kyc/upload", func(w http.ResponseWriter, r *http.Request) {
@@ -469,7 +470,7 @@ func TestUserService_LimitsGetUserLimitsByUserId(t *testing.T) {
 		w.Write([]byte("{\"Data\":[{\"Id\":1},{\"Id\":2}],\"Success\":true,\"Errors\":[]}"))
 	})
 
-	response, err := client.User.LimitsGetUserLimitsByUserId(1, xApiKey)
+	response, err := client.User.LimitsGetUserLimitsByUserId(1, xAPIKey)
 	if err != nil {
 		t.Errorf(err.Error())
 	}
@@ -483,7 +484,7 @@ func TestUserService_LimitsSetUserLimit(t *testing.T) {
 	teardown := setup()
 	defer teardown()
 
-	userid := 1
+	userid := int64(1)
 	limittype := models.LT_CasinoNetLoss
 	duration := models.LD_1Week
 	limitamount := 0.5
@@ -496,7 +497,7 @@ func TestUserService_LimitsSetUserLimit(t *testing.T) {
 
 		json.NewDecoder(r.Body).Decode(model)
 
-		if *model.UserId != userid {
+		if *model.UserID != userid {
 			t.Errorf("Wrong UserId")
 			*success = false
 		}
@@ -518,7 +519,7 @@ func TestUserService_LimitsSetUserLimit(t *testing.T) {
 	})
 
 	model := models.SetUserLimitModel{
-		UserId:      &userid,
+		UserID:      &userid,
 		Type:        &limittype,
 		Duration:    &duration,
 		LimitAmount: &limitamount,
@@ -532,7 +533,6 @@ func TestUserService_LimitsSetUserLimit(t *testing.T) {
 		t.Errorf("Expected true")
 	}
 }
-
 
 func TestUserService_SendEmail(t *testing.T) {
 
@@ -554,6 +554,6 @@ func TestUserService_User(t *testing.T) {
 
 }
 
-func TestUserService_UserById(t *testing.T) {
+func TestUserService_UserByID(t *testing.T) {
 
 }

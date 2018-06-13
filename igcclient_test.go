@@ -2,6 +2,7 @@ package igcclient
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
@@ -18,7 +19,7 @@ var (
 	// server is a test HTTP server used to provide mock API responses.
 	server *httptest.Server
 
-	xApiKey   = "xApiKey"
+	xAPIKey   = "xApiKey"
 	authToken = "authToken"
 )
 
@@ -32,7 +33,7 @@ func setup() func() {
 
 	parsed, _ := url.Parse(server.URL)
 	// IGCClient client configured to use test server
-	c, err := NewIGCClient(parsed.String())
+	c, err := NewIGCClient(parsed.String(), &testLogger{})
 	if err != nil {
 		fmt.Println("Error setting up client")
 	}
@@ -44,17 +45,17 @@ func setup() func() {
 }
 
 func TestNewIGCClient(t *testing.T) {
-	_, err := NewIGCClient("")
+	_, err := NewIGCClient("", &testLogger{})
 	if err == nil {
 		t.Errorf("Expected error since baseUrl is empty")
 	}
 
-	c, err := NewIGCClient("not://valid!url")
+	c, err := NewIGCClient("not://valid!url", &testLogger{})
 	if err != nil {
 		t.Errorf(err.Error())
 	}
 
-	err = c.apiPost("test", nil, nil, &xApiKey, nil)
+	err = c.apiPost("test", nil, nil, &xAPIKey, nil)
 	if err == nil {
 		t.Errorf("Expected error since the url should not be parseble")
 	}
@@ -68,4 +69,34 @@ func TestNewIGCClient(t *testing.T) {
 	})
 
 	client.Devices.Devices()
+}
+
+type testLogger struct{}
+
+func (l testLogger) DebugLevel(debug bool) {}
+
+func (l testLogger) SetContext(context map[string]interface{}) {}
+
+func (l testLogger) Println(args ...interface{}) {
+	log.Println(args...)
+}
+
+func (l testLogger) Printf(format string, args ...interface{}) {
+	log.Printf(format, args...)
+}
+
+func (l testLogger) Debug(msg string, fields map[string]interface{}) {
+	log.Printf(msg, fields)
+}
+
+func (l testLogger) Info(msg string, fields map[string]interface{}) {
+	log.Printf(msg, fields)
+}
+
+func (l testLogger) Error(msg string, err error) {
+	log.Printf(msg, err)
+}
+
+func (l testLogger) Fatal(msg string, err error) {
+	log.Fatal(msg, err)
 }

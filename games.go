@@ -28,7 +28,7 @@ func (s *GamesService) Jackpots(currency string) (response OperationResponseOfIE
 }
 
 // Get a single Game by Game ID
-func (s *GamesService) GameById(gameId int64) (response OperationResponseOfGameFront, err error) {
+func (s *GamesService) GameByID(gameId int64) (response OperationResponseOfGameFront, err error) {
 	id := strconv.FormatInt(gameId, 10)
 	err = s.client.apiPost("/games/"+url.QueryEscape(id), nil, &response, nil, nil)
 	return

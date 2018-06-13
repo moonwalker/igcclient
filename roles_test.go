@@ -15,7 +15,7 @@ func TestRolesService_Roles(t *testing.T) {
 		w.Write([]byte("{\"Data\":[{\"Id\":1,\"Name\":\"test1\"},{\"Id\":2,\"Name\":\"test2\"}],\"Success\":true,\"Errors\":[]}"))
 	})
 
-	response, err := client.Roles.Roles(xApiKey)
+	response, err := client.Roles.Roles(xAPIKey)
 	if err != nil {
 		t.Errorf(err.Error())
 	}
@@ -31,19 +31,19 @@ func TestRolesService_RolesByUserId(t *testing.T) {
 
 	mux.HandleFunc("/roles/user", func(w http.ResponseWriter, r *http.Request) {
 		id := r.URL.Query().Get("userId")
-		userId, err := strconv.Atoi(id)
+		userID, err := strconv.Atoi(id)
 		if err != nil {
-			t.Errorf("Expectet userId to be set")
+			t.Errorf("Expectet userID to be set")
 		}
-		if userId != 1 {
-			t.Errorf("Expected userId to be 1")
+		if userID != 1 {
+			t.Errorf("Expected userID to be 1")
 		}
 
 		w.WriteHeader(200)
 		w.Write([]byte("{\"Data\":[{\"Id\":1,\"Name\":\"test1\"}],\"Success\":true,\"Errors\":[]}"))
 	})
 
-	response, err := client.Roles.RolesByUserId(1, xApiKey)
+	response, err := client.Roles.RolesByUserId(1, xAPIKey)
 	if err != nil {
 		t.Errorf(err.Error())
 	}

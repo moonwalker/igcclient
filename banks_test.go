@@ -23,7 +23,7 @@ func TestBanksService_Banks(t *testing.T) {
 	}
 }
 
-func TestBanksService_BankById(t *testing.T) {
+func TestBanksService_BankByID(t *testing.T) {
 	teardown := setup()
 	defer teardown()
 
@@ -32,11 +32,11 @@ func TestBanksService_BankById(t *testing.T) {
 		w.Write([]byte("{\"Data\":{\"BankId\":1},\"Success\":true,\"Errors\":[]}"))
 	})
 
-	country, err := client.Banks.BankById(1)
+	country, err := client.Banks.BankByID(1)
 	if err != nil {
 		t.Errorf(err.Error())
 	}
-	if *country.Data.BankId != 1 {
-		t.Errorf("BankId is not 1")
+	if *country.Data.BankID != 1 {
+		t.Errorf("BankID is not 1")
 	}
 }

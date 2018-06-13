@@ -13,6 +13,6 @@ type Category struct {
 	ImageURL     *string            `json:"ImageURL,omitempty"`
 	VendorID     *int64             `json:"VendorID,omitempty"`
 	VendorName   *string            `json:"VendorName,omitempty"`
-	ParentId     *int64             `json:"ParentId,omitempty"`
+	ParentID     *int64             `json:"ParentId,omitempty"`
 	Devices      *map[string]string `json:"Devices,omitempty"`
 }

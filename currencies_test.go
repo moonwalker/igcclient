@@ -23,7 +23,7 @@ func TestCurrenciesService_Currencies(t *testing.T) {
 	}
 }
 
-func TestCurrenciesService_CurrencyById(t *testing.T) {
+func TestCurrenciesService_CurrencyByID(t *testing.T) {
 	teardown := setup()
 	defer teardown()
 
@@ -32,12 +32,12 @@ func TestCurrenciesService_CurrencyById(t *testing.T) {
 		w.Write([]byte("{\"Data\":{\"CurrencyId\":1},\"Success\":true,\"Errors\":[]}"))
 	})
 
-	country, err := client.Currencies.CurrencyById(1)
+	country, err := client.Currencies.CurrencyByID(1)
 	if err != nil {
 		t.Errorf(err.Error())
 	}
-	if *country.Data.CurrencyId != 1 {
-		t.Errorf("CurrencyId is not 1")
+	if *country.Data.CurrencyID != 1 {
+		t.Errorf("CurrencyID is not 1")
 	}
 }
 
@@ -54,7 +54,7 @@ func TestCurrenciesService_CurrencyByCode(t *testing.T) {
 	if err != nil {
 		t.Errorf(err.Error())
 	}
-	if *country.Data.CurrencyId != 1 {
-		t.Errorf("CurrencyId is not 1")
+	if *country.Data.CurrencyID != 1 {
+		t.Errorf("CurrencyID is not 1")
 	}
 }

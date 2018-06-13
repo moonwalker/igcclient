@@ -1,9 +1,10 @@
 package igcclient
 
 import (
-	. "github.com/moonwalker/igcclient/models"
-	"strconv"
 	"net/url"
+	"strconv"
+
+	. "github.com/moonwalker/igcclient/models"
 )
 
 type UserService service
@@ -83,7 +84,7 @@ func (s *UserService) User(authToken string) (response OperationResponseOfSafeUs
 }
 
 // Get user using the userID
-func (s *UserService) UserById(userId int64, xApiKey string) (response OperationResponseOfSafeUserDetails, err error) {
+func (s *UserService) UserByID(userId int64, xApiKey string) (response OperationResponseOfSafeUserDetails, err error) {
 	id := strconv.FormatInt(userId, 10)
 	err = s.client.apiPost("/user?userId="+url.QueryEscape(id), nil, &response, &xApiKey, nil)
 	return

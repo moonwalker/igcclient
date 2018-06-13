@@ -5,16 +5,16 @@ import (
 	"testing"
 )
 
-func TestCountriesService_CountryById(t *testing.T) {
+func TestCountriesService_CountryByID(t *testing.T) {
 	teardown := setup()
 	defer teardown()
 
 	mux.HandleFunc("/countries/1", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(200)
-		w.Write([]byte("{\"Data\":{\"CountryID\":1},\"Success\":true,\"Errors\":[]}"))
+		w.Write([]byte("{\"Data\":{\"CountryId\":1},\"Success\":true,\"Errors\":[]}"))
 	})
 
-	country, err := client.Countries.CountryById(1)
+	country, err := client.Countries.CountryByID(1)
 	if err != nil {
 		t.Errorf(err.Error())
 	}
@@ -29,7 +29,7 @@ func TestCountriesService_CountriesTop(t *testing.T) {
 
 	mux.HandleFunc("/countries/top", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(200)
-		w.Write([]byte("{\"Data\":[{\"CountryID\":1},{\"CountryID\":2}],\"Success\":true,\"Errors\":[]}"))
+		w.Write([]byte("{\"Data\":[{\"CountryId\":1},{\"CountryId\":2}],\"Success\":true,\"Errors\":[]}"))
 	})
 
 	countries, err := client.Countries.CountriesTop()
@@ -47,7 +47,7 @@ func TestCountriesService_CountryByAlphaCode2(t *testing.T) {
 
 	mux.HandleFunc("/countries/en", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(200)
-		w.Write([]byte("{\"Data\":{\"CountryID\":1},\"Success\":true,\"Errors\":[]}"))
+		w.Write([]byte("{\"Data\":{\"CountryId\":1},\"Success\":true,\"Errors\":[]}"))
 	})
 
 	country, err := client.Countries.CountryByAlphaCode2("en")
@@ -65,7 +65,7 @@ func TestCountriesService_CountryByAlphaCode3(t *testing.T) {
 
 	mux.HandleFunc("/countries/eng", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(200)
-		w.Write([]byte("{\"Data\":{\"CountryID\":1},\"Success\":true,\"Errors\":[]}"))
+		w.Write([]byte("{\"Data\":{\"CountryId\":1},\"Success\":true,\"Errors\":[]}"))
 	})
 
 	country, err := client.Countries.CountryByAlphaCode3("eng")
@@ -83,7 +83,7 @@ func TestCountriesService_Countries(t *testing.T) {
 
 	mux.HandleFunc("/countries", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(200)
-		w.Write([]byte("{\"Data\":[{\"CountryID\":1},{\"CountryID\":2}],\"Success\":true,\"Errors\":[]}"))
+		w.Write([]byte("{\"Data\":[{\"CountryId\":1},{\"CountryId\":2}],\"Success\":true,\"Errors\":[]}"))
 	})
 
 	countries, err := client.Countries.Countries()

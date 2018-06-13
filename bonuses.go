@@ -1,9 +1,10 @@
 package igcclient
 
 import (
-	. "github.com/moonwalker/igcclient/models"
 	"net/url"
 	"strconv"
+
+	. "github.com/moonwalker/igcclient/models"
 )
 
 type BonusesService service
@@ -15,7 +16,7 @@ func (s *BonusesService) Bonuses(authToken string) (response OperationResponseOf
 }
 
 // Gets the user current bonuses X-Api-Key is required.
-func (s *BonusesService) BonusesByUserId(userId int64, xApiKey string) (response OperationResponseOfListOfFrontEndUserBonusObject, err error) {
+func (s *BonusesService) BonusesByUserID(userId int64, xApiKey string) (response OperationResponseOfListOfFrontEndUserBonusObject, err error) {
 	i := strconv.FormatInt(userId, 10)
 	err = s.client.apiPost("/bonuses?userid="+url.QueryEscape(i), nil, &response, &xApiKey, nil)
 	return
@@ -40,7 +41,7 @@ func (s *BonusesService) Credit(promoCode string, authToken string) (response Op
 }
 
 // Credit bonus to user X-Api-Key is required
-func (s *BonusesService) CreditByUserId(promoCode string, userId int64, xApiKey string) (response OperationResponseOfListOfBonusDetails, err error) {
+func (s *BonusesService) CreditByUserID(promoCode string, userId int64, xApiKey string) (response OperationResponseOfListOfBonusDetails, err error) {
 	i := strconv.FormatInt(userId, 10)
 	err = s.client.apiPost("/bonuses/credit/"+url.QueryEscape(promoCode)+"?userid="+url.QueryEscape(i), nil, &response, &xApiKey, nil)
 	return
@@ -65,7 +66,7 @@ func (s *BonusesService) GetAvailable(deviceTypeId string, xApiKey string) (resp
 }
 
 // Get a list of bonuses that are public and can be claimed by the logged in user (Bonuses that are 'IncludedInlist' and not 'Manual Bonuses') X-Api-Key header is required.
-func (s *BonusesService) GetAvailableByUserId(deviceTypeId string, userId int64, authToken string) (response OperationResponseOfListOfPublicBonusesObject, err error) {
+func (s *BonusesService) GetAvailableByUserID(deviceTypeId string, userId int64, authToken string) (response OperationResponseOfListOfPublicBonusesObject, err error) {
 	i := strconv.FormatInt(userId, 10)
 	err = s.client.apiPost("/bonuses/getavailable/"+url.QueryEscape(deviceTypeId)+"?userid="+url.QueryEscape(i), nil, &response, nil, &authToken)
 	return

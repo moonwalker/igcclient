@@ -1,9 +1,10 @@
 package igcclient
 
 import (
-	. "github.com/moonwalker/igcclient/models"
-	"strconv"
 	"net/url"
+	"strconv"
+
+	. "github.com/moonwalker/igcclient/models"
 )
 
 // countries is an private struct
@@ -22,8 +23,8 @@ func (s *CountriesService) CountriesTop() (response OperationResponseOfListOfCou
 	return
 }
 
-// GetCountryById returns country by country ID
-func (s *CountriesService) CountryById(id int64) (response OperationResponseOfCountriesObject, err error) {
+// GetCountryByID returns country by country ID
+func (s *CountriesService) CountryByID(id int64) (response OperationResponseOfCountriesObject, err error) {
 	strId := strconv.FormatInt(id, 10)
 	err = s.client.apiPost("/countries/"+url.QueryEscape(strId), nil, &response, nil, nil)
 	return
