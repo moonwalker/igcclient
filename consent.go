@@ -43,7 +43,7 @@ func (s *ConsentService) UserConsents(languageAlpha2Code string, authToken strin
 	return
 }
 
-// Gets the user current bonuses AuthenticationToken is required.
+// Unsubscribe all Consents by trigger code This will require CRM X-api key:
 func (s *ConsentService) Unsubscribe(triggerCode string, userId int64, xApiKey string) (response OperationResponseOfObject, err error) {
 	id := strconv.FormatInt(userId, 10)
 	err = s.client.apiPost("/Consent/Unsubscribe?triggerCode="+triggerCode+"&userId="+id, nil, &response, &xApiKey, nil)
