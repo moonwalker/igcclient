@@ -309,3 +309,13 @@ type OperationResponseOfIEnumerableOfUserLimitResponse struct {
 	*OperationResponse
 	Data *[]UserLimitResponse `json:"Data"`
 }
+
+type OperationResponseOfListOfPublicConsentModel struct {
+	*OperationResponse
+	Data *[]PublicConsentModel `json:"Data"`
+}
+
+type OperationResponseOfPublicUserConsentsListModel struct {
+	*OperationResponse
+	Data *PublicUserConsentsListModel `json:"Data"`
+}

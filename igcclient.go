@@ -17,6 +17,7 @@ type IGCClient struct {
 	Authentication    *AuthenticationService
 	Banks             *BanksService
 	Bonuses           *BonusesService
+	Consent           *ConsentService
 	Countries         *CountriesService
 	Currencies        *CurrenciesService
 	Devices           *DevicesService
@@ -55,6 +56,7 @@ func NewIGCClient(baseUrl string, log logger.Logger) (client *IGCClient, err err
 	client.Banks = (*BanksService)(&client.common)
 	client.Bonuses = (*BonusesService)(&client.common)
 	client.Countries = (*CountriesService)(&client.common)
+	client.Consent = (*ConsentService)(&client.common)
 	client.Currencies = (*CurrenciesService)(&client.common)
 	client.Devices = (*DevicesService)(&client.common)
 	client.Games = (*GamesService)(&client.common)
