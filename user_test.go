@@ -319,7 +319,7 @@ func TestUserService_KYC(t *testing.T) {
 	}
 }
 
-func TestUserService_KYCByUserId(t *testing.T) {
+func TestUserService_KYCByUserID(t *testing.T) {
 	teardown := setup()
 	defer teardown()
 
@@ -336,7 +336,7 @@ func TestUserService_KYCByUserId(t *testing.T) {
 		}
 	})
 
-	response, err := client.User.KYCByUserId(1, xAPIKey)
+	response, err := client.User.KYCByUserID(1, xAPIKey)
 	if err != nil {
 		t.Errorf(err.Error())
 	}
@@ -456,7 +456,7 @@ func TestUserService_LimitsGetUserLimits(t *testing.T) {
 	}
 }
 
-func TestUserService_LimitsGetUserLimitsByUserId(t *testing.T) {
+func TestUserService_LimitsGetUserLimitsByUserID(t *testing.T) {
 	teardown := setup()
 	defer teardown()
 
@@ -470,7 +470,7 @@ func TestUserService_LimitsGetUserLimitsByUserId(t *testing.T) {
 		w.Write([]byte("{\"Data\":[{\"Id\":1},{\"Id\":2}],\"Success\":true,\"Errors\":[]}"))
 	})
 
-	response, err := client.User.LimitsGetUserLimitsByUserId(1, xAPIKey)
+	response, err := client.User.LimitsGetUserLimitsByUserID(1, xAPIKey)
 	if err != nil {
 		t.Errorf(err.Error())
 	}

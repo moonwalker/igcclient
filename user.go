@@ -38,9 +38,9 @@ func (s *UserService) AddUserNote(note string, authToken string) (response Opera
 // Returns a list of users with no activity since the fromDate specified as parameter
 // fromDate - should be in following format: 2017-01-01
 // limit - the maximum number if users to return
-func (s *UserService) GetUsersWithNoActivity(fromDate string, limit int64, xApiKey string) (response OperationResponseOfIEnumerableOfUserWithNoActivity, err error) {
+func (s *UserService) GetUsersWithNoActivity(fromDate string, limit int64, xAPIKey string) (response OperationResponseOfIEnumerableOfUserWithNoActivity, err error) {
 	l := strconv.FormatInt(limit, 10)
-	err = s.client.apiPost("/user/getuserswithnoactivity?fromdate="+url.QueryEscape(fromDate)+"&limit="+url.QueryEscape(l), nil, &response, &xApiKey, nil)
+	err = s.client.apiPost("/user/getuserswithnoactivity?fromdate="+url.QueryEscape(fromDate)+"&limit="+url.QueryEscape(l), nil, &response, &xAPIKey, nil)
 	return
 }
 
@@ -58,9 +58,9 @@ func (s *UserService) AddKYCRequirements(authToken string) (response OperationRe
 
 // Gets the KYC for the user with supplied user id ordered by status and then by KYC type
 // X-Api-Key header is required
-func (s *UserService) KYCByUserId(userId int64, xApiKey string) (response OperationResponseOfListOfKYCLinkedObject, err error) {
-	id := strconv.FormatInt(userId, 10)
-	err = s.client.apiPost("/user/kyc?userid="+url.QueryEscape(id), nil, &response, &xApiKey, nil)
+func (s *UserService) KYCByUserID(userID int64, xAPIKey string) (response OperationResponseOfListOfKYCLinkedObject, err error) {
+	id := strconv.FormatInt(userID, 10)
+	err = s.client.apiPost("/user/kyc?userid="+url.QueryEscape(id), nil, &response, &xAPIKey, nil)
 	return
 }
 
@@ -84,9 +84,9 @@ func (s *UserService) User(authToken string) (response OperationResponseOfSafeUs
 }
 
 // Get user using the userID
-func (s *UserService) UserByID(userId int64, xApiKey string) (response OperationResponseOfSafeUserDetails, err error) {
-	id := strconv.FormatInt(userId, 10)
-	err = s.client.apiPost("/user?userId="+url.QueryEscape(id), nil, &response, &xApiKey, nil)
+func (s *UserService) UserByID(userID int64, xAPIKey string) (response OperationResponseOfSafeUserDetails, err error) {
+	id := strconv.FormatInt(userID, 10)
+	err = s.client.apiPost("/user?userId="+url.QueryEscape(id), nil, &response, &xAPIKey, nil)
 	return
 }
 
@@ -139,9 +139,9 @@ func (s *UserService) LimitsGetLimits() (response OperationResponseOfIEnumerable
 }
 
 // Get limits for the user with the user id provided
-func (s *UserService) LimitsGetUserLimitsByUserId(userId int64, xApiKey string) (response OperationResponseOfIEnumerableOfUserLimit, err error) {
-	id := strconv.FormatInt(userId, 10)
-	err = s.client.apiPost("/user/limits/getuserlimits?userId="+url.QueryEscape(id), nil, &response, &xApiKey, nil)
+func (s *UserService) LimitsGetUserLimitsByUserID(userID int64, xAPIKey string) (response OperationResponseOfIEnumerableOfUserLimit, err error) {
+	id := strconv.FormatInt(userID, 10)
+	err = s.client.apiPost("/user/limits/getuserlimits?userId="+url.QueryEscape(id), nil, &response, &xAPIKey, nil)
 	return
 }
 
@@ -172,8 +172,8 @@ func (s *UserService) LimitsSetUserLimits(body []SetUserLimitModel, authToken st
 // 	USER_NOT_FOUND if user does not exist.
 // 	USER_ALREADY_AFFILIATED if user is already affiliated.
 // 	INVALID_AFFILIATE_REFERENCE if affiliate reference is null or empty.
-func (s *UserService) SetAffiliateReference(userId int64, affiliateReference string, xApiKey string) (response OperationResponseOfBoolean, err error) {
-	id := strconv.FormatInt(userId, 10)
-	err = s.client.apiPost("/user/setaffiliatereference?userid=+"+url.QueryEscape(id)+"&affiliatereference="+url.QueryEscape(affiliateReference), nil, &response, &xApiKey, nil)
+func (s *UserService) SetAffiliateReference(userID int64, affiliateReference string, xAPIKey string) (response OperationResponseOfBoolean, err error) {
+	id := strconv.FormatInt(userID, 10)
+	err = s.client.apiPost("/user/setaffiliatereference?userid=+"+url.QueryEscape(id)+"&affiliatereference="+url.QueryEscape(affiliateReference), nil, &response, &xAPIKey, nil)
 	return
 }

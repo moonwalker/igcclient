@@ -1,15 +1,16 @@
 package igcclient
 
 import (
-	. "github.com/moonwalker/igcclient/models"
 	"strconv"
+
+	. "github.com/moonwalker/igcclient/models"
 )
 
 type ConsentService service
 
 // Get All Consents by Language X-Api-Key is required.
-func (s *ConsentService) GetConsents(languageAlpha2Code string, xApiKey string) (response OperationResponseOfListOfPublicConsentModel, err error) {
-	err = s.client.apiPost("/Consent/GetConsents?languageAlpha2Code="+languageAlpha2Code, nil, &response, &xApiKey, nil)
+func (s *ConsentService) GetConsents(languageAlpha2Code string, xAPIKey string) (response OperationResponseOfListOfPublicConsentModel, err error) {
+	err = s.client.apiPost("/Consent/GetConsents?languageAlpha2Code="+languageAlpha2Code, nil, &response, &xAPIKey, nil)
 	return
 }
 
@@ -44,8 +45,8 @@ func (s *ConsentService) UserConsents(languageAlpha2Code string, authToken strin
 }
 
 // Unsubscribe all Consents by trigger code This will require CRM X-api key:
-func (s *ConsentService) Unsubscribe(triggerCode string, userId int64, xApiKey string) (response OperationResponseOfObject, err error) {
-	id := strconv.FormatInt(userId, 10)
-	err = s.client.apiPost("/Consent/Unsubscribe?triggerCode="+triggerCode+"&userId="+id, nil, &response, &xApiKey, nil)
+func (s *ConsentService) Unsubscribe(triggerCode string, userID int64, xAPIKey string) (response OperationResponseOfObject, err error) {
+	id := strconv.FormatInt(userID, 10)
+	err = s.client.apiPost("/Consent/Unsubscribe?triggerCode="+triggerCode+"&userId="+id, nil, &response, &xAPIKey, nil)
 	return
 }

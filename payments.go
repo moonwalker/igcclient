@@ -3,23 +3,24 @@ package igcclient
 // TODO Note that there is two url endpoints in the api and that we won't implement any of them at the moment
 
 import (
-	. "github.com/moonwalker/igcclient/models"
 	"net/url"
 	"strconv"
+
+	. "github.com/moonwalker/igcclient/models"
 )
 
 type PaymentsService service
 
 // Get all the Deposit methods for a specific country
-func (s *PaymentsService) GetAllDepositMethods(countryId int64) (response OperationResponseOfIEnumerableOfPaymentMethod, err error) {
-	i := strconv.FormatInt(countryId, 10)
+func (s *PaymentsService) GetAllDepositMethods(countryID int64) (response OperationResponseOfIEnumerableOfPaymentMethod, err error) {
+	i := strconv.FormatInt(countryID, 10)
 	err = s.client.apiPost("/payments/getalldepositmethods/"+url.QueryEscape(i), nil, &response, nil, nil)
 	return
 }
 
 // Get all the Deposit methods for a specific country
-func (s *PaymentsService) GetAllWithdrawMethods(countryId int64) (response OperationResponseOfIEnumerableOfPaymentMethod, err error) {
-	i := strconv.FormatInt(countryId, 10)
+func (s *PaymentsService) GetAllWithdrawMethods(countryID int64) (response OperationResponseOfIEnumerableOfPaymentMethod, err error) {
+	i := strconv.FormatInt(countryID, 10)
 	err = s.client.apiPost("/payments/getallwithdrawmethods/"+url.QueryEscape(i), nil, &response, nil, nil)
 	return
 }
@@ -31,18 +32,18 @@ func (s *PaymentsService) GetAllPaymentMethods() (response OperationResponseOfIE
 }
 
 // Get the Deposit methods that the user can use. User Authentication (authentication token) is required.
-func (s *PaymentsService) GetUserDepositMethods(countryId int64, currencyId int64, authToken string) (response OperationResponseOfIEnumerableOfPaymentMethod, err error) {
-	country := strconv.FormatInt(countryId, 10)
-	currency := strconv.FormatInt(currencyId, 10)
+func (s *PaymentsService) GetUserDepositMethods(countryID int64, currencyID int64, authToken string) (response OperationResponseOfIEnumerableOfPaymentMethod, err error) {
+	country := strconv.FormatInt(countryID, 10)
+	currency := strconv.FormatInt(currencyID, 10)
 	err = s.client.apiPost("/payments/getuserdepositmethods/"+url.QueryEscape(country)+"/"+url.QueryEscape(currency), nil, &response, nil, &authToken)
 	return
 }
 
 // Get the Withdraw methods that the user can use. User Authentication (authentication token) is required.
-func (s *PaymentsService) GetUserWithdrawMethods(countryId int64, userId int64, currencyId int64, authToken string) (response OperationResponseOfIEnumerableOfPaymentMethod, err error) {
-	country := strconv.FormatInt(countryId, 10)
-	user := strconv.FormatInt(userId, 10)
-	currency := strconv.FormatInt(currencyId, 10)
+func (s *PaymentsService) GetUserWithdrawMethods(countryID int64, userID int64, currencyID int64, authToken string) (response OperationResponseOfIEnumerableOfPaymentMethod, err error) {
+	country := strconv.FormatInt(countryID, 10)
+	user := strconv.FormatInt(userID, 10)
+	currency := strconv.FormatInt(currencyID, 10)
 	err = s.client.apiPost("/payments/getuserwithdrawmethods/"+url.QueryEscape(country)+"/"+url.QueryEscape(user)+"/"+url.QueryEscape(currency), nil, &response, nil, &authToken)
 	return
 }
@@ -85,22 +86,22 @@ func (s *PaymentsService) CancelWithdrawal(transactionId int64, authToken string
 }
 
 // Get the Form Meta Data for Deposit. User Authentication (authentication token) is required.
-func (s *PaymentsService) GetDepositMetaData(paymentTypeId int64, authToken string) (response OperationResponseOfPaymentMetaDataModel, err error) {
-	i := strconv.FormatInt(paymentTypeId, 10)
+func (s *PaymentsService) GetDepositMetaData(paymentTypeID int64, authToken string) (response OperationResponseOfPaymentMetaDataModel, err error) {
+	i := strconv.FormatInt(paymentTypeID, 10)
 	err = s.client.apiPost("/payments/getdepositmetadata/"+url.QueryEscape(i), nil, &response, nil, &authToken)
 	return
 }
 
 // Get the Form Meta Data for Withdraw. User Authentication (authentication token) is required.
-func (s *PaymentsService) GetWithdrawMetaData(paymentTypeId int64, authToken string) (response OperationResponseOfPaymentMetaDataModel, err error) {
-	i := strconv.FormatInt(paymentTypeId, 10)
+func (s *PaymentsService) GetWithdrawMetaData(paymentTypeID int64, authToken string) (response OperationResponseOfPaymentMetaDataModel, err error) {
+	i := strconv.FormatInt(paymentTypeID, 10)
 	err = s.client.apiPost("/payments/getwithdrawmetadata/"+url.QueryEscape(i), nil, &response, nil, &authToken)
 	return
 }
 
 // Get the Form Meta Data for Quick Deposit. User Authentication (authentication token) is required.
-func (s *PaymentsService) GetQuickDepositMetaData(paymentTypeId int64, authToken string) (response OperationResponseOfPaymentMetaDataModel, err error) {
-	i := strconv.FormatInt(paymentTypeId, 10)
+func (s *PaymentsService) GetQuickDepositMetaData(paymentTypeID int64, authToken string) (response OperationResponseOfPaymentMetaDataModel, err error) {
+	i := strconv.FormatInt(paymentTypeID, 10)
 	err = s.client.apiPost("/payments/getquickdepositmetadata/"+url.QueryEscape(i), nil, &response, nil, &authToken)
 	return
 }

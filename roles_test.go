@@ -25,7 +25,7 @@ func TestRolesService_Roles(t *testing.T) {
 	}
 }
 
-func TestRolesService_RolesByUserId(t *testing.T) {
+func TestRolesService_RolesByUserID(t *testing.T) {
 	teardown := setup()
 	defer teardown()
 
@@ -43,7 +43,7 @@ func TestRolesService_RolesByUserId(t *testing.T) {
 		w.Write([]byte("{\"Data\":[{\"Id\":1,\"Name\":\"test1\"}],\"Success\":true,\"Errors\":[]}"))
 	})
 
-	response, err := client.Roles.RolesByUserId(1, xAPIKey)
+	response, err := client.Roles.RolesByUserID(1, xAPIKey)
 	if err != nil {
 		t.Errorf(err.Error())
 	}

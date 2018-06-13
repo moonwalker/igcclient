@@ -25,8 +25,8 @@ func (s *CountriesService) CountriesTop() (response OperationResponseOfListOfCou
 
 // GetCountryByID returns country by country ID
 func (s *CountriesService) CountryByID(id int64) (response OperationResponseOfCountriesObject, err error) {
-	strId := strconv.FormatInt(id, 10)
-	err = s.client.apiPost("/countries/"+url.QueryEscape(strId), nil, &response, nil, nil)
+	strID := strconv.FormatInt(id, 10)
+	err = s.client.apiPost("/countries/"+url.QueryEscape(strID), nil, &response, nil, nil)
 	return
 }
 
