@@ -35,7 +35,7 @@ func (s *GamesService) GameByID(gameId int64) (response OperationResponseOfGameF
 }
 
 // Get the URL of the Game to be used in the iFrame or to redirect to
-func (s *GamesService) Url(gameId int64, body GameURLModel) (response OperationResponseOfString, err error) {
+func (s *GamesService) URL(gameId int64, body GameURLModel) (response OperationResponseOfString, err error) {
 	id := strconv.FormatInt(gameId, 10)
 	err = s.client.apiPost("/games/url/"+url.QueryEscape(id), &body, &response, nil, nil)
 	return
