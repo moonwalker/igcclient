@@ -27,7 +27,7 @@ type RegistrationData struct {
 	AllowsNewsAndOffers    *bool                       `json:"AllowsNewsAndOffers,omitempty"`    // value indicating whether client allows news and offers by Email
 	AllowsNewsAndOffersSMS *bool                       `json:"AllowsNewsAndOffersSMS,omitempty"` // value indicating whether client allows news and offers by SMS
 	Reference              *string                     `json:"Reference,omitempty"`              // btag value reference
-	UrlReferrer            *string                     `json:"UrlReferrer,omitempty"`            // Request URL referrer
+	URLReferrer            *string                     `json:"URLReferrer,omitempty"`            // Request URL referrer
 	UserAgent              *string                     `json:"UserAgent,omitempty"`              // client's user agent
 	AffiliateSourceID      *string                     `json:"AffiliateSourceID,omitempty"`      // Optional fields represents unique identifier for a particular affiliate. Usually retrieved from the query string or cookie.
 	AffiliateClientUUID    *string                     `json:"AffiliateClientUUID,omitempty"`    // Optional field represents unique identifier for user in association with the affiliate. Usually retrieved from the query string or cookie.
