@@ -6,17 +6,18 @@ import (
 	"errors"
 	"net/http"
 
-	"github.com/sirupsen/logrus"
+	"github.com/moonwalker/logger"
 )
 
 type IGCClient struct {
-	HttpClient *http.Client
-	baseUrl    string
+	HTTPClient *http.Client
+	baseURL    string
 
 	common            service
 	Authentication    *AuthenticationService
 	Banks             *BanksService
 	Bonuses           *BonusesService
+	Consent           *ConsentService
 	Countries         *CountriesService
 	Currencies        *CurrenciesService
 	Devices           *DevicesService
@@ -32,23 +33,22 @@ type IGCClient struct {
 	Validation        *ValidationService
 	Wallet            *WalletService
 
-	log *logrus.Logger
+	log logger.Logger
 }
 
 type service struct {
 	client *IGCClient
-
 }
 
-func NewIGCClient(baseUrl string, log *logrus.Logger) (client *IGCClient, err error) {
-	if baseUrl == "" {
-		err = errors.New("baseUrl can not be empty")
+func NewIGCClient(baseURL string, log logger.Logger) (client *IGCClient, err error) {
+	if baseURL == "" {
+		err = errors.New("base url can not be empty")
 		return
 	}
 	client = &IGCClient{
-		HttpClient: http.DefaultClient,
-		baseUrl:    baseUrl,
-		log: log,
+		HTTPClient: http.DefaultClient,
+		baseURL:    baseURL,
+		log:        log,
 	}
 
 	client.common.client = client
@@ -56,6 +56,7 @@ func NewIGCClient(baseUrl string, log *logrus.Logger) (client *IGCClient, err er
 	client.Banks = (*BanksService)(&client.common)
 	client.Bonuses = (*BonusesService)(&client.common)
 	client.Countries = (*CountriesService)(&client.common)
+	client.Consent = (*ConsentService)(&client.common)
 	client.Currencies = (*CurrenciesService)(&client.common)
 	client.Devices = (*DevicesService)(&client.common)
 	client.Games = (*GamesService)(&client.common)
@@ -73,13 +74,13 @@ func NewIGCClient(baseUrl string, log *logrus.Logger) (client *IGCClient, err er
 	return
 }
 
-func (c IGCClient) apiPost(endpoint string, body interface{}, data interface{}, xApiKey *string, authToken *string) error {
+func (c IGCClient) apiPost(endpoint string, body interface{}, data interface{}, xAPIKey *string, authToken *string) error {
 	b := new(bytes.Buffer)
 	json.NewEncoder(b).Encode(body)
 
 	logInfo := make(map[string]interface{})
 
-	req, err := http.NewRequest("POST", c.baseUrl+endpoint, b)
+	req, err := http.NewRequest("POST", c.baseURL+endpoint, b)
 	if err != nil {
 		return err
 	}
@@ -89,8 +90,8 @@ func (c IGCClient) apiPost(endpoint string, body interface{}, data interface{}, 
 		logInfo["AuthenticationToken"] = *authToken
 	}
 
-	if xApiKey != nil && *xApiKey != "" {
-		req.Header.Add("X-Api-Key", *xApiKey)
+	if xAPIKey != nil && *xAPIKey != "" {
+		req.Header.Add("X-Api-Key", *xAPIKey)
 		logInfo["X-Api-Key"] = true
 	}
 
@@ -99,7 +100,7 @@ func (c IGCClient) apiPost(endpoint string, body interface{}, data interface{}, 
 		logInfo["Data"] = data
 	}
 
-	resp, e := c.HttpClient.Do(req)
+	resp, e := c.HTTPClient.Do(req)
 	if e != nil {
 		return e
 	}
@@ -112,7 +113,7 @@ func (c IGCClient) apiPost(endpoint string, body interface{}, data interface{}, 
 
 	logInfo["Response"] = s
 	logInfo["StatusCode"] = resp.StatusCode
-	logInfo["URL"] = c.baseUrl+endpoint
+	logInfo["URL"] = c.baseURL + endpoint
 
 	if c.log != nil {
 		c.log.Info("Request to IGC api", logInfo)

@@ -47,19 +47,19 @@ func TestBonusesService_BonusesByUserId(t *testing.T) {
 	teardown := setup()
 	defer teardown()
 
-	userId := 1337
+	userID := int64(1337)
 
 	mux.HandleFunc("/bonuses", func(w http.ResponseWriter, r *http.Request) {
 		values, _ := url.ParseQuery(r.URL.RawQuery)
 		id, _ := strconv.Atoi(values.Get("userid"))
-		if id != userId {
-			t.Errorf("Expected user id: %v", userId)
+		if int64(id) != userID {
+			t.Errorf("Expected user ID: %v", userID)
 		}
 		w.WriteHeader(200)
 		w.Write([]byte("{\"Data\":[{\"BonusId\":1},{\"BonusId\":2}],\"Success\":true,\"Errors\":[]}"))
 	})
 
-	details, err := client.Bonuses.BonusesByUserId(userId, xApiKey)
+	details, err := client.Bonuses.BonusesByUserID(userID, xAPIKey)
 	if err != nil {
 		t.Errorf(err.Error())
 	}

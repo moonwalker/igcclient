@@ -1,9 +1,10 @@
 package igcclient
 
 import (
-	. "github.com/moonwalker/igcclient/models"
-	"strconv"
 	"net/url"
+	"strconv"
+
+	. "github.com/moonwalker/igcclient/models"
 )
 
 type CurrenciesService service
@@ -15,7 +16,7 @@ func (s *CurrenciesService) Currencies() (response OperationResponseOfListOfCurr
 }
 
 // Gets a single currency by currency ID
-func (s *CurrenciesService) CurrencyById(id int64) (response OperationResponseOfCurrenciesObject, err error) {
+func (s *CurrenciesService) CurrencyByID(id int64) (response OperationResponseOfCurrenciesObject, err error) {
 	i := strconv.FormatInt(id, 10)
 	err = s.client.apiPost("/currencies/"+url.QueryEscape(i), nil, &response, nil, nil)
 	return

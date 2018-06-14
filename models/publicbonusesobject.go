@@ -1,8 +1,8 @@
 package models
 
 type PublicBonusesObject struct {
-	BonusId       *int64
-	TypeId        *AllBonusTypes
+	BonusID       *int64
+	TypeID        *AllBonusTypes
 	Name          *string
 	Description   *string
 	DateFrom      *IGCTime
@@ -14,6 +14,6 @@ type PublicBonusesObject struct {
 	MaxBetOn      *bool
 	IncludeInList *bool
 	PromoCodes    *[]string
-	ProductId     *ProductType
-	RedeemTypeId  *int64
+	ProductID     *ProductType
+	RedeemTypeID  *int64
 }

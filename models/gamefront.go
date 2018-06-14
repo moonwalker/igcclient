@@ -1,10 +1,10 @@
 package models
 
 type GameFront struct {
-	GameId               *int64               `json:"GameId,omitempty"`
-	VendorId             *int64               `json:"VendorId,omitempty"`
-	VendorGameId         *string              `json:"VendorGameId,omitempty"`
-	VendorGameIdAlterate *string              `json:"VendorGameIdAlterate,omitempty"`
+	GameID               *int64               `json:"GameId,omitempty"`
+	VendorID             *int64               `json:"VendorId,omitempty"`
+	VendorGameID         *string              `json:"VendorGameId,omitempty"`
+	VendorGameIDAlterate *string              `json:"VendorGameIdAlterate,omitempty"`
 	Name                 *string              `json:"Name,omitempty"`
 	ShortDescription     *string              `json:"ShortDescription,omitempty"`
 	Slug                 *string              `json:"Slug,omitempty"`
@@ -23,7 +23,7 @@ type GameFront struct {
 	Vendor               *string              `json:"Vendor,omitempty"`
 	IsMinigame           *bool                `json:"IsMinigame,omitempty"`
 	IsParent             *bool                `json:"IsParent,omitempty"`
-	ParentGameId         *int64               `json:"ParentGameId,omitempty"`
+	ParentGameID         *int64               `json:"ParentGameId,omitempty"`
 	ChildSortOrder       *int64               `json:"ChildSortOrder,omitempty"`
 	ChildGames           *[]GameFront         `json:"ChildGames,omitempty"`
 	ChildGameValue       *string              `json:"ChildGameValue,omitempty"`
@@ -33,6 +33,6 @@ type GameFront struct {
 	Variants             *[]GameFrontVariant  `json:"Variants,omitempty"`
 	Jackpot              *GameJackpot         `json:"Jackpot,omitempty"`
 	OrderNumber          *int64               `json:"OrderNumber,omitempty"`
-	AdminCategoryId      *int64               `json:"AdminCategoryId,omitempty"`
+	AdminCategoryID      *int64               `json:"AdminCategoryId,omitempty"`
 	IsLiveCasinoLobby    *bool                `json:"IsLiveCasinoLobby,omitempty"`
 }

@@ -2,11 +2,12 @@ package igcclient
 
 import (
 	"encoding/json"
-	"github.com/moonwalker/igcclient/models"
 	"net/http"
 	"net/url"
 	"strconv"
 	"testing"
+
+	"github.com/moonwalker/igcclient/models"
 )
 
 func TestAuthenticationService_Login(t *testing.T) {
@@ -504,7 +505,7 @@ func TestAuthenticationService_ChangeSecurityQuestion(t *testing.T) {
 	defer teardown()
 
 	password := "password"
-	questionId := 1
+	questionID := int64(1)
 	answer := "answer"
 
 	mux.HandleFunc("/authentication/change/securityquestion", func(w http.ResponseWriter, r *http.Request) {
@@ -520,7 +521,7 @@ func TestAuthenticationService_ChangeSecurityQuestion(t *testing.T) {
 			*success = false
 		}
 
-		if *model.SecurityQuestionID != questionId {
+		if *model.SecurityQuestionID != questionID {
 			t.Errorf("Wrong security question id")
 			*success = false
 		}
@@ -536,7 +537,7 @@ func TestAuthenticationService_ChangeSecurityQuestion(t *testing.T) {
 
 	model := models.ChangeSecurityQuestionModel{
 		Password:           &password,
-		SecurityQuestionID: &questionId,
+		SecurityQuestionID: &questionID,
 		SecurityAnswer:     &answer,
 	}
 

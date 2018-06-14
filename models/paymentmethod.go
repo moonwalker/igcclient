@@ -13,7 +13,7 @@ type PaymentMethod struct {
 	Sort                        *int64   `json:"Sort,omitempty"`
 	Description                 *string  `json:"Description,omitempty"`
 	CallExternalPaymentFunction *bool    `json:"CallExternalPaymentFunction,omitempty"`
-	ReturnJson                  *bool    `json:"ReturnJson,omitempty"`
+	ReturnJSON                  *bool    `json:"ReturnJson,omitempty"`
 	ExternalPaymentFrameWidth   *int64   `json:"ExternalPaymentFrameWidth,omitempty"`
 	ExternalPaymentFrameHeight  *int64   `json:"ExternalPaymentFrameHeight,omitempty"`
 	ExternalPaymentFrameTop     *int64   `json:"ExternalPaymentFrameTop,omitempty"`

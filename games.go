@@ -28,15 +28,15 @@ func (s *GamesService) Jackpots(currency string) (response OperationResponseOfIE
 }
 
 // Get a single Game by Game ID
-func (s *GamesService) GameById(gameId int64) (response OperationResponseOfGameFront, err error) {
-	id := strconv.FormatInt(gameId, 10)
+func (s *GamesService) GameByID(gameID int64) (response OperationResponseOfGameFront, err error) {
+	id := strconv.FormatInt(gameID, 10)
 	err = s.client.apiPost("/games/"+url.QueryEscape(id), nil, &response, nil, nil)
 	return
 }
 
 // Get the URL of the Game to be used in the iFrame or to redirect to
-func (s *GamesService) Url(gameId int64, body GameURLModel) (response OperationResponseOfString, err error) {
-	id := strconv.FormatInt(gameId, 10)
+func (s *GamesService) URL(gameID int64, body GameURLModel) (response OperationResponseOfString, err error) {
+	id := strconv.FormatInt(gameID, 10)
 	err = s.client.apiPost("/games/url/"+url.QueryEscape(id), &body, &response, nil, nil)
 	return
 }

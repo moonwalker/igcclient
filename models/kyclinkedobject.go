@@ -1,9 +1,9 @@
 package models
 
 type KYCLinkedObject struct {
-	KycId            *int64   `json:"KycId,omitempty"`
-	UserId           *int64   `json:"UserId,omitempty"`
-	TypeId           *int64   `json:"TypeId,omitempty"`
+	KYCID            *int64   `json:"KycId,omitempty"`
+	UserID           *int64   `json:"UserId,omitempty"`
+	TypeID           *int64   `json:"TypeId,omitempty"`
 	Path             *string  `json:"Path,omitempty"` // Filename of the KYC object
 	Status           *int64   `json:"Status,omitempty"`
 	ReasonText       *string  `json:"ReasonText,omitempty"`

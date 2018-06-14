@@ -2,10 +2,11 @@ package igcclient
 
 import (
 	"encoding/json"
-	"github.com/moonwalker/igcclient/models"
 	"net/http"
 	"strconv"
 	"testing"
+
+	"github.com/moonwalker/igcclient/models"
 )
 
 func TestDevicesService_Devices(t *testing.T) {
@@ -27,7 +28,7 @@ func TestDevicesService_Devices(t *testing.T) {
 	}
 }
 
-func TestDevicesService_DevicesById(t *testing.T) {
+func TestDevicesService_DevicesByID(t *testing.T) {
 	teardown := setup()
 	defer teardown()
 
@@ -36,13 +37,13 @@ func TestDevicesService_DevicesById(t *testing.T) {
 		w.Write([]byte("{\"Data\":{\"DeviceTypeId\":1},\"Success\":true,\"Errors\":[]}"))
 	})
 
-	response, err := client.Devices.DevicesById(1)
+	response, err := client.Devices.DevicesByID(1)
 	if err != nil {
 		t.Errorf(err.Error())
 	}
 
-	if *response.Data.DeviceTypeId != 1 {
-		t.Errorf("Expected device type id to be 1")
+	if *response.Data.DeviceTypeID != 1 {
+		t.Errorf("Expected device type ID to be 1")
 	}
 }
 
