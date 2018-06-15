@@ -65,7 +65,7 @@ func (s *ResponsibleGamingService) GetUserLimits(authToken string) (response mod
 }
 
 //No documentation available.
-func (s *ResponsibleGamingService) SetUserLimits(body []SetUserLimitModelV2, authToken string) (response models.OperationResponseOfBoolean, err error) {
+func (s *ResponsibleGamingService) SetUserLimits(body []models.SetUserLimitModelV2, authToken string) (response models.OperationResponseOfBoolean, err error) {
 	err = s.client.apiPost("/v2/ResponsibleGaming/Limits/SetUserLimits", &body, &response, nil, &authToken)
 	return
 }
