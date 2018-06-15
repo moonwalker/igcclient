@@ -277,7 +277,7 @@ type OperationResponseOfListOfPromoStatuses struct {
 
 type OperationResponseOfRealityCheckUserSetting struct {
 	*OperationResponse
-	Data *[]RealityCheckUserSetting `json:"Data"`
+	Data *RealityCheckUserSetting `json:"Data"`
 }
 
 type OperationResponseOfListOfRealityCheckOption struct {
