@@ -78,7 +78,8 @@ func (c IGCClient) apiPost(endpoint string, body interface{}, data interface{}, 
 	b := new(bytes.Buffer)
 	json.NewEncoder(b).Encode(body)
 
-	logInfo := make(map[string]interface{})
+	logRequest := make(map[string]interface{})
+	logResponse := make(map[string]interface{})
 
 	req, err := http.NewRequest("POST", c.baseURL+endpoint, b)
 	if err != nil {
@@ -87,17 +88,26 @@ func (c IGCClient) apiPost(endpoint string, body interface{}, data interface{}, 
 
 	if authToken != nil && *authToken != "" {
 		req.Header.Add("AuthenticationToken", *authToken)
-		logInfo["AuthenticationToken"] = *authToken
+		logRequest["AuthenticationToken"] = *authToken
 	}
 
 	if xAPIKey != nil && *xAPIKey != "" {
 		req.Header.Add("X-Api-Key", *xAPIKey)
-		logInfo["X-Api-Key"] = true
+		logRequest["X-Api-Key"] = true
 	}
 
 	if b != nil {
 		req.Header.Add("Content-Type", "application/json")
-		logInfo["Data"] = data
+		logData, err := json.Marshal(data)
+		if err == nil {
+			logRequest["Body"] = logData
+		}
+	}
+
+	logResponse["URL"] = c.baseURL + endpoint
+
+	if c.log != nil {
+		c.log.Info("IGC Request", logRequest)
 	}
 
 	resp, e := c.HTTPClient.Do(req)
@@ -111,12 +121,12 @@ func (c IGCClient) apiPost(endpoint string, body interface{}, data interface{}, 
 	buf.ReadFrom(resp.Body)
 	s := buf.String()
 
-	logInfo["Response"] = s
-	logInfo["StatusCode"] = resp.StatusCode
-	logInfo["URL"] = c.baseURL + endpoint
+	logResponse["Response"] = s
+	logResponse["StatusCode"] = resp.StatusCode
+	logResponse["URL"] = c.baseURL + endpoint
 
 	if c.log != nil {
-		c.log.Info("Request to IGC api", logInfo)
+		c.log.Info("IGC Response", logResponse)
 	}
 
 	return json.Unmarshal([]byte(s), data)
