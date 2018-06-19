@@ -35,7 +35,7 @@ func (s *ConsentService) UserPendingConsents(languageAlpha2Code string, authToke
 // Save user consents
 func (s *ConsentService) SaveUserConsents(body []ConsentVersionSaveModel, userId int64, xAPIKey string) (response OperationResponseOfBoolean, err error) {
 	id := strconv.FormatInt(userId, 10)
-	err = s.client.apiPost("/Consent/SaveUserConsents?userId="+id, &body, &response, nil, &xAPIKey)
+	err = s.client.apiPost("/Consent/SaveUserConsents?userId="+id, &body, &response, &xAPIKey, nil)
 	return
 }
 
