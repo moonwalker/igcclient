@@ -1,7 +1,7 @@
 package igcclient
 
 import (
-	"strconv"
+	"fmt"
 
 	. "github.com/moonwalker/igcclient/models"
 )
@@ -33,9 +33,8 @@ func (s *ConsentService) UserPendingConsents(languageAlpha2Code string, authToke
 }
 
 // Save user consents
-func (s *ConsentService) SaveUserConsents(body []ConsentVersionSaveModel, userId int64, xAPIKey string) (response OperationResponseOfBoolean, err error) {
-	id := strconv.FormatInt(userId, 10)
-	err = s.client.apiPost("/Consent/SaveUserConsents?userId="+id, &body, &response, &xAPIKey, nil)
+func (s *ConsentService) SaveUserConsents(body []ConsentVersionSaveModel, userID int64, xAPIKey string) (response OperationResponseOfBoolean, err error) {
+	err = s.client.apiPost(fmt.Sprintf("/Consent/SaveUserConsents?userId=%d", userID), &body, &response, &xAPIKey, nil)
 	return
 }
 
@@ -47,7 +46,6 @@ func (s *ConsentService) UserConsents(languageAlpha2Code string, authToken strin
 
 // Unsubscribe all Consents by trigger code This will require CRM X-api key:
 func (s *ConsentService) Unsubscribe(triggerCode string, userID int64, xAPIKey string) (response OperationResponseOfObject, err error) {
-	id := strconv.FormatInt(userID, 10)
-	err = s.client.apiPost("/Consent/Unsubscribe?triggerCode="+triggerCode+"&userId="+id, nil, &response, &xAPIKey, nil)
+	err = s.client.apiPost(fmt.Sprintf("/Consent/Unsubscribe?triggerCode=%s&userId=%d", triggerCode, userID), nil, &response, &xAPIKey, nil)
 	return
 }

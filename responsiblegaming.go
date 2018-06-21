@@ -1,8 +1,7 @@
 package igcclient
 
 import (
-	"net/url"
-	"strconv"
+	"fmt"
 
 	"github.com/moonwalker/igcclient/models"
 )
@@ -41,20 +40,19 @@ func (s *ResponsibleGamingService) TimeoutDurations() (response models.Operation
 
 //Add a self-exclusion for the current authenticated user.
 func (s *ResponsibleGamingService) AddSelfExclusion(selfExclusionCategoryID int64, authToken string) (response models.OperationResponseOfBoolean, err error) {
-	i := strconv.FormatInt(selfExclusionCategoryID, 10)
-	err = s.client.apiPost("/v2/ResponsibleGaming/SelfExclusion/AddSelfExclusion?selfExclusionCategoryID="+url.QueryEscape(i), nil, &response, nil, &authToken)
+	err = s.client.apiPost(fmt.Sprintf("/v2/ResponsibleGaming/SelfExclusion/AddSelfExclusion?selfExclusionCategoryID=%d", selfExclusionCategoryID), nil, &response, nil, &authToken)
 	return
 }
 
 //Add a timeout for the current authenticated user.
 func (s *ResponsibleGamingService) AddTimeoutByEndDate(endDate string, authToken string) (response models.OperationResponseOfBoolean, err error) {
-	err = s.client.apiPost("/v2/ResponsibleGaming/Timeout/AddTimeout?endDate="+endDate, nil, &response, nil, &authToken)
+	err = s.client.apiPost(fmt.Sprintf("/v2/ResponsibleGaming/Timeout/AddTimeout?endDate=%s", endDate), nil, &response, nil, &authToken)
 	return
 }
 
 //Add a timeout for the current authenticated user.
 func (s *ResponsibleGamingService) AddTimeoutByTimeoutCategoryID(timeoutCategoryID int64, authToken string) (response models.OperationResponseOfBoolean, err error) {
-	err = s.client.apiPost("/v2/ResponsibleGaming/Timeout/AddTimeout?timeoutCategoryID={timeoutCategoryID}", nil, &response, nil, &authToken)
+	err = s.client.apiPost(fmt.Sprintf("/v2/ResponsibleGaming/Timeout/AddTimeout?timeoutCategoryID=%d", timeoutCategoryID), nil, &response, nil, &authToken)
 	return
 }
 

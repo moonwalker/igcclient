@@ -1,8 +1,7 @@
 package igcclient
 
 import (
-	"net/url"
-	"strconv"
+	"fmt"
 
 	"github.com/moonwalker/igcclient/models"
 )
@@ -17,8 +16,7 @@ func (s *RealityCheckService) GetUserRealityCheck(authToken string) (response mo
 
 // Saves the reality check interval for the authenticated user
 func (s *RealityCheckService) SaveUserRealityCheck(interval int64, authToken string) (response models.OperationResponse, err error) {
-	i := strconv.FormatInt(interval, 10)
-	err = s.client.apiPost("/realitycheck/saveuserrealitycheck?interval="+url.QueryEscape(i), nil, &response, nil, &authToken)
+	err = s.client.apiPost(fmt.Sprintf("/realitycheck/saveuserrealitycheck?interval=%d", interval), nil, &response, nil, &authToken)
 	return
 }
 
