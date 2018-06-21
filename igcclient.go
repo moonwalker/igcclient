@@ -81,10 +81,10 @@ func (c IGCClient) apiPost(endpoint string, body interface{}, data interface{}, 
 	logRequest := make(map[string]interface{})
 	logResponse := make(map[string]interface{})
 
-	logData, err := json.Marshal(body)
-	if err == nil {
-		logRequest["Body"] = string(logData)
-	}
+	//logData, err := json.Marshal(body)
+	//if err == nil {
+	//	logRequest["Body"] = string(logData)
+	//}
 
 	req, err := http.NewRequest("POST", c.baseURL+endpoint, b)
 	if err != nil {
