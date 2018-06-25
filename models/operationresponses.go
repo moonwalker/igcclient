@@ -319,3 +319,8 @@ type OperationResponseOfPublicUserConsentsListModel struct {
 	*OperationResponse
 	Data *PublicUserConsentsListModel `json:"Data"`
 }
+
+type OperationResponseOfIEnumerableOfGameTransactionModel struct {
+	*OperationResponse
+	Data *[]GameTransactionModel `json:"Data"`
+}

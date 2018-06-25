@@ -77,3 +77,8 @@ func (s *GamesService) AffiliateGameDetails() (response OperationalResponseOfIEn
 	err = s.client.apiPost("/games/affiliategamedetails", nil, &response, nil, nil)
 	return
 }
+
+func (s *GamesService) Transactions(body GameTransactionsSearchModel, authToken string) (response OperationResponseOfIEnumerableOfGameTransactionModel, err error) {
+	err = s.client.apiPost("/games/transactions", &body, &response, nil, &authToken)
+	return
+}
