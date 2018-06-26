@@ -34,21 +34,26 @@ type IGCClient struct {
 	Wallet            *WalletService
 
 	log logger.Logger
+
+	logRequestBody  bool
+	logResponseData bool
 }
 
 type service struct {
 	client *IGCClient
 }
 
-func NewIGCClient(baseURL string, log logger.Logger) (client *IGCClient, err error) {
+func NewIGCClient(baseURL string, log logger.Logger, logRequestBody bool, logResponseData bool) (client *IGCClient, err error) {
 	if baseURL == "" {
 		err = errors.New("base url can not be empty")
 		return
 	}
 	client = &IGCClient{
-		HTTPClient: http.DefaultClient,
-		baseURL:    baseURL,
-		log:        log,
+		HTTPClient:      http.DefaultClient,
+		baseURL:         baseURL,
+		log:             log,
+		logRequestBody:  logRequestBody,
+		logResponseData: logResponseData,
 	}
 
 	client.common.client = client
@@ -74,31 +79,30 @@ func NewIGCClient(baseURL string, log logger.Logger) (client *IGCClient, err err
 	return
 }
 
-func (c IGCClient) apiPost(endpoint string, body interface{}, data interface{}, xAPIKey *string, authToken *string) error {
+func (c IGCClient) apiPost(endpoint string, body interface{}, data interface{}, headers *map[string]string) error {
 	b := new(bytes.Buffer)
 	json.NewEncoder(b).Encode(body)
 
 	logRequest := make(map[string]interface{})
 	logResponse := make(map[string]interface{})
 
-	//logData, err := json.Marshal(body)
-	//if err == nil {
-	//	logRequest["Body"] = string(logData)
-	//}
+	if c.logRequestBody {
+		logData, err := json.Marshal(body)
+		if err == nil {
+			logRequest["Body"] = string(logData)
+		}
+	}
 
 	req, err := http.NewRequest("POST", c.baseURL+endpoint, b)
 	if err != nil {
 		return err
 	}
 
-	if authToken != nil && *authToken != "" {
-		req.Header.Add("AuthenticationToken", *authToken)
-		logRequest["AuthenticationToken"] = *authToken
-	}
-
-	if xAPIKey != nil && *xAPIKey != "" {
-		req.Header.Add("X-Api-Key", *xAPIKey)
-		logRequest["X-Api-Key"] = true
+	if header != nil {
+		for k, v := range headers {
+			req.Header.Add(k, *v)
+			logRequest[k] = *v
+		}
 	}
 
 	if b != nil {
@@ -122,7 +126,10 @@ func (c IGCClient) apiPost(endpoint string, body interface{}, data interface{}, 
 	buf.ReadFrom(resp.Body)
 	s := buf.String()
 
-	logResponse["Response"] = s
+	if c.logResponseData {
+		logResponse["Response"] = s
+	}
+
 	logResponse["StatusCode"] = resp.StatusCode
 	logResponse["URL"] = c.baseURL + endpoint
 

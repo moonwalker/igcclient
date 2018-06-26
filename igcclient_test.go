@@ -55,7 +55,7 @@ func TestNewIGCClient(t *testing.T) {
 		t.Errorf(err.Error())
 	}
 
-	err = c.apiPost("test", nil, nil, &xAPIKey, nil)
+	err = c.apiPost("test", nil, &headers)
 	if err == nil {
 		t.Errorf("Expected error since the url should not be parseble")
 	}

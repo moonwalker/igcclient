@@ -1,9 +1,10 @@
 package igcclient
 
 import (
-	. "github.com/moonwalker/igcclient/models"
-	"strconv"
 	"net/url"
+	"strconv"
+
+	. "github.com/moonwalker/igcclient/models"
 )
 
 type ValidationService service
@@ -12,7 +13,7 @@ type ValidationService service
 // If ignoreExisting is set to true [ignore existing].
 func (s *ValidationService) Mobile(body ValidationMobileModel, ignoreExisting bool) (response OperationResponseOfBoolean, err error) {
 	ignore := strconv.FormatBool(ignoreExisting)
-	err = s.client.apiPost("/validate/mobile?ignoreExisting="+url.QueryEscape(ignore), &body, &response, nil, nil)
+	err = s.client.apiPost("/validate/mobile?ignoreExisting="+url.QueryEscape(ignore), &body, &response, nil)
 	return
 }
 
@@ -20,7 +21,7 @@ func (s *ValidationService) Mobile(body ValidationMobileModel, ignoreExisting bo
 // If ignoreExisting is set to true [ignore existing].
 func (s *ValidationService) Username(body ValidationUsernameModel, ignoreExisting bool) (response OperationResponseOfBoolean, err error) {
 	ignore := strconv.FormatBool(ignoreExisting)
-	err = s.client.apiPost("/validate/username?ignoreExisting="+url.QueryEscape(ignore), &body, &response, nil, nil)
+	err = s.client.apiPost("/validate/username?ignoreExisting="+url.QueryEscape(ignore), &body, &response, nil)
 	return
 }
 
@@ -28,6 +29,6 @@ func (s *ValidationService) Username(body ValidationUsernameModel, ignoreExistin
 // If ignoreExisting is set to true [ignore existing].
 func (s *ValidationService) Email(body ValidationEmailModel, ignoreExisting bool) (response OperationResponseOfBoolean, err error) {
 	ignore := strconv.FormatBool(ignoreExisting)
-	err = s.client.apiPost("/validate/email?ignoreExisting="+url.QueryEscape(ignore), &body, &response, nil, nil)
+	err = s.client.apiPost("/validate/email?ignoreExisting="+url.QueryEscape(ignore), &body, &response, nil)
 	return
 }
