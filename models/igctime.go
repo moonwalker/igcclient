@@ -25,7 +25,7 @@ func (t *IGCTime) UnmarshalJSON(b []byte) (err error) {
 
 func (t *IGCTime) MarshalJSON() ([]byte, error) {
 	if t == nil || t.Time.UnixNano() == nilTime {
-		return []byte("null"), nil
+		return []byte(""), nil
 	}
 	return []byte(fmt.Sprintf("\"%s\"", t.Time.Format(igcTimeFormat))), nil
 }
