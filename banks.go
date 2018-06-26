@@ -10,14 +10,14 @@ import (
 type BanksService service
 
 // Get all the banks sorted in display order, ascending, bank name decrypted
-func (s *BanksService) Banks() (response OperationResponseOfListOfBankObject, err error) {
-	err = s.client.apiPost("/banks", nil, &response, nil)
+func (s *BanksService) Banks(headers map[string]string) (response OperationResponseOfListOfBankObject, err error) {
+	err = s.client.apiPost("/banks", nil, &response, &headers)
 	return
 }
 
 // Get a single bank by Bank ID
-func (s *BanksService) BankByID(id int64) (response OperationResponseOfBankObject, err error) {
+func (s *BanksService) BankByID(id int64, headers map[string]string) (response OperationResponseOfBankObject, err error) {
 	i := strconv.FormatInt(id, 10)
-	err = s.client.apiPost("/banks/"+url.QueryEscape(i), nil, &response, nil)
+	err = s.client.apiPost("/banks/"+url.QueryEscape(i), nil, &response, &headers)
 	return
 }

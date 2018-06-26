@@ -15,26 +15,26 @@ func (s *ResponsibleGamingService) GetUserLimitHistory(headers map[string]string
 }
 
 //Retrieves all self exclusion categories.
-func (s *ResponsibleGamingService) SelfExclusionCategories() (response models.OperationResponseOfListOfSelfExclusionCategory, err error) {
-	err = s.client.apiPost("/v2/ResponsibleGaming/SelfExclusion/Categories", nil, &response, nil)
+func (s *ResponsibleGamingService) SelfExclusionCategories(headers map[string]string) (response models.OperationResponseOfListOfSelfExclusionCategory, err error) {
+	err = s.client.apiPost("/v2/ResponsibleGaming/SelfExclusion/Categories", nil, &response, &headers)
 	return
 }
 
 //Retrieves all self exclusion durations.
-func (s *ResponsibleGamingService) SelfExclusionDurations() (response models.OperationResponseOfListOfSelfExclusionCategoryDuration, err error) {
-	err = s.client.apiPost("/v2/ResponsibleGaming/SelfExclusion/Durations", nil, &response, nil)
+func (s *ResponsibleGamingService) SelfExclusionDurations(headers map[string]string) (response models.OperationResponseOfListOfSelfExclusionCategoryDuration, err error) {
+	err = s.client.apiPost("/v2/ResponsibleGaming/SelfExclusion/Durations", nil, &response, &headers)
 	return
 }
 
 //Retrieves all timeout categories.
-func (s *ResponsibleGamingService) TimeoutCategories() (response models.OperationResponseOfListOfSelfExclusionCategory, err error) {
-	err = s.client.apiPost("/v2/ResponsibleGaming/Timeout/Categories", nil, &response, nil)
+func (s *ResponsibleGamingService) TimeoutCategories(headers map[string]string) (response models.OperationResponseOfListOfSelfExclusionCategory, err error) {
+	err = s.client.apiPost("/v2/ResponsibleGaming/Timeout/Categories", nil, &response, &headers)
 	return
 }
 
 //Retrieves all timeout durations.
-func (s *ResponsibleGamingService) TimeoutDurations() (response models.OperationResponseOfListOfSelfExclusionCategoryDuration, err error) {
-	err = s.client.apiPost("/v2/ResponsibleGaming/Timeout/Durations", nil, &response, nil)
+func (s *ResponsibleGamingService) TimeoutDurations(headers map[string]string) (response models.OperationResponseOfListOfSelfExclusionCategoryDuration, err error) {
+	err = s.client.apiPost("/v2/ResponsibleGaming/Timeout/Durations", nil, &response, &headers)
 	return
 }
 

@@ -12,22 +12,22 @@ import (
 type PaymentsService service
 
 // Get all the Deposit methods for a specific country
-func (s *PaymentsService) GetAllDepositMethods(countryID int64) (response OperationResponseOfIEnumerableOfPaymentMethod, err error) {
+func (s *PaymentsService) GetAllDepositMethods(countryID int64, headers map[string]string) (response OperationResponseOfIEnumerableOfPaymentMethod, err error) {
 	i := strconv.FormatInt(countryID, 10)
-	err = s.client.apiPost("/payments/getalldepositmethods/"+url.QueryEscape(i), nil, &response, nil)
+	err = s.client.apiPost("/payments/getalldepositmethods/"+url.QueryEscape(i), nil, &response, &headers)
 	return
 }
 
 // Get all the Deposit methods for a specific country
-func (s *PaymentsService) GetAllWithdrawMethods(countryID int64) (response OperationResponseOfIEnumerableOfPaymentMethod, err error) {
+func (s *PaymentsService) GetAllWithdrawMethods(countryID int64, headers map[string]string) (response OperationResponseOfIEnumerableOfPaymentMethod, err error) {
 	i := strconv.FormatInt(countryID, 10)
-	err = s.client.apiPost("/payments/getallwithdrawmethods/"+url.QueryEscape(i), nil, &response, nil)
+	err = s.client.apiPost("/payments/getallwithdrawmethods/"+url.QueryEscape(i), nil, &response, &headers)
 	return
 }
 
 // Retrieves all payment methods regardless of their availability or country.
-func (s *PaymentsService) GetAllPaymentMethods() (response OperationResponseOfIEnumerableOfPaymentMethod, err error) {
-	err = s.client.apiPost("/payments/getallpaymentmethods", nil, &response, nil)
+func (s *PaymentsService) GetAllPaymentMethods(headers map[string]string) (response OperationResponseOfIEnumerableOfPaymentMethod, err error) {
+	err = s.client.apiPost("/payments/getallpaymentmethods", nil, &response, &headers)
 	return
 }
 

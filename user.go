@@ -18,8 +18,8 @@ type UserService service
 // 		Key "Email" and "FullName" is reserved and not to be used - will exit with error if used.
 //
 // Expected error codes: UNSUPPORTED_EMAIL_TEMPLATE_ID, REQUEST_DATA_INVALID, RESERVED_KEY_EMAIL_TEMPLATE_PLACEHOLDER_VALUES
-func (s *UserService) SendEmail(body SendEmailModel) (response OperationResponseOfDictionaryOfStringAndString, err error) {
-	err = s.client.apiPost("user/sendemail", &body, &response, nil)
+func (s *UserService) SendEmail(body SendEmailModel, headers map[string]string) (response OperationResponseOfDictionaryOfStringAndString, err error) {
+	err = s.client.apiPost("user/sendemail", &body, &response, &headers)
 	return
 }
 
@@ -45,8 +45,8 @@ func (s *UserService) GetUsersWithNoActivity(fromDate string, limit int64, heade
 }
 
 // Gets the Count of Similar Users with the exact same First Name and Last Name
-func (s *UserService) GetSimilarUserCount(body SimilarUser) (response OperationResponseOfInt32, err error) {
-	err = s.client.apiPost("/user/getsimilarusercount", &body, &response, nil)
+func (s *UserService) GetSimilarUserCount(body SimilarUser, headers map[string]string) (response OperationResponseOfInt32, err error) {
+	err = s.client.apiPost("/user/getsimilarusercount", &body, &response, &headers)
 	return
 }
 
@@ -109,32 +109,32 @@ func (s *UserService) Update(body UpdateUserObject, headers map[string]string) (
 }
 
 // Email validation
-func (s *UserService) CheckEmail(body CheckUser) (response OperationResponseOfBoolean, err error) {
-	err = s.client.apiPost("/user/check/email", &body, &response, nil)
+func (s *UserService) CheckEmail(body CheckUser, headers map[string]string) (response OperationResponseOfBoolean, err error) {
+	err = s.client.apiPost("/user/check/email", &body, &response, &headers)
 	return
 }
 
 // Username validation
-func (s *UserService) CheckUsername(body CheckUser) (response OperationResponseOfBoolean, err error) {
-	err = s.client.apiPost("/user/check/username", &body, &response, nil)
+func (s *UserService) CheckUsername(body CheckUser, headers map[string]string) (response OperationResponseOfBoolean, err error) {
+	err = s.client.apiPost("/user/check/username", &body, &response, &headers)
 	return
 }
 
 // Combination validation This check if the user firstname, lastname, address and phone match with an existing user
-func (s *UserService) CheckCombination(body UserObject) (response OperationResponseOfBoolean, err error) {
-	err = s.client.apiPost("/user/check/combination", &body, &response, nil)
+func (s *UserService) CheckCombination(body UserObject, headers map[string]string) (response OperationResponseOfBoolean, err error) {
+	err = s.client.apiPost("/user/check/combination", &body, &response, &headers)
 	return
 }
 
 // Retrieves the list of available limit durations.
-func (s *UserService) LimitsGetLimitDurations() (response OperationResponseOfIEnumerableOfLimitDurationObject, err error) {
-	err = s.client.apiPost("/user/limits/getlimitdurations", nil, &response, nil)
+func (s *UserService) LimitsGetLimitDurations(headers map[string]string) (response OperationResponseOfIEnumerableOfLimitDurationObject, err error) {
+	err = s.client.apiPost("/user/limits/getlimitdurations", nil, &response, &headers)
 	return
 }
 
 // Retrieves the list of available limits.
-func (s *UserService) LimitsGetLimits() (response OperationResponseOfIEnumerableOfLimit, err error) {
-	err = s.client.apiPost("/user/limits/getlimits", nil, &response, nil)
+func (s *UserService) LimitsGetLimits(headers map[string]string) (response OperationResponseOfIEnumerableOfLimit, err error) {
+	err = s.client.apiPost("/user/limits/getlimits", nil, &response, &headers)
 	return
 }
 

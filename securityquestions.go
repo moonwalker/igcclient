@@ -6,7 +6,7 @@ import (
 
 type SecurityQuestionsService service
 
-func (s *SecurityQuestionsService) SecurityQuestions() (response models.OperationResponseOfListOfSecurityQuestionModel, err error) {
-	err = s.client.apiPost("/securityquestions", nil, &response, nil)
+func (s *SecurityQuestionsService) SecurityQuestions(headers map[string]string) (response models.OperationResponseOfListOfSecurityQuestionModel, err error) {
+	err = s.client.apiPost("/securityquestions", nil, &response, &headers)
 	return
 }

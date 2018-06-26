@@ -109,6 +109,8 @@ func (c IGCClient) apiPost(endpoint string, body interface{}, data interface{}, 
 		req.Header.Add("Content-Type", "application/json")
 	}
 
+	req.Header.Add("Accept", "application/json")
+
 	logRequest["URL"] = c.baseURL + endpoint
 
 	if c.log != nil {

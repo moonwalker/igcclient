@@ -10,34 +10,34 @@ import (
 type GamesService service
 
 // Gets a list available of Games supported by the system.
-func (s *GamesService) Games(data GameFilterModel) (response OperationResponseOfIEnumerableOfGameFront, err error) {
-	err = s.client.apiPost("/games", &data, &response, nil)
+func (s *GamesService) Games(data GameFilterModel, headers map[string]string) (response OperationResponseOfIEnumerableOfGameFront, err error) {
+	err = s.client.apiPost("/games", &data, &response, &headers)
 	return
 }
 
 // Gets the MD5 hash for the requested games list. This can be used to cache games request on the client.
-func (s *GamesService) MD5(data GameFilterModel) (response OperationResponseOfString, err error) {
-	err = s.client.apiPost("/games/md5", &data, &response, nil)
+func (s *GamesService) MD5(data GameFilterModel, headers map[string]string) (response OperationResponseOfString, err error) {
+	err = s.client.apiPost("/games/md5", &data, &response, &headers)
 	return
 }
 
 // Gets all the Jackpots for the requested Currency
-func (s *GamesService) Jackpots(currency string) (response OperationResponseOfIEnumerableOfJackpot, err error) {
-	err = s.client.apiPost("/games/jackpots/"+url.QueryEscape(currency), nil, &response, nil)
+func (s *GamesService) Jackpots(currency string, headers map[string]string) (response OperationResponseOfIEnumerableOfJackpot, err error) {
+	err = s.client.apiPost("/games/jackpots/"+url.QueryEscape(currency), nil, &response, &headers)
 	return
 }
 
 // Get a single Game by Game ID
-func (s *GamesService) GameByID(gameID int64) (response OperationResponseOfGameFront, err error) {
+func (s *GamesService) GameByID(gameID int64, headers map[string]string) (response OperationResponseOfGameFront, err error) {
 	id := strconv.FormatInt(gameID, 10)
-	err = s.client.apiPost("/games/"+url.QueryEscape(id), nil, &response, nil)
+	err = s.client.apiPost("/games/"+url.QueryEscape(id), nil, &response, &headers)
 	return
 }
 
 // Get the URL of the Game to be used in the iFrame or to redirect to
-func (s *GamesService) URL(gameID int64, body GameURLModel) (response OperationResponseOfString, err error) {
+func (s *GamesService) URL(gameID int64, body GameURLModel, headers map[string]string) (response OperationResponseOfString, err error) {
 	id := strconv.FormatInt(gameID, 10)
-	err = s.client.apiPost("/games/url/"+url.QueryEscape(id), &body, &response, nil)
+	err = s.client.apiPost("/games/url/"+url.QueryEscape(id), &body, &response, &headers)
 	return
 }
 
@@ -49,32 +49,32 @@ func (s *GamesService) LastPlayed(maxResults int64, body GameUserInteractionData
 }
 
 // Get all Game Categories by language alphaCode2
-func (s *GamesService) Categories(alphaCode2 string) (response OperationResponseOfIEnumerableOfCategory, err error) {
-	err = s.client.apiPost("/games/categories/"+url.QueryEscape(alphaCode2), nil, &response, nil)
+func (s *GamesService) Categories(alphaCode2 string, headers map[string]string) (response OperationResponseOfIEnumerableOfCategory, err error) {
+	err = s.client.apiPost("/games/categories/"+url.QueryEscape(alphaCode2), nil, &response, &headers)
 	return
 }
 
 // Get details of all the games.
-func (s *GamesService) Details() (response OperationResponseOfIEnumerableOfGameDetails, err error) {
-	err = s.client.apiPost("/games/details", nil, &response, nil)
+func (s *GamesService) Details(headers map[string]string) (response OperationResponseOfIEnumerableOfGameDetails, err error) {
+	err = s.client.apiPost("/games/details", nil, &response, &headers)
 	return
 }
 
 // Get all recent game winners.
-func (s *GamesService) RecentWinners(body RecentWinnersV2RequestModel) (response OperationResponseOfIEnumerableOfRecentWinnersResponseModel, err error) {
-	err = s.client.apiPost("/v2/games/recentwinners", &body, &response, nil)
+func (s *GamesService) RecentWinners(body RecentWinnersV2RequestModel, headers map[string]string) (response OperationResponseOfIEnumerableOfRecentWinnersResponseModel, err error) {
+	err = s.client.apiPost("/v2/games/recentwinners", &body, &response, &headers)
 	return
 }
 
 // Get a list of all the Vendors
-func (s *GamesService) Vendors(enabledOnly bool) (response OperationResponseOfIEnumerableOfVendor, err error) {
+func (s *GamesService) Vendors(enabledOnly bool, headers map[string]string) (response OperationResponseOfIEnumerableOfVendor, err error) {
 	eoStr := strconv.FormatBool(enabledOnly)
-	err = s.client.apiPost("/games/vendors?enabledonly="+url.QueryEscape(eoStr), nil, &response, nil)
+	err = s.client.apiPost("/games/vendors?enabledonly="+url.QueryEscape(eoStr), nil, &response, &headers)
 	return
 }
 
-func (s *GamesService) AffiliateGameDetails() (response OperationalResponseOfIEnumerableOfGameDetailsAffiliates, err error) {
-	err = s.client.apiPost("/games/affiliategamedetails", nil, &response, nil)
+func (s *GamesService) AffiliateGameDetails(headers map[string]string) (response OperationalResponseOfIEnumerableOfGameDetailsAffiliates, err error) {
+	err = s.client.apiPost("/games/affiliategamedetails", nil, &response, &headers)
 	return
 }
 
