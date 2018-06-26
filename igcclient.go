@@ -100,8 +100,10 @@ func (c IGCClient) apiPost(endpoint string, body interface{}, data interface{}, 
 
 	if headers != nil {
 		for k, v := range *headers {
-			req.Header.Add(k, v)
-			logRequest[k] = v
+			if v != "" {
+				req.Header.Add(k, v)
+				logRequest[k] = v
+			}
 		}
 	}
 
