@@ -3,7 +3,7 @@ package igcclient
 import (
 	"fmt"
 
-	. "github.com/moonwalker/igcclient/models"
+	"github.com/moonwalker/igcclient/models"
 )
 
 type ResponsibleGamingService service
