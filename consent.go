@@ -2,6 +2,8 @@ package igcclient
 
 import (
 	"fmt"
+
+	. "github.com/moonwalker/igcclient/models"
 )
 
 type ConsentService service

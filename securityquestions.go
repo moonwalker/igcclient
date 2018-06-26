@@ -1,6 +1,8 @@
 package igcclient
 
-import "github.com/moonwalker/igcclient/models"
+import (
+	. "github.com/moonwalker/igcclient/models"
+)
 
 type SecurityQuestionsService service
 

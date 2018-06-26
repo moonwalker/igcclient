@@ -1,5 +1,9 @@
 package igcclient
 
+import (
+	. "github.com/moonwalker/igcclient/models"
+)
+
 type WalletService service
 
 // Gets the users OM wallet

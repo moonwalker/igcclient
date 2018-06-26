@@ -5,6 +5,8 @@ package igcclient
 import (
 	"net/url"
 	"strconv"
+
+	. "github.com/moonwalker/igcclient/models"
 )
 
 type PaymentsService service

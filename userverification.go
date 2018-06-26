@@ -1,5 +1,9 @@
 package igcclient
 
+import (
+	. "github.com/moonwalker/igcclient/models"
+)
+
 type UserVerificationService service
 
 // Gets the available verification types for the user's ip. User Verification types can be whitelisted for each country.
