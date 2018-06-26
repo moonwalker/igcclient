@@ -9,7 +9,7 @@ import (
 type AuthenticationService service
 
 // Used to log-in an end user to the system
-func (s *AuthenticationService) Login(loginModel models.LoginModel) (response OperationResponseOfNullableIfGuid, err error) {
+func (s *AuthenticationService) Login(loginModel LoginModel) (response OperationResponseOfNullableIfGuid, err error) {
 	err = s.client.apiPost("/authentication/login", &loginModel, &response, nil)
 	return
 }
