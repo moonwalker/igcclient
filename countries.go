@@ -3,8 +3,6 @@ package igcclient
 import (
 	"net/url"
 	"strconv"
-
-	. "github.com/moonwalker/igcclient/models"
 )
 
 // countries is an private struct

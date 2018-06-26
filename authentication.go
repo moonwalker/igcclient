@@ -2,8 +2,6 @@ package igcclient
 
 import (
 	"net/url"
-
-	. "github.com/moonwalker/igcclient/models"
 )
 
 type AuthenticationService service
