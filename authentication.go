@@ -150,7 +150,7 @@ func (s *AuthenticationService) ForgotPasswordChange(body ForgotPasswordChangeMo
 // Verification Type ID 4 (MANUAL): No verification methods are activated automatically
 // 	#1 POST to this endpoint with all the required properties. THIS WILL NOT SEND OUT ANY VERIFICATION EMAILS OR SMS's ** At this point you are able to call "Verify/SMS/Send" or/and "Verify/Email/Send" to verify the user at any point desired.
 //
-func (s *AuthenticationService) Register(body RegistrationData) (response OperationResponseOfDictionaryOfStringAndString, err error) {
+func (s *AuthenticationService) Register(body RegistrationData, headers map[string]string) (response OperationResponseOfDictionaryOfStringAndString, err error) {
 	err = s.client.apiPost("/v2/authentication/register", &body, &response, &headers)
 	return
 }
