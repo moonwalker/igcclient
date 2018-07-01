@@ -177,3 +177,8 @@ func (s *UserService) SetAffiliateReference(userID int64, affiliateReference str
 	err = s.client.apiPost("/user/setaffiliatereference?userid=+"+url.QueryEscape(id)+"&affiliatereference="+url.QueryEscape(affiliateReference), nil, &response, &headers)
 	return
 }
+
+func (s *UserService) CloseAccount(headers map[string]string) (response models.OperationResponseOfBoolean, err error) {
+	err = s.client.apiPost("/user/closeaccount", nil, &response, &headers)
+	return
+}
