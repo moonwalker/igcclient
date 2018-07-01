@@ -60,15 +60,17 @@ func (s *BonusesService) GetBonusTypes(headers map[string]string) (response mode
 }
 
 // Get a list of bonuses that are public and can be claimed by the logged in user (Bonuses that are 'IncludedInlist' and not 'Manual Bonuses') AuthenticationToken header is required.
-func (s *BonusesService) GetAvailable(deviceTypeID string, headers map[string]string) (response models.OperationResponseOfListOfPublicBonusesObject, err error) {
-	err = s.client.apiPost("/bonuses/getavailable/"+url.QueryEscape(deviceTypeID), nil, &response, &headers)
+func (s *BonusesService) GetAvailable(deviceTypeID int64, headers map[string]string) (response models.OperationResponseOfListOfPublicBonusesObject, err error) {
+	deviceID := strconv.FormatInt(deviceTypeID, 10)
+	err = s.client.apiPost("/bonuses/getavailable/"+url.QueryEscape(deviceID), nil, &response, &headers)
 	return
 }
 
 // Get a list of bonuses that are public and can be claimed by the logged in user (Bonuses that are 'IncludedInlist' and not 'Manual Bonuses') X-Api-Key header is required.
-func (s *BonusesService) GetAvailableByUserID(deviceTypeID string, userID int64, headers map[string]string) (response models.OperationResponseOfListOfPublicBonusesObject, err error) {
+func (s *BonusesService) GetAvailableByUserID(deviceTypeID int64, userID int64, headers map[string]string) (response models.OperationResponseOfListOfPublicBonusesObject, err error) {
 	i := strconv.FormatInt(userID, 10)
-	err = s.client.apiPost("/bonuses/getavailable/"+url.QueryEscape(deviceTypeID)+"?userid="+url.QueryEscape(i), nil, &response, &headers)
+	deviceID := strconv.FormatInt(deviceTypeID, 10)
+	err = s.client.apiPost("/bonuses/getavailable/"+url.QueryEscape(deviceID)+"?userid="+url.QueryEscape(i), nil, &response, &headers)
 	return
 }
 
