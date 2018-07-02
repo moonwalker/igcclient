@@ -104,7 +104,7 @@ func (s *BonusesService) PromoCodesPending(headers map[string]string) (response 
 // User rejects promo code
 func (s *BonusesService) PromoCodesReject(promoID int64, headers map[string]string) (response models.OperationResponseOfBoolean, err error) {
 	i := strconv.FormatInt(promoID, 10)
-	err = s.client.apiPost("/bonuses/promocode/reject/"+url.QueryEscape(i), nil, &response, &headers)
+	err = s.client.apiPost("/bonuses/promocodes/reject/"+url.QueryEscape(i), nil, &response, &headers)
 	return
 }
 
