@@ -9,6 +9,6 @@ type UserLimitResponse struct {
 	StartDate   *IGCTime `json:"StartDate,omitempty"`   //The date the limit starts
 	EndDate     *IGCTime `json:"EndDate,omitempty"`     //The Date the limit ends
 	Amount      *float64 `json:"Amount,omitempty"`      //The amount of the limit
-	AmountHR    *float64 `json:"Amount_HR,omitempty"`
-	AmountDAY   *float64 `json:"Amount_DAY,omitempty"`
+	AmountHR    *string  `json:"Amount_HR,omitempty"`
+	AmountDAY   *string  `json:"Amount_DAY,omitempty"`
 }
