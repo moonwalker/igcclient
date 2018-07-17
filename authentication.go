@@ -9,8 +9,8 @@ import (
 type AuthenticationService service
 
 // Used to log-in an end user to the system
-func (s *AuthenticationService) Login(loginModel models.LoginModel, headers map[string]string) (response models.OperationResponseOfNullableIfGuid, err error) {
-	err = s.client.apiPost("/authentication/login", &loginModel, &response, &headers)
+func (s *AuthenticationService) Login(loginModel models.LoginModel, headers map[string]string) (response models.OperationResponseOfAuthResponseDTO, err error) {
+	err = s.client.apiPost("v2/authentication/login", &loginModel, &response, &headers)
 	return
 }
 

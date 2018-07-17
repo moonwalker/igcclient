@@ -324,3 +324,8 @@ type OperationResponseOfIEnumerableOfGameTransactionModel struct {
 	*OperationResponse
 	Data *[]GameTransactionModel `json:"Data"`
 }
+
+type OperationResponseOfAuthResponseDTO struct {
+	*OperationResponse
+	Data *AuthResponseDTO `json:"Data"`
+}
