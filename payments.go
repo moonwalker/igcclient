@@ -74,7 +74,7 @@ func (s *PaymentsService) LastSuccessfulDeposit(headers map[string]string) (resp
 
 // Returns the transaction details of a given transaction.
 func (s *PaymentsService) TransactionDetails(body models.TransactionSearchModel, headers map[string]string) (response models.OperationResponseOfTransactionModel, err error) {
-	err = s.client.apiPost("/payments/transactiondetails", nil, &response, &headers)
+	err = s.client.apiPost("/payments/transactiondetails", &body, &response, &headers)
 	return
 }
 
