@@ -7,6 +7,7 @@ import (
 	"net/http"
 
 	"github.com/moonwalker/logger"
+	"strings"
 )
 
 type IGCClient struct {
@@ -38,6 +39,16 @@ type IGCClient struct {
 
 	logRequestBody  bool
 	logResponseData bool
+}
+
+var logBlacklist = []string{
+	"/v2/authentication/login",
+	"/authentication/change/password",
+	"/authentication/change/email",
+	"/authentication/change/securityquestion",
+	"/authentication/forgotpassword/change/sms",
+	"/authentication/forgotpassword/change",
+	"/v2/authentication/register",
 }
 
 type service struct {
@@ -81,6 +92,15 @@ func NewIGCClient(baseURL string, log logger.Logger, logRequestBody bool, logRes
 	return
 }
 
+func logPayload(endpoint string) bool {
+	for _, blacklisted := range logBlacklist {
+		if strings.Contains(endpoint, blacklisted) {
+			return false
+		}
+	}
+	return true
+}
+
 func (c IGCClient) apiPost(endpoint string, body interface{}, data interface{}, headers *map[string]string) error {
 	b := new(bytes.Buffer)
 	json.NewEncoder(b).Encode(body)
@@ -88,7 +108,7 @@ func (c IGCClient) apiPost(endpoint string, body interface{}, data interface{}, 
 	logRequest := make(map[string]interface{})
 	logResponse := make(map[string]interface{})
 
-	if c.logRequestBody {
+	if c.logRequestBody && logPayload(endpoint){
 		logData, err := json.Marshal(body)
 		if err == nil {
 			logRequest["Body"] = string(logData)
