@@ -42,6 +42,7 @@ type IGCClient struct {
 }
 
 var logBlacklist = []string{
+	"/user",
 	"/v2/authentication/login",
 	"/authentication/change/password",
 	"/authentication/change/email",
