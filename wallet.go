@@ -2,6 +2,8 @@ package igcclient
 
 import (
 	"github.com/moonwalker/igcclient/models"
+	"strconv"
+	"net/url"
 )
 
 type WalletService service
@@ -21,6 +23,13 @@ func (s *WalletService) GetOMCurrentBonus(headers map[string]string) (response m
 // Gets the User Wallet
 func (s *WalletService) Wallet(headers map[string]string) (response models.OperationResponseOfUserWalletPublic, err error) {
 	err = s.client.apiPost("/wallet", nil, &response, &headers)
+	return
+}
+
+// Gets the User Wallet
+func (s *WalletService) WalletByUserID(userID int64, headers map[string]string) (response models.OperationResponseOfUserWalletPublic, err error) {
+	id := strconv.FormatInt(userID, 10)
+	err = s.client.apiPost("/wallet?userid=" + url.QueryEscape(id), nil, &response, &headers)
 	return
 }
 
