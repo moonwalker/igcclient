@@ -137,8 +137,8 @@ func (c IGCClient) apiPost(endpoint string, params *url.Values, body interface{}
 
 	req.Header.Add("Accept", "application/json")
 
-	logResponse["query"] = endpoint
-	logRequest["query"] = endpoint
+	logResponse["query"] = endpoint[1:] //don't log the first '/'
+	logRequest["query"] = endpoint[1:]
 
 	logRequest["URL"] = c.baseURL + endpoint
 
