@@ -13,7 +13,9 @@ type ValidationService service
 // If ignoreExisting is set to true [ignore existing].
 func (s *ValidationService) Mobile(body models.ValidationMobileModel, ignoreExisting bool, headers map[string]string) (response models.OperationResponseOfBoolean, err error) {
 	ignore := strconv.FormatBool(ignoreExisting)
-	err = s.client.apiPost("/validate/mobile?ignoreExisting="+url.QueryEscape(ignore), &body, &response, &headers)
+	q := url.Values{}
+	q.Add("ignoreExisting", ignore)
+	err = s.client.apiPost("/validate/mobile", &q, &body, &response, &headers)
 	return
 }
 
@@ -21,7 +23,9 @@ func (s *ValidationService) Mobile(body models.ValidationMobileModel, ignoreExis
 // If ignoreExisting is set to true [ignore existing].
 func (s *ValidationService) Username(body models.ValidationUsernameModel, ignoreExisting bool, headers map[string]string) (response models.OperationResponseOfBoolean, err error) {
 	ignore := strconv.FormatBool(ignoreExisting)
-	err = s.client.apiPost("/validate/username?ignoreExisting="+url.QueryEscape(ignore), &body, &response, &headers)
+	q := url.Values{}
+	q.Add("ignoreExisting", ignore)
+	err = s.client.apiPost("/validate/username", &q, &body, &response, &headers)
 	return
 }
 
@@ -29,6 +33,8 @@ func (s *ValidationService) Username(body models.ValidationUsernameModel, ignore
 // If ignoreExisting is set to true [ignore existing].
 func (s *ValidationService) Email(body models.ValidationEmailModel, ignoreExisting bool, headers map[string]string) (response models.OperationResponseOfBoolean, err error) {
 	ignore := strconv.FormatBool(ignoreExisting)
-	err = s.client.apiPost("/validate/email?ignoreExisting="+url.QueryEscape(ignore), &body, &response, &headers)
+	q := url.Values{}
+	q.Add("ignoreExisting", ignore)
+	err = s.client.apiPost("/validate/email", &q, &body, &response, &headers)
 	return
 }

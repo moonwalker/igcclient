@@ -14,20 +14,20 @@ type PaymentsService service
 // Get all the Deposit methods for a specific country
 func (s *PaymentsService) GetAllDepositMethods(countryID int64, headers map[string]string) (response models.OperationResponseOfIEnumerableOfPaymentMethod, err error) {
 	i := strconv.FormatInt(countryID, 10)
-	err = s.client.apiPost("/payments/getalldepositmethods/"+url.QueryEscape(i), nil, &response, &headers)
+	err = s.client.apiPost("/payments/getalldepositmethods/"+url.QueryEscape(i), nil, nil, &response, &headers)
 	return
 }
 
 // Get all the Deposit methods for a specific country
 func (s *PaymentsService) GetAllWithdrawMethods(countryID int64, headers map[string]string) (response models.OperationResponseOfIEnumerableOfPaymentMethod, err error) {
 	i := strconv.FormatInt(countryID, 10)
-	err = s.client.apiPost("/payments/getallwithdrawmethods/"+url.QueryEscape(i), nil, &response, &headers)
+	err = s.client.apiPost("/payments/getallwithdrawmethods/"+url.QueryEscape(i), nil, nil, &response, &headers)
 	return
 }
 
 // Retrieves all payment methods regardless of their availability or country.
 func (s *PaymentsService) GetAllPaymentMethods(headers map[string]string) (response models.OperationResponseOfIEnumerableOfPaymentMethod, err error) {
-	err = s.client.apiPost("/payments/getallpaymentmethods", nil, &response, &headers)
+	err = s.client.apiPost("/payments/getallpaymentmethods", nil, nil, &response, &headers)
 	return
 }
 
@@ -35,7 +35,7 @@ func (s *PaymentsService) GetAllPaymentMethods(headers map[string]string) (respo
 func (s *PaymentsService) GetUserDepositMethods(countryID int64, currencyID int64, headers map[string]string) (response models.OperationResponseOfIEnumerableOfPaymentMethod, err error) {
 	country := strconv.FormatInt(countryID, 10)
 	currency := strconv.FormatInt(currencyID, 10)
-	err = s.client.apiPost("/payments/getuserdepositmethods/"+url.QueryEscape(country)+"/"+url.QueryEscape(currency), nil, &response, &headers)
+	err = s.client.apiPost("/payments/getuserdepositmethods/"+url.QueryEscape(country)+"/"+url.QueryEscape(currency), nil, nil, &response, &headers)
 	return
 }
 
@@ -44,71 +44,71 @@ func (s *PaymentsService) GetUserWithdrawMethods(countryID int64, userID int64, 
 	country := strconv.FormatInt(countryID, 10)
 	user := strconv.FormatInt(userID, 10)
 	currency := strconv.FormatInt(currencyID, 10)
-	err = s.client.apiPost("/payments/getuserwithdrawmethods/"+url.QueryEscape(country)+"/"+url.QueryEscape(user)+"/"+url.QueryEscape(currency), nil, &response, &headers)
+	err = s.client.apiPost("/payments/getuserwithdrawmethods/"+url.QueryEscape(country)+"/"+url.QueryEscape(user)+"/"+url.QueryEscape(currency), nil, nil, &response, &headers)
 	return
 }
 
 // Make a Deposit request. User Authentication (authentication token) is required.
 func (s *PaymentsService) GetDepositRequest(body models.PayRequestModel, headers map[string]string) (response models.OperationResponseOfPaymentApiResponse, err error) {
-	err = s.client.apiPost("/payments/getdepositrequest", &body, &response, &headers)
+	err = s.client.apiPost("/payments/getdepositrequest", nil, &body, &response, &headers)
 	return
 }
 
 // Make a Quick Deposit Deposit request. User Authentication (authentication token) is required.
 func (s *PaymentsService) GetQuickDepositRequest(body models.QuickPayRequestModel, headers map[string]string) (response models.OperationResponseOfPaymentApiResponse, err error) {
-	err = s.client.apiPost("/payments/getquickdepositrequest", &body, &response, &headers)
+	err = s.client.apiPost("/payments/getquickdepositrequest", nil, &body, &response, &headers)
 	return
 }
 
 // Make a Withdraw request. User Authentication (authentication token) is required.
 func (s *PaymentsService) GetWithdrawRequest(body models.PayRequestModel, headers map[string]string) (response models.OperationResponseOfPaymentApiResponse, err error) {
-	err = s.client.apiPost("/payments/getwithdrawrequest", &body, &response, &headers)
+	err = s.client.apiPost("/payments/getwithdrawrequest", nil, &body, &response, &headers)
 	return
 }
 
 // Returns the last successful deposit.
 func (s *PaymentsService) LastSuccessfulDeposit(headers map[string]string) (response models.OperationResponseOfTransactionModel, err error) {
-	err = s.client.apiPost("/payments/lastsuccessfuldeposit", nil, &response, &headers)
+	err = s.client.apiPost("/payments/lastsuccessfuldeposit", nil, nil, &response, &headers)
 	return
 }
 
 // Returns the transaction details of a given transaction.
 func (s *PaymentsService) TransactionDetails(body models.TransactionSearchModel, headers map[string]string) (response models.OperationResponseOfTransactionModel, err error) {
-	err = s.client.apiPost("/payments/transactiondetails", &body, &response, &headers)
+	err = s.client.apiPost("/payments/transactiondetails", nil, &body, &response, &headers)
 	return
 }
 
 // This method cancels and withdrawal transaction which is in Pending or WaitingApproval status. User Authentication (authentication token) is required.
 func (s *PaymentsService) CancelWithdrawal(transactionId int64, headers map[string]string) (response models.OperationResponseOfBoolean, err error) {
 	i := strconv.FormatInt(transactionId, 10)
-	err = s.client.apiPost("/payments/cancelwithdrawal/"+url.QueryEscape(i), nil, &response, &headers)
+	err = s.client.apiPost("/payments/cancelwithdrawal/"+url.QueryEscape(i), nil, nil, &response, &headers)
 	return
 }
 
 // Get the Form Meta Data for Deposit. User Authentication (authentication token) is required.
 func (s *PaymentsService) GetDepositMetaData(paymentTypeID int64, headers map[string]string) (response models.OperationResponseOfPaymentMetaDataModel, err error) {
 	i := strconv.FormatInt(paymentTypeID, 10)
-	err = s.client.apiPost("/payments/getdepositmetadata/"+url.QueryEscape(i), nil, &response, &headers)
+	err = s.client.apiPost("/payments/getdepositmetadata/"+url.QueryEscape(i), nil, nil, &response, &headers)
 	return
 }
 
 // Get the Form Meta Data for Withdraw. User Authentication (authentication token) is required.
 func (s *PaymentsService) GetWithdrawMetaData(paymentTypeID int64, headers map[string]string) (response models.OperationResponseOfPaymentMetaDataModel, err error) {
 	i := strconv.FormatInt(paymentTypeID, 10)
-	err = s.client.apiPost("/payments/getwithdrawmetadata/"+url.QueryEscape(i), nil, &response, &headers)
+	err = s.client.apiPost("/payments/getwithdrawmetadata/"+url.QueryEscape(i), nil, nil, &response, &headers)
 	return
 }
 
 // Get the Form Meta Data for Quick Deposit. User Authentication (authentication token) is required.
 func (s *PaymentsService) GetQuickDepositMetaData(paymentTypeID int64, headers map[string]string) (response models.OperationResponseOfPaymentMetaDataModel, err error) {
 	i := strconv.FormatInt(paymentTypeID, 10)
-	err = s.client.apiPost("/payments/getquickdepositmetadata/"+url.QueryEscape(i), nil, &response, &headers)
+	err = s.client.apiPost("/payments/getquickdepositmetadata/"+url.QueryEscape(i), nil, nil, &response, &headers)
 	return
 }
 
 // Creates a wallet and a payment transaction (Headers required X-Api-Key and AuthenticationToken)
 func (s *PaymentsService) OperatorWalletsTransactions(body models.WalletRequest, operatorTransactionId int64, headers map[string]string) (response models.OperationResponseOfWalletResponse, err error) {
 	i := strconv.FormatInt(operatorTransactionId, 10)
-	err = s.client.apiPost("/payments/operatorwallets/transactions/"+url.QueryEscape(i), &body, &response, &headers)
+	err = s.client.apiPost("/payments/operatorwallets/transactions/"+url.QueryEscape(i), nil, &body, &response, &headers)
 	return
 }

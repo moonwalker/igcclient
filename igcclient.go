@@ -8,6 +8,7 @@ import (
 
 	"github.com/moonwalker/logger"
 	"strings"
+	"net/url"
 )
 
 type IGCClient struct {
@@ -102,14 +103,14 @@ func logPayload(endpoint string) bool {
 	return true
 }
 
-func (c IGCClient) apiPost(endpoint string, body interface{}, data interface{}, headers *map[string]string) error {
+func (c IGCClient) apiPost(endpoint string, params *url.Values, body interface{}, data interface{}, headers *map[string]string) error {
 	b := new(bytes.Buffer)
 	json.NewEncoder(b).Encode(body)
 
 	logRequest := make(map[string]interface{})
 	logResponse := make(map[string]interface{})
 
-	if c.logRequestBody && logPayload(endpoint){
+	if c.logRequestBody && logPayload(endpoint) {
 		logData, err := json.Marshal(body)
 		if err == nil {
 			logRequest["Body"] = string(logData)
@@ -136,10 +137,17 @@ func (c IGCClient) apiPost(endpoint string, body interface{}, data interface{}, 
 
 	req.Header.Add("Accept", "application/json")
 
+	logResponse["query"] = endpoint
+	logRequest["query"] = endpoint
+
 	logRequest["URL"] = c.baseURL + endpoint
 
 	if c.log != nil {
 		c.log.Info("IGC Request", logRequest)
+	}
+
+	if params != nil {
+		req.URL.RawQuery = params.Encode()
 	}
 
 	resp, e := c.HTTPClient.Do(req)

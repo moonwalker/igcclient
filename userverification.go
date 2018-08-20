@@ -8,6 +8,6 @@ type UserVerificationService service
 
 // Gets the available verification types for the user's ip. User Verification types can be whitelisted for each country.
 func (s *UserVerificationService) RegistrationTypes(headers map[string]string) (response models.OperationResponseOfListOfCountryVerificationTypeWhitelist, err error) {
-	err = s.client.apiPost("/user/verify/registration/types", nil, &response, &headers)
+	err = s.client.apiPost("/user/verify/registration/types", nil, nil, &response, &headers)
 	return
 }
