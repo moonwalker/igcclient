@@ -7,8 +7,8 @@ import (
 	"net/http"
 
 	"github.com/moonwalker/logger"
-	"strings"
 	"net/url"
+	"strings"
 )
 
 type IGCClient struct {
@@ -40,24 +40,14 @@ type IGCClient struct {
 
 	logRequestBody  bool
 	logResponseData bool
-}
-
-var logBlacklist = []string{
-	"/user",
-	"/v2/authentication/login",
-	"/authentication/change/password",
-	"/authentication/change/email",
-	"/authentication/change/securityquestion",
-	"/authentication/forgotpassword/change/sms",
-	"/authentication/forgotpassword/change",
-	"/v2/authentication/register",
+	logBlacklist    []string
 }
 
 type service struct {
 	client *IGCClient
 }
 
-func NewIGCClient(baseURL string, log logger.Logger, logRequestBody bool, logResponseData bool) (client *IGCClient, err error) {
+func NewIGCClient(baseURL string, log logger.Logger, logRequestBody bool, logResponseData bool, logBlacklist []string) (client *IGCClient, err error) {
 	if baseURL == "" {
 		err = errors.New("base url can not be empty")
 		return
@@ -68,6 +58,7 @@ func NewIGCClient(baseURL string, log logger.Logger, logRequestBody bool, logRes
 		log:             log,
 		logRequestBody:  logRequestBody,
 		logResponseData: logResponseData,
+		logBlacklist:    logBlacklist,
 	}
 
 	client.common.client = client
@@ -94,8 +85,8 @@ func NewIGCClient(baseURL string, log logger.Logger, logRequestBody bool, logRes
 	return
 }
 
-func logPayload(endpoint string) bool {
-	for _, blacklisted := range logBlacklist {
+func (c IGCClient) logPayload(endpoint string) bool {
+	for _, blacklisted := range c.logBlacklist {
 		if strings.Contains(endpoint, blacklisted) {
 			return false
 		}
@@ -110,7 +101,7 @@ func (c IGCClient) apiPost(endpoint string, params *url.Values, body interface{}
 	logRequest := make(map[string]interface{})
 	logResponse := make(map[string]interface{})
 
-	if c.logRequestBody && logPayload(endpoint) {
+	if c.logRequestBody && c.logPayload(endpoint) {
 		logData, err := json.Marshal(body)
 		if err == nil {
 			logRequest["Body"] = string(logData)
