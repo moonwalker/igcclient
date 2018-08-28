@@ -186,7 +186,9 @@ func (s *UserService) SetAffiliateReference(userID int64, affiliateReference str
 	return
 }
 
-func (s *UserService) CloseAccount(headers map[string]string) (response models.OperationResponseOfBoolean, err error) {
-	err = s.client.apiPost("/user/closeaccount", nil, nil, &response, &headers)
+func (s *UserService) CloseAccount(currentPassword string, headers map[string]string) (response models.OperationResponseOfBoolean, err error) {
+	q := url.Values{}
+	q.Add("currentPassword", currentPassword)
+	err = s.client.apiPost("/user/closeaccount", &q, nil, &response, &headers)
 	return
 }
