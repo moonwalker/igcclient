@@ -1,9 +1,10 @@
 package igcclient
 
 import (
-	"net/url"
-	"github.com/moonwalker/igcclient/models"
 	"fmt"
+	"net/url"
+
+	"github.com/moonwalker/igcclient/models"
 )
 
 type UserService service
@@ -190,5 +191,10 @@ func (s *UserService) CloseAccount(currentPassword string, headers map[string]st
 	q := url.Values{}
 	q.Add("currentPassword", currentPassword)
 	err = s.client.apiPost("/user/closeaccount", &q, nil, &response, &headers)
+	return
+}
+
+func (s *UserService) PasswordSetOnce(body models.PasswordRequestDto, headers map[string]string) (response models.OperationResponse, err error) {
+	err = s.client.apiPost("/user/password/setonce", &body, &response, &headers)
 	return
 }
