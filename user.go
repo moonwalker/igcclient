@@ -195,6 +195,6 @@ func (s *UserService) CloseAccount(currentPassword string, headers map[string]st
 }
 
 func (s *UserService) PasswordSetOnce(body models.PasswordRequestDto, headers map[string]string) (response models.OperationResponse, err error) {
-	err = s.client.apiPost("/user/password/setonce", &body, &response, &headers)
+	err = s.client.apiPost("/user/password/setonce", nil, &body, &response, &headers)
 	return
 }
