@@ -115,7 +115,7 @@ func (c IGCClient) apiPost(endpoint string, params *url.Values, body interface{}
 	logRequest := make(map[string]interface{})
 	logResponse := make(map[string]interface{})
 
-	if c.logRequestBody && c.doLog(endpoint, c.logRequestBlacklist) {
+	if c.logRequestBody && body != nil && c.doLog(endpoint, c.logRequestBlacklist) {
 		logRequest["request"] = body
 	}
 
@@ -144,7 +144,7 @@ func (c IGCClient) apiPost(endpoint string, params *url.Values, body interface{}
 	logResponse["query"] = query
 	logRequest["query"] = query
 
-	if c.log != nil && c.doLog(endpoint, c.logBlacklist) {
+	if c.log != nil && (c.doLog(endpoint, c.logBlacklist) || c.debug) {
 		c.log.Info(query+" request", logRequest)
 	}
 
@@ -165,11 +165,11 @@ func (c IGCClient) apiPost(endpoint string, params *url.Values, body interface{}
 
 	err = json.Unmarshal([]byte(s), data)
 
-	if c.logResponseData && c.doLog(endpoint, c.logResponseBlacklist) && err != nil {
+	if c.logResponseData && c.doLog(endpoint, c.logResponseBlacklist){
 		logResponse["response"] = data
 	}
 
-	if c.log != nil && c.doLog(endpoint, c.logBlacklist) {
+	if c.log != nil && (c.doLog(endpoint, c.logBlacklist) || c.debug) {
 		c.log.Info(query+" response", logResponse)
 	}
 
