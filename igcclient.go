@@ -47,13 +47,16 @@ type IGCClient struct {
 	logResponseData      bool
 	logRequestBlacklist  []string
 	logResponseBlacklist []string
+	logBlacklist         []string
+
+	debug bool
 }
 
 type service struct {
 	client *IGCClient
 }
 
-func NewIGCClient(baseURL string, log logger.Logger, logRequestBody bool, logResponseData bool, logRequestBlacklist, logResponseBlacklist []string) (client *IGCClient, err error) {
+func NewIGCClient(baseURL string, log logger.Logger, logRequestBody bool, logResponseData bool, logRequestBlacklist, logResponseBlacklist []string, logBlacklist []string, debug bool) (client *IGCClient, err error) {
 	if baseURL == "" {
 		err = errors.New("base url can not be empty")
 		return
@@ -68,6 +71,8 @@ func NewIGCClient(baseURL string, log logger.Logger, logRequestBody bool, logRes
 		logResponseData:      logResponseData,
 		logRequestBlacklist:  logRequestBlacklist,
 		logResponseBlacklist: logResponseBlacklist,
+		logBlacklist:         logBlacklist,
+		debug:                debug,
 	}
 
 	client.common.client = client
@@ -94,7 +99,7 @@ func NewIGCClient(baseURL string, log logger.Logger, logRequestBody bool, logRes
 	return
 }
 
-func (c IGCClient) logPayload(endpoint string, blacklist []string) bool {
+func (c IGCClient) doLog(endpoint string, blacklist []string) bool {
 	for _, blacklisted := range blacklist {
 		if strings.Contains(strings.ToLower(endpoint), strings.ToLower(blacklisted)) {
 			return false
@@ -110,11 +115,8 @@ func (c IGCClient) apiPost(endpoint string, params *url.Values, body interface{}
 	logRequest := make(map[string]interface{})
 	logResponse := make(map[string]interface{})
 
-	if c.logRequestBody && c.logPayload(endpoint, c.logRequestBlacklist) {
-		logData, err := json.Marshal(body)
-		if err == nil {
-			logRequest["Body"] = string(logData)
-		}
+	if c.logRequestBody && c.doLog(endpoint, c.logRequestBlacklist) {
+		logRequest["request"] = body
 	}
 
 	req, err := http.NewRequest("POST", c.baseURL+endpoint, b)
@@ -127,6 +129,7 @@ func (c IGCClient) apiPost(endpoint string, params *url.Values, body interface{}
 			if v != "" {
 				req.Header.Add(k, v)
 				logRequest[k] = v
+				logResponse[k] = v
 			}
 		}
 	}
@@ -137,13 +140,12 @@ func (c IGCClient) apiPost(endpoint string, params *url.Values, body interface{}
 
 	req.Header.Add("Accept", "application/json")
 
-	logResponse["query"] = endpoint[1:] //don't log the first '/'
-	logRequest["query"] = endpoint[1:]
+	query := endpoint[1:] //don't log the first '/'
+	logResponse["query"] = query
+	logRequest["query"] = query
 
-	logRequest["URL"] = c.baseURL + endpoint
-
-	if c.log != nil {
-		c.log.Info("IGC Request", logRequest)
+	if c.log != nil && c.doLog(endpoint, c.logBlacklist) {
+		c.log.Info(query+" request", logRequest)
 	}
 
 	if params != nil {
@@ -161,16 +163,15 @@ func (c IGCClient) apiPost(endpoint string, params *url.Values, body interface{}
 	buf.ReadFrom(resp.Body)
 	s := buf.String()
 
-	if c.logResponseData && c.logPayload(endpoint, c.logResponseBlacklist) {
-		logResponse["Response"] = s
+	err = json.Unmarshal([]byte(s), data)
+
+	if c.logResponseData && c.doLog(endpoint, c.logResponseBlacklist) && err != nil {
+		logResponse["response"] = data
 	}
 
-	logResponse["StatusCode"] = resp.StatusCode
-	logResponse["URL"] = c.baseURL + endpoint
-
-	if c.log != nil {
-		c.log.Info("IGC Response", logResponse)
+	if c.log != nil && c.doLog(endpoint, c.logBlacklist) {
+		c.log.Info(query+" response", logResponse)
 	}
 
-	return json.Unmarshal([]byte(s), data)
+	return err
 }
