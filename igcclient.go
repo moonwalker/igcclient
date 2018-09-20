@@ -10,6 +10,8 @@ import (
 	"time"
 
 	"github.com/moonwalker/logger"
+	"fmt"
+	"github.com/moonwalker/backend/pkg/log"
 )
 
 const (
@@ -144,16 +146,21 @@ func (c IGCClient) apiPost(endpoint string, params *url.Values, body interface{}
 	logResponse["query"] = query
 	logRequest["query"] = query
 
+
+	if params != nil {
+		req.URL.RawQuery = params.Encode()
+		logRequest["params"] = params.Encode()
+	}
+
 	if c.log != nil && (c.doLog(endpoint, c.logBlacklist) || c.debug) {
 		c.log.Info(query+" request", logRequest)
 	}
 
-	if params != nil {
-		req.URL.RawQuery = params.Encode()
-	}
-
 	resp, e := c.HTTPClient.Do(req)
 	if e != nil {
+		c.log.Info(fmt.Sprintf("failed to make request to igc endpoint %s", query), log.Fields{
+			"error": e,
+		})
 		return e
 	}
 
@@ -171,6 +178,13 @@ func (c IGCClient) apiPost(endpoint string, params *url.Values, body interface{}
 
 	if c.log != nil && (c.doLog(endpoint, c.logBlacklist) || c.debug) {
 		c.log.Info(query+" response", logResponse)
+	}
+
+	if err != nil && c.log != nil {
+		c.log.Info(fmt.Sprintf("failed to parse response from igc endpoint %s", query), log.Fields{
+			"error": err,
+			"response": s,
+		})
 	}
 
 	return err
