@@ -4,12 +4,12 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"net/http"
 	"net/url"
 	"strings"
 	"time"
 
-	"fmt"
 	"github.com/moonwalker/logger"
 )
 
@@ -110,11 +110,10 @@ func (c IGCClient) apiPost(endpoint string, params *url.Values, body interface{}
 	b := new(bytes.Buffer)
 	json.NewEncoder(b).Encode(body)
 
-	logRequest := make(map[string]interface{})
-	logResponse := make(map[string]interface{})
+	logInfo := make(map[string]interface{})
 
 	if c.logRequestBody && body != nil && c.doLog(endpoint, c.logRequestBlacklist) {
-		logRequest["request"] = body
+		logInfo["request"] = body
 	}
 
 	req, err := http.NewRequest("POST", c.baseURL+endpoint, b)
@@ -126,8 +125,7 @@ func (c IGCClient) apiPost(endpoint string, params *url.Values, body interface{}
 		for k, v := range *headers {
 			if v != "" {
 				req.Header.Add(k, v)
-				logRequest[k] = v
-				logResponse[k] = v
+				logInfo[k] = v
 			}
 		}
 	}
@@ -139,26 +137,25 @@ func (c IGCClient) apiPost(endpoint string, params *url.Values, body interface{}
 	req.Header.Add("Accept", "application/json")
 
 	query := endpoint[1:] //don't log the first '/'
-	logResponse["query"] = query
-	logRequest["query"] = query
-
+	logInfo["query"] = query
 
 	if params != nil {
 		req.URL.RawQuery = params.Encode()
-		logRequest["params"] = params.Encode()
+		logInfo["params"] = params.Encode()
 	}
 
-	if log != nil && (c.doLog(endpoint, c.logBlacklist) || c.debug) {
-		log.Info(query+" request", logRequest)
-	}
+	startTime := time.Now()
 
 	resp, e := c.HTTPClient.Do(req)
 	if e != nil {
-		logFields := make(map[string]interface{})
-		logFields["error"] = e
-		log.Info(fmt.Sprintf("failed to make request to igc endpoint %s", query), logFields)
+		logInfo["error"] = e
+		log.Info(fmt.Sprintf("failed to make request to igc endpoint %s", query), logInfo)
 		return e
 	}
+
+	duration := time.Since(startTime)
+
+	logInfo["duration"] = durationToMilliseconds(duration)
 
 	defer resp.Body.Close()
 
@@ -168,12 +165,12 @@ func (c IGCClient) apiPost(endpoint string, params *url.Values, body interface{}
 
 	err = json.Unmarshal([]byte(s), data)
 
-	if c.logResponseData && c.doLog(endpoint, c.logResponseBlacklist){
-		logResponse["response"] = data
+	if c.logResponseData && c.doLog(endpoint, c.logResponseBlacklist) {
+		logInfo["response"] = data
 	}
 
 	if log != nil && (c.doLog(endpoint, c.logBlacklist) || c.debug) {
-		log.Info(query+" response", logResponse)
+		log.Info(query+" request", logInfo)
 	}
 
 	if err != nil && log != nil {
@@ -184,4 +181,8 @@ func (c IGCClient) apiPost(endpoint string, params *url.Values, body interface{}
 	}
 
 	return err
+}
+
+func durationToMilliseconds(duration time.Duration) float32 {
+	return float32(duration.Nanoseconds()/1000) / 1000
 }
