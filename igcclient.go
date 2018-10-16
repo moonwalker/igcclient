@@ -55,7 +55,7 @@ type service struct {
 	client *IGCClient
 }
 
-func NewIGCClient(baseURL string, log logger.Logger, logRequestBody bool, logResponseData bool, logRequestBlacklist, logResponseBlacklist []string, logBlacklist []string, debug bool) (client *IGCClient, err error) {
+func NewIGCClient(baseURL string, logRequestBody bool, logResponseData bool, logRequestBlacklist, logResponseBlacklist []string, logBlacklist []string, debug bool) (client *IGCClient, err error) {
 	if baseURL == "" {
 		err = errors.New("base url can not be empty")
 		return
