@@ -9,9 +9,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/moonwalker/logger"
 	"fmt"
-	"github.com/moonwalker/backend/pkg/log"
+	"github.com/moonwalker/logger"
 )
 
 const (
@@ -43,8 +42,6 @@ type IGCClient struct {
 	Validation        *ValidationService
 	Wallet            *WalletService
 
-	log logger.Logger
-
 	logRequestBody       bool
 	logResponseData      bool
 	logRequestBlacklist  []string
@@ -68,7 +65,6 @@ func NewIGCClient(baseURL string, log logger.Logger, logRequestBody bool, logRes
 			Timeout: timeout,
 		},
 		baseURL:              baseURL,
-		log:                  log,
 		logRequestBody:       logRequestBody,
 		logResponseData:      logResponseData,
 		logRequestBlacklist:  logRequestBlacklist,
@@ -110,7 +106,7 @@ func (c IGCClient) doLog(endpoint string, blacklist []string) bool {
 	return true
 }
 
-func (c IGCClient) apiPost(endpoint string, params *url.Values, body interface{}, data interface{}, headers *map[string]string) error {
+func (c IGCClient) apiPost(endpoint string, params *url.Values, body interface{}, data interface{}, headers *map[string]string, log logger.Logger) error {
 	b := new(bytes.Buffer)
 	json.NewEncoder(b).Encode(body)
 
@@ -152,15 +148,15 @@ func (c IGCClient) apiPost(endpoint string, params *url.Values, body interface{}
 		logRequest["params"] = params.Encode()
 	}
 
-	if c.log != nil && (c.doLog(endpoint, c.logBlacklist) || c.debug) {
-		c.log.Info(query+" request", logRequest)
+	if log != nil && (c.doLog(endpoint, c.logBlacklist) || c.debug) {
+		log.Info(query+" request", logRequest)
 	}
 
 	resp, e := c.HTTPClient.Do(req)
 	if e != nil {
-		c.log.Info(fmt.Sprintf("failed to make request to igc endpoint %s", query), log.Fields{
-			"error": e,
-		})
+		logFields := make(map[string]interface{})
+		logFields["error"] = e
+		log.Info(fmt.Sprintf("failed to make request to igc endpoint %s", query), logFields)
 		return e
 	}
 
@@ -176,15 +172,15 @@ func (c IGCClient) apiPost(endpoint string, params *url.Values, body interface{}
 		logResponse["response"] = data
 	}
 
-	if c.log != nil && (c.doLog(endpoint, c.logBlacklist) || c.debug) {
-		c.log.Info(query+" response", logResponse)
+	if log != nil && (c.doLog(endpoint, c.logBlacklist) || c.debug) {
+		log.Info(query+" response", logResponse)
 	}
 
-	if err != nil && c.log != nil {
-		c.log.Info(fmt.Sprintf("failed to parse response from igc endpoint %s", query), log.Fields{
-			"error": err,
-			"response": s,
-		})
+	if err != nil && log != nil {
+		logFields := make(map[string]interface{})
+		logFields["error"] = err
+		logFields["response"] = s
+		log.Info(fmt.Sprintf("failed to parse response from igc endpoint %s", query), logFields)
 	}
 
 	return err
