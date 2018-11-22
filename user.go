@@ -188,10 +188,9 @@ func (s *UserService) SetAffiliateReference(userID int64, affiliateReference str
 	return
 }
 
-func (s *UserService) CloseAccount(currentPassword string, headers map[string]string, log logger.Logger) (response models.OperationResponseOfBoolean, err error) {
-	q := url.Values{}
-	q.Add("currentPassword", currentPassword)
-	err = s.client.apiPost("/user/closeaccount", &q, nil, &response, &headers, log)
+// Close user's account at their request. Requires user's date of birth to proceed Errors: USER_NOT_FOUND if user does not exist. INVALID_DATE_RANGE if date of birth is Empty/Incorrect. INVALID_DOB if date of birth is incorrect.
+func (s *UserService) CloseAccount(body models.CloseAccountDOBRequestDto, headers map[string]string, log logger.Logger) (response models.OperationResponseOfBoolean, err error) {
+	err = s.client.apiPost("/v2/user/closeaccount", nil, &body, &response, &headers, log)
 	return
 }
 
