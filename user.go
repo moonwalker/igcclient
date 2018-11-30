@@ -90,7 +90,7 @@ func (s *UserService) User(headers map[string]string, log logger.Logger) (respon
 }
 
 // Get the logged in user using the Authentication Token
-func (s *UserService) UserV2(headers map[string]string, log logger.Logger) (response models.OperationResponseOfUserResponseDto, err error) {
+func (s *UserService) UserV2(headers map[string]string, log logger.Logger) (response models.OperationResponseOfUserResponseDTO, err error) {
 	err = s.client.apiPost("/v2/user", nil, nil, &response, &headers, log)
 	return
 }
