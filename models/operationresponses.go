@@ -85,11 +85,6 @@ type OperationResponseOfCurrenciesObject struct {
 	Data *CurrenciesObject `json:"Data"`
 }
 
-type OperationResponseOfListOfCountryVerificationTypeWhitelist struct {
-	*OperationResponse
-	Data *[]CountryVerificationTypeWhitelist `json:"Data"`
-}
-
 type OperationResponseOfDictionaryOfStringAndString struct {
 	*OperationResponse
 	Data *map[string]string `json:"Data"`
@@ -328,4 +323,9 @@ type OperationResponseOfIEnumerableOfGameTransactionModel struct {
 type OperationResponseOfAuthResponseDTO struct {
 	*OperationResponse
 	Data *AuthResponseDTO `json:"Data"`
+}
+
+type OperationResponseOfUserResponseDTO struct {
+	*OperationResponse
+	Data *UserResponseDTO `json:"data"`
 }

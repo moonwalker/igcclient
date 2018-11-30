@@ -89,6 +89,12 @@ func (s *UserService) User(headers map[string]string, log logger.Logger) (respon
 	return
 }
 
+// Get the logged in user using the Authentication Token
+func (s *UserService) UserV2(headers map[string]string, log logger.Logger) (response models.OperationResponseOfUserResponseDto, err error) {
+	err = s.client.apiPost("/v2/user", nil, nil, &response, &headers, log)
+	return
+}
+
 // Get user using the userID
 func (s *UserService) UserByID(userID int64, headers map[string]string, log logger.Logger) (response models.OperationResponseOfSafeUserDetails, err error) {
 	q := url.Values{}
