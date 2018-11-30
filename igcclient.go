@@ -38,7 +38,6 @@ type IGCClient struct {
 	Roles             *RolesService
 	SecurityQuestions *SecurityQuestionsService
 	User              *UserService
-	UserVerification  *UserVerificationService
 	Validation        *ValidationService
 	Wallet            *WalletService
 
@@ -90,7 +89,6 @@ func NewIGCClient(baseURL string, logRequestBody bool, logResponseData bool, log
 	client.Roles = (*RolesService)(&client.common)
 	client.SecurityQuestions = (*SecurityQuestionsService)(&client.common)
 	client.User = (*UserService)(&client.common)
-	client.UserVerification = (*UserVerificationService)(&client.common)
 	client.Validation = (*ValidationService)(&client.common)
 	client.Wallet = (*WalletService)(&client.common)
 
