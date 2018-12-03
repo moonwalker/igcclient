@@ -3,6 +3,7 @@ package igcclient
 import (
 	"github.com/moonwalker/igcclient/models"
 	"github.com/moonwalker/logger"
+	"net/http"
 )
 
 type IPWhoisService service
