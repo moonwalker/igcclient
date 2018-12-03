@@ -2,6 +2,7 @@ package igcclient
 
 import (
 	"fmt"
+	"net/http"
 	"net/url"
 
 	"github.com/moonwalker/igcclient/models"
@@ -14,19 +15,19 @@ type ConsentService service
 func (s *ConsentService) GetConsents(languageAlpha2Code string, headers map[string]string, log logger.Logger) (response models.OperationResponseOfListOfPublicConsentModel, err error) {
 	q := url.Values{}
 	q.Add("languageAlpha2Code", languageAlpha2Code)
-	err = s.client.apiPost("/Consent/GetConsents", &q, nil, &response, &headers, log)
+	err = s.client.apiReq(http.MethodPost, "/Consent/GetConsents", &q, nil, &response, &headers, log)
 	return
 }
 
 // Checks if user has any pending mandatory consents
 func (s *ConsentService) HasPendingConsents(headers map[string]string, log logger.Logger) (response models.OperationResponseOfBoolean, err error) {
-	err = s.client.apiPost("/Consent/HasPendingConsents", nil, nil, &response, &headers, log)
+	err = s.client.apiReq(http.MethodPost, "/Consent/HasPendingConsents", nil, nil, &response, &headers, log)
 	return
 }
 
 // Checks if user has any migrated consents that require and update
 func (s *ConsentService) RequiresLegacyUpdate(headers map[string]string, log logger.Logger) (response models.OperationResponseOfBoolean, err error) {
-	err = s.client.apiPost("/Consent/RequiresLegacyUpdate", nil, nil, &response, &headers, log)
+	err = s.client.apiReq(http.MethodPost, "/Consent/RequiresLegacyUpdate", nil, nil, &response, &headers, log)
 	return
 }
 
@@ -34,7 +35,7 @@ func (s *ConsentService) RequiresLegacyUpdate(headers map[string]string, log log
 func (s *ConsentService) UserPendingConsents(languageAlpha2Code string, headers map[string]string, log logger.Logger) (response models.OperationResponseOfPublicUserConsentsListModel, err error) {
 	q := url.Values{}
 	q.Add("languageAlpha2Code", languageAlpha2Code)
-	err = s.client.apiPost("/Consent/UserPendingConsents", &q, nil, &response, &headers, log)
+	err = s.client.apiReq(http.MethodPost, "/Consent/UserPendingConsents", &q, nil, &response, &headers, log)
 	return
 }
 
@@ -42,7 +43,7 @@ func (s *ConsentService) UserPendingConsents(languageAlpha2Code string, headers 
 func (s *ConsentService) SaveUserConsents(body []models.ConsentVersionSaveModel, userID int64, headers map[string]string, log logger.Logger) (response models.OperationResponseOfBoolean, err error) {
 	q := url.Values{}
 	q.Add("userId", fmt.Sprintf("%d", userID))
-	err = s.client.apiPost("/Consent/SaveUserConsents", &q, &body, &response, &headers, log)
+	err = s.client.apiReq(http.MethodPost, "/Consent/SaveUserConsents", &q, &body, &response, &headers, log)
 	return
 }
 
@@ -50,7 +51,7 @@ func (s *ConsentService) SaveUserConsents(body []models.ConsentVersionSaveModel,
 func (s *ConsentService) UserConsents(languageAlpha2Code string, headers map[string]string, log logger.Logger) (response models.OperationResponseOfPublicUserConsentsListModel, err error) {
 	q := url.Values{}
 	q.Add("languageAlpha2Code", languageAlpha2Code)
-	err = s.client.apiPost("/Consent/UserConsents", &q, nil, &response, &headers, log)
+	err = s.client.apiReq(http.MethodPost, "/Consent/UserConsents", &q, nil, &response, &headers, log)
 	return
 }
 
@@ -59,6 +60,6 @@ func (s *ConsentService) Unsubscribe(triggerCode string, userID int64, headers m
 	q := url.Values{}
 	q.Add("triggerCode", triggerCode)
 	q.Add("userId", fmt.Sprintf("%d", userID))
-	err = s.client.apiPost("/Consent/Unsubscribe", &q, nil, &response, &headers, log)
+	err = s.client.apiReq(http.MethodPost, "/Consent/Unsubscribe", &q, nil, &response, &headers, log)
 	return
 }

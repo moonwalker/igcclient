@@ -1,6 +1,7 @@
 package igcclient
 
 import (
+	"net/http"
 	"net/url"
 	"strconv"
 
@@ -16,7 +17,7 @@ func (s *ValidationService) Mobile(body models.ValidationMobileModel, ignoreExis
 	ignore := strconv.FormatBool(ignoreExisting)
 	q := url.Values{}
 	q.Add("ignoreExisting", ignore)
-	err = s.client.apiPost("/validate/mobile", &q, &body, &response, &headers, log)
+	err = s.client.apiReq(http.MethodPost, "/validate/mobile", &q, &body, &response, &headers, log)
 	return
 }
 
@@ -26,7 +27,7 @@ func (s *ValidationService) Username(body models.ValidationUsernameModel, ignore
 	ignore := strconv.FormatBool(ignoreExisting)
 	q := url.Values{}
 	q.Add("ignoreExisting", ignore)
-	err = s.client.apiPost("/validate/username", &q, &body, &response, &headers, log)
+	err = s.client.apiReq(http.MethodPost, "/validate/username", &q, &body, &response, &headers, log)
 	return
 }
 
@@ -36,6 +37,6 @@ func (s *ValidationService) Email(body models.ValidationEmailModel, ignoreExisti
 	ignore := strconv.FormatBool(ignoreExisting)
 	q := url.Values{}
 	q.Add("ignoreExisting", ignore)
-	err = s.client.apiPost("/validate/email", &q, &body, &response, &headers, log)
+	err = s.client.apiReq(http.MethodPost, "/validate/email", &q, &body, &response, &headers, log)
 	return
 }

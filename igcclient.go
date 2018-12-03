@@ -104,7 +104,7 @@ func (c IGCClient) doLog(endpoint string, blacklist []string) bool {
 	return true
 }
 
-func (c IGCClient) apiPost(endpoint string, params *url.Values, body interface{}, data interface{}, headers *map[string]string, log logger.Logger) error {
+func (c IGCClient) apiReq(method, endpoint string, params *url.Values, body interface{}, data interface{}, headers *map[string]string, log logger.Logger) error {
 	b := new(bytes.Buffer)
 	json.NewEncoder(b).Encode(body)
 
@@ -114,7 +114,9 @@ func (c IGCClient) apiPost(endpoint string, params *url.Values, body interface{}
 		logInfo["request"] = body
 	}
 
-	req, err := http.NewRequest("POST", c.baseURL+endpoint, b)
+	logInfo["method"] = method
+
+	req, err := http.NewRequest(method, c.baseURL+endpoint, b)
 	if err != nil {
 		return err
 	}

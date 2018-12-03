@@ -2,6 +2,7 @@ package igcclient
 
 import (
 	"fmt"
+	"net/http"
 	"net/url"
 
 	"github.com/moonwalker/igcclient/models"
@@ -14,12 +15,12 @@ type RolesService service
 func (s *RolesService) RolesByUserID(userID int64, headers map[string]string, log logger.Logger) (response models.OperationResponseOfIEnumerableOfRoleResponse, err error) {
 	q := url.Values{}
 	q.Add("userId", fmt.Sprintf("%d", userID))
-	err = s.client.apiPost("/roles/user", &q, nil, &response, &headers, log)
+	err = s.client.apiReq(http.MethodPost, "/roles/user", &q, nil, &response, &headers, log)
 	return
 }
 
 // Fetches all existing roles.
 func (s *RolesService) Roles(headers map[string]string, log logger.Logger) (response models.OperationResponseOfIEnumerableOfRoleResponse, err error) {
-	err = s.client.apiPost("/roles", nil, nil, &response, &headers, log)
+	err = s.client.apiReq(http.MethodPost, "/roles", nil, nil, &response, &headers, log)
 	return
 }
