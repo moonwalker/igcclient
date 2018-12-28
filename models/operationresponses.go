@@ -329,3 +329,8 @@ type OperationResponseOfUserResponseDTO struct {
 	*OperationResponse
 	Data *UserResponseDTO `json:"data"`
 }
+
+type OperationResponseOfUserRgStatsResponseDTO struct {
+	*OperationResponse
+	Data *UserRgStatsResponseDTO `json:"data"`
+}

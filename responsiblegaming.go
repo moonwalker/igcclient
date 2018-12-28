@@ -82,3 +82,16 @@ func (s *ResponsibleGamingService) GetLimits(headers map[string]string, log logg
 	err = s.client.apiReq(http.MethodPost, "/v2/ResponsibleGaming/Limits/GetLimits", nil, nil, &response, &headers, log)
 	return
 }
+
+//This api will provide the configured deposit limits information and the total win/loss during the past period of input months
+func (s *ResponsibleGamingService) UserPlayStatsAndLimits(months int64, headers map[string]string, log logger.Logger) (response models.OperationResponseOfUserRgStatsResponseDTO, err error) {
+	if months < 1 {
+		months = 1
+	} else if months > 12 {
+		months = 12
+	}
+	q := url.Values{}
+	q.Add("months", fmt.Sprintf("%d", months))
+	err = s.client.apiReq(http.MethodPost, "/v2/ResponsibleGaming/userPlayStatsAndLimits/GetLimits", &q, nil, &response, &headers, log)
+	return
+}
