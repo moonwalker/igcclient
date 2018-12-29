@@ -92,6 +92,6 @@ func (s *ResponsibleGamingService) UserPlayStatsAndLimits(months int64, headers 
 	}
 	q := url.Values{}
 	q.Add("months", fmt.Sprintf("%d", months))
-	err = s.client.apiReq(http.MethodPost, "/v2/ResponsibleGaming/userPlayStatsAndLimits/GetLimits", &q, nil, &response, &headers, log)
+	err = s.client.apiReq(http.MethodPost, "/v2/ResponsibleGaming/userPlayStatsAndLimits", &q, nil, &response, &headers, log)
 	return
 }
