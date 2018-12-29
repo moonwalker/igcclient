@@ -106,7 +106,7 @@ func (s *UserService) UserByID(userID int64, headers map[string]string, log logg
 
 // Get user last logins
 func (s *UserService) GetLoginHistory(headers map[string]string, log logger.Logger) (response models.OperationResponseOfListOfDBTokenIP, err error) {
-	err = s.client.apiReq(http.MethodPost, "/user/getloginhistory", nil, nil, &response, &headers, log)
+	err = s.client.apiReq(http.MethodGet, "/user/getloginhistory", nil, nil, &response, &headers, log)
 	return
 }
 
