@@ -140,48 +140,6 @@ func (s *UserService) CheckCombination(body models.UserObject, headers map[strin
 	return
 }
 
-// Retrieves the list of available limit durations.
-func (s *UserService) LimitsGetLimitDurations(headers map[string]string, log logger.Logger) (response models.OperationResponseOfIEnumerableOfLimitDurationObject, err error) {
-	err = s.client.apiReq(http.MethodPost, "/user/limits/getlimitdurations", nil, nil, &response, &headers, log)
-	return
-}
-
-// Retrieves the list of available limits.
-func (s *UserService) LimitsGetLimits(headers map[string]string, log logger.Logger) (response models.OperationResponseOfIEnumerableOfLimit, err error) {
-	err = s.client.apiReq(http.MethodPost, "/user/limits/getlimits", nil, nil, &response, &headers, log)
-	return
-}
-
-// Get limits for the user with the user id provided
-func (s *UserService) LimitsGetUserLimitsByUserID(userID int64, headers map[string]string, log logger.Logger) (response models.OperationResponseOfIEnumerableOfUserLimit, err error) {
-	q := url.Values{}
-	q.Add("userid", fmt.Sprintf("%d", userID))
-	err = s.client.apiReq(http.MethodPost, "/user/limits/getuserlimits", &q, nil, &response, &headers, log)
-	return
-}
-
-// Get limits for the current logged in user
-func (s *UserService) LimitsGetUserLimits(headers map[string]string, log logger.Logger) (response models.OperationResponseOfIEnumerableOfUserLimit, err error) {
-	err = s.client.apiReq(http.MethodPost, "/user/limits/getuserlimits", nil, nil, &response, &headers, log)
-	return
-}
-
-// Set limit for user logged in
-// USER_LIMIT_INVALID error expected if limit is set with no duration and is not of type session,
-// stake per session or max stake per bet.
-func (s *UserService) LimitsSetUserLimit(body models.SetUserLimitModel, headers map[string]string, log logger.Logger) (response models.OperationResponseOfBoolean, err error) {
-	err = s.client.apiReq(http.MethodPost, "/user/limits/setuserlimit", nil, &body, &response, &headers, log)
-	return
-}
-
-// Set multiple limits for the logged in user
-// USER_LIMIT_INVALID eror expected if limit is set with no duration and is not of type session,
-// stake per session or max stake per bet.
-func (s *UserService) LimitsSetUserLimits(body []models.SetUserLimitModel, headers map[string]string, log logger.Logger) (response models.OperationResponseOfBoolean, err error) {
-	err = s.client.apiReq(http.MethodPost, "/user/limits/setuserlimits", nil, &body, &response, &headers, log)
-	return
-}
-
 // Associates a user with an affiliate reference.
 // Errors:
 // 	USER_NOT_FOUND if user does not exist.
