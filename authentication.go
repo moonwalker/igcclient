@@ -112,7 +112,7 @@ func (s *AuthenticationService) ChangeSecurityQuestion(body models.ChangeSecurit
 
 // Start Forgot Password Process
 func (s *AuthenticationService) ForgotPassword(body models.ResetPasswordModel, headers map[string]string, log logger.Logger) (response models.OperationResponse, err error) {
-	err = s.client.apiReq(http.MethodPost, "v2/authentication/forgotpassword", nil, &body, &response, &headers, log)
+	err = s.client.apiReq(http.MethodPost, "/v2/authentication/forgotpassword", nil, &body, &response, &headers, log)
 	return
 }
 
