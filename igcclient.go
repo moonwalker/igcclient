@@ -97,7 +97,7 @@ func NewIGCClient(baseURL string, logRequestBody bool, logResponseData bool, log
 
 func (c IGCClient) doLog(endpoint string, blacklist []string) bool {
 	for _, blacklisted := range blacklist {
-		if strings.Contains(strings.ToLower(endpoint), strings.ToLower(blacklisted)) {
+		if strings.HasPrefix(strings.ToLower(endpoint), strings.ToLower(blacklisted)) {
 			return false
 		}
 	}
