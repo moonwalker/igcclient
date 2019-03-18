@@ -88,7 +88,7 @@ func (s *AuthenticationService) AllowIP(body models.AllowIPModel, headers map[st
 
 // Get security question for email
 func (s *AuthenticationService) SecurityQuestion(body models.EmailModel, headers map[string]string, log logger.Logger) (response models.OperationResponseOfSecurityQuestion, err error) {
-	err = s.client.apiReq(http.MethodPost, "/authentication/securityquestion", nil, &body, &response, &headers, log)
+	err = s.client.apiReq(http.MethodPost, "/v2/authentication/securityquestion", nil, &body, &response, &headers, log)
 	return
 }
 
@@ -106,7 +106,7 @@ func (s *AuthenticationService) ChangeEmail(body models.ChangeEmailModel, header
 
 // Change User's Security Question
 func (s *AuthenticationService) ChangeSecurityQuestion(body models.ChangeSecurityQuestionModel, headers map[string]string, log logger.Logger) (response models.OperationResponse, err error) {
-	err = s.client.apiReq(http.MethodPost, "/authentication/change/securityquestion", nil, &body, &response, &headers, log)
+	err = s.client.apiReq(http.MethodPost, "/v2/authentication/change/securityquestion", nil, &body, &response, &headers, log)
 	return
 }
 
