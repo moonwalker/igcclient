@@ -11,6 +11,9 @@ import (
 	"time"
 
 	"github.com/moonwalker/logger"
+
+	igcerr "github.com/moonwalker/igcclient/errors"
+	"github.com/moonwalker/igcclient/models"
 )
 
 const (
@@ -48,14 +51,26 @@ type IGCClient struct {
 	logBlacklist         []string
 
 	debug bool
+
+	invalidAuthCallback func(string)
 }
 
 type service struct {
 	client *IGCClient
 }
 
-func NewIGCClient(baseURL string, logRequestBody bool, logResponseData bool, logRequestBlacklist, logResponseBlacklist []string, logBlacklist []string, debug bool) (client *IGCClient, err error) {
-	if baseURL == "" {
+type Config struct {
+	BaseURL              string
+	LogRequestBody       bool
+	LogResponseData      bool
+	LogRequestBlacklist  []string
+	LogResponseBlacklist []string
+	LogBlacklist         []string
+	Debug                bool
+}
+
+func NewIGCClient(cfg Config) (client *IGCClient, err error) {
+	if cfg.BaseURL == "" {
 		err = errors.New("base url can not be empty")
 		return
 	}
@@ -63,13 +78,13 @@ func NewIGCClient(baseURL string, logRequestBody bool, logResponseData bool, log
 		HTTPClient: &http.Client{
 			Timeout: timeout,
 		},
-		baseURL:              baseURL,
-		logRequestBody:       logRequestBody,
-		logResponseData:      logResponseData,
-		logRequestBlacklist:  logRequestBlacklist,
-		logResponseBlacklist: logResponseBlacklist,
-		logBlacklist:         logBlacklist,
-		debug:                debug,
+		baseURL:              cfg.BaseURL,
+		logRequestBody:       cfg.LogRequestBody,
+		logResponseData:      cfg.LogResponseData,
+		logRequestBlacklist:  cfg.LogRequestBlacklist,
+		logResponseBlacklist: cfg.LogResponseBlacklist,
+		logBlacklist:         cfg.LogBlacklist,
+		debug:                cfg.Debug,
 	}
 
 	client.common.client = client
@@ -164,6 +179,18 @@ func (c IGCClient) apiReq(method, endpoint string, params *url.Values, body inte
 	s := buf.String()
 
 	err = json.Unmarshal([]byte(s), data)
+
+	if data != nil && data.(models.OperationResponse).Errors != nil {
+		for _, e := range *data.(models.OperationResponse).Errors {
+			if e.ErrorCodeID != nil && *e.ErrorCodeID == igcerr.INVALID_AUTHENTICATION_TOKEN {
+				// User is not logged in
+				if headers != nil {
+					authToken := (*headers)["AuthenticationToken"]
+					c.invalidAuthCallback(authToken)
+				}
+			}
+		}
+	}
 
 	if c.logResponseData && c.doLog(endpoint, c.logResponseBlacklist) {
 		logInfo["response"] = data
