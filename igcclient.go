@@ -193,7 +193,11 @@ func (c IGCClient) apiReq(method, endpoint string, params *url.Values, body inte
 	}
 
 	if c.logResponseData && c.doLog(endpoint, c.logResponseBlacklist) {
-		logInfo["response"] = data
+		if len([]byte(s)) < 20000 {
+			logInfo["response"] = data
+		} else {
+			logInfo["response"] = "response data to large for log (>=20k byte)"
+		}
 	}
 
 	if log != nil && (c.doLog(endpoint, c.logBlacklist) || c.debug) {
