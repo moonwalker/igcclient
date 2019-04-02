@@ -52,7 +52,7 @@ type IGCClient struct {
 
 	debug bool
 
-	invalidAuthCallback func(string)
+	invalidAuthCallback *func(string)
 }
 
 type service struct {
@@ -67,6 +67,7 @@ type Config struct {
 	LogResponseBlacklist []string
 	LogBlacklist         []string
 	Debug                bool
+	InvalidAuthCallback  *func(string)
 }
 
 func NewIGCClient(cfg Config) (client *IGCClient, err error) {
@@ -85,6 +86,7 @@ func NewIGCClient(cfg Config) (client *IGCClient, err error) {
 		logResponseBlacklist: cfg.LogResponseBlacklist,
 		logBlacklist:         cfg.LogBlacklist,
 		debug:                cfg.Debug,
+		invalidAuthCallback:  cfg.InvalidAuthCallback,
 	}
 
 	client.common.client = client
@@ -180,13 +182,15 @@ func (c IGCClient) apiReq(method, endpoint string, params *url.Values, body inte
 
 	err = json.Unmarshal([]byte(s), data)
 
-	if data != nil && data.(models.OperationResponse).Errors != nil {
-		for _, e := range *data.(models.OperationResponse).Errors {
-			if e.ErrorCodeID != nil && *e.ErrorCodeID == igcerr.INVALID_AUTHENTICATION_TOKEN {
-				// User is not logged in
-				if headers != nil {
-					authToken := (*headers)["AuthenticationToken"]
-					c.invalidAuthCallback(authToken)
+	if c.invalidAuthCallback != nil {
+		if data != nil && data.(models.OperationResponse).Errors != nil {
+			for _, e := range *data.(models.OperationResponse).Errors {
+				if e.ErrorCodeID != nil && *e.ErrorCodeID == igcerr.INVALID_AUTHENTICATION_TOKEN {
+					// User is not logged in
+					if headers != nil {
+						authToken := (*headers)["AuthenticationToken"]
+						(*c.invalidAuthCallback)(authToken)
+					}
 				}
 			}
 		}
