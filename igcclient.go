@@ -178,23 +178,15 @@ func (c IGCClient) apiReq(method, endpoint string, params *url.Values, body inte
 
 	buf := new(bytes.Buffer)
 	buf.ReadFrom(resp.Body)
-	s := buf.String()
+	s := buf.Bytes()
 
-	err = json.Unmarshal([]byte(s), data)
+	if headers != nil && (*headers)["AuthenticationToken"] != "" {
+		authToken := (*headers)["AuthenticationToken"]
+		c.checkForAuthError(s, authToken)
 
-	if c.invalidAuthCallback != nil {
-		if data != nil && data.(models.OperationResponse).Errors != nil {
-			for _, e := range *data.(models.OperationResponse).Errors {
-				if e.ErrorCodeID != nil && *e.ErrorCodeID == igcerr.INVALID_AUTHENTICATION_TOKEN {
-					// User is not logged in
-					if headers != nil {
-						authToken := (*headers)["AuthenticationToken"]
-						(*c.invalidAuthCallback)(authToken)
-					}
-				}
-			}
-		}
 	}
+
+	err = json.Unmarshal(s, data)
 
 	if c.logResponseData && c.doLog(endpoint, c.logResponseBlacklist) {
 		if len([]byte(s)) < 20000 {
@@ -216,6 +208,20 @@ func (c IGCClient) apiReq(method, endpoint string, params *url.Values, body inte
 	}
 
 	return err
+}
+
+func (c IGCClient) checkForAuthError(data []byte, authToken string) {
+	if c.invalidAuthCallback != nil {
+		d := &models.OperationResponse{}
+		if d.Errors != nil {
+			for _, e := range *d.Errors {
+				if e.ErrorCodeID != nil && *e.ErrorCodeID == igcerr.INVALID_AUTHENTICATION_TOKEN {
+					// User is not logged in
+					(*c.invalidAuthCallback)(authToken)
+				}
+			}
+		}
+	}
 }
 
 func durationToMilliseconds(duration time.Duration) float32 {
