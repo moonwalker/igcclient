@@ -108,6 +108,6 @@ func (s *ResponsibleGamingService) UserPlayStatsAndLimits(months int64, headers 
 func (s *ResponsibleGamingService) GetEndDateOfActiveResponsibleUserBlocks(userID int64, headers map[string]string, log logger.Logger) (response models.OperationResponseOfUserBlockResponseDTO, err error) {
 	q := url.Values{}
 	q.Add("userId", fmt.Sprintf("%d", userID))
-	err = s.client.apiReq(http.MethodPost, "v2/ResponsibleGaming/GetEndDateOfActiveResponsibleUserBlocks", &q, nil, &response, &headers, log)
+	err = s.client.apiReq(http.MethodPost, "/v2/ResponsibleGaming/GetEndDateOfActiveResponsibleUserBlocks", &q, nil, &response, &headers, log)
 	return
 }
