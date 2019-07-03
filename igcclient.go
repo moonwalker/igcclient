@@ -11,6 +11,9 @@ import (
 	"time"
 
 	"github.com/moonwalker/logger"
+
+	igcerr "github.com/moonwalker/igcclient/errors"
+	"github.com/moonwalker/igcclient/models"
 )
 
 const (
@@ -49,14 +52,27 @@ type IGCClient struct {
 	logBlacklist         []string
 
 	debug bool
+
+	invalidAuthCallback *func(string)
 }
 
 type service struct {
 	client *IGCClient
 }
 
-func NewIGCClient(baseURL string, logRequestBody bool, logResponseData bool, logRequestBlacklist, logResponseBlacklist []string, logBlacklist []string, debug bool) (client *IGCClient, err error) {
-	if baseURL == "" {
+type Config struct {
+	BaseURL              string
+	LogRequestBody       bool
+	LogResponseData      bool
+	LogRequestBlacklist  []string
+	LogResponseBlacklist []string
+	LogBlacklist         []string
+	Debug                bool
+	InvalidAuthCallback  *func(string)
+}
+
+func NewIGCClient(cfg Config) (client *IGCClient, err error) {
+	if cfg.BaseURL == "" {
 		err = errors.New("base url can not be empty")
 		return
 	}
@@ -64,13 +80,14 @@ func NewIGCClient(baseURL string, logRequestBody bool, logResponseData bool, log
 		HTTPClient: &http.Client{
 			Timeout: timeout,
 		},
-		baseURL:              baseURL,
-		logRequestBody:       logRequestBody,
-		logResponseData:      logResponseData,
-		logRequestBlacklist:  logRequestBlacklist,
-		logResponseBlacklist: logResponseBlacklist,
-		logBlacklist:         logBlacklist,
-		debug:                debug,
+		baseURL:              cfg.BaseURL,
+		logRequestBody:       cfg.LogRequestBody,
+		logResponseData:      cfg.LogResponseData,
+		logRequestBlacklist:  cfg.LogRequestBlacklist,
+		logResponseBlacklist: cfg.LogResponseBlacklist,
+		logBlacklist:         cfg.LogBlacklist,
+		debug:                cfg.Debug,
+		invalidAuthCallback:  cfg.InvalidAuthCallback,
 	}
 
 	client.common.client = client
@@ -163,12 +180,22 @@ func (c IGCClient) apiReq(method, endpoint string, params *url.Values, body inte
 
 	buf := new(bytes.Buffer)
 	buf.ReadFrom(resp.Body)
-	s := buf.String()
+	s := buf.Bytes()
 
-	err = json.Unmarshal([]byte(s), data)
+	if headers != nil && (*headers)["AuthenticationToken"] != "" {
+		authToken := (*headers)["AuthenticationToken"]
+		c.checkForAuthError(s, authToken)
+
+	}
+
+	err = json.Unmarshal(s, data)
 
 	if c.logResponseData && c.doLog(endpoint, c.logResponseBlacklist) {
-		logInfo["response"] = data
+		if len([]byte(s)) < 20000 {
+			logInfo["response"] = data
+		} else {
+			logInfo["response"] = "response data to large for log (>=20k byte)"
+		}
 	}
 
 	if log != nil && (c.doLog(endpoint, c.logBlacklist) || c.debug) {
@@ -183,6 +210,20 @@ func (c IGCClient) apiReq(method, endpoint string, params *url.Values, body inte
 	}
 
 	return err
+}
+
+func (c IGCClient) checkForAuthError(data []byte, authToken string) {
+	if c.invalidAuthCallback != nil {
+		d := &models.OperationResponse{}
+		if d.Errors != nil {
+			for _, e := range *d.Errors {
+				if e.ErrorCodeID != nil && *e.ErrorCodeID == igcerr.INVALID_AUTHENTICATION_TOKEN {
+					// User is not logged in
+					(*c.invalidAuthCallback)(authToken)
+				}
+			}
+		}
+	}
 }
 
 func durationToMilliseconds(duration time.Duration) float32 {

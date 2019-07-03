@@ -103,3 +103,11 @@ func (s *ResponsibleGamingService) UserPlayStatsAndLimits(months int64, headers 
 	err = s.client.apiReq(http.MethodPost, "/v2/ResponsibleGaming/userPlayStatsAndLimits", &q, nil, &response, &headers, log)
 	return
 }
+
+//Get the last to expire Active Responsible User Blocks end date of a user.
+func (s *ResponsibleGamingService) GetEndDateOfActiveResponsibleUserBlocks(userID int64, headers map[string]string, log logger.Logger) (response models.OperationResponseOfUserBlockResponseDTO, err error) {
+	q := url.Values{}
+	q.Add("userId", fmt.Sprintf("%d", userID))
+	err = s.client.apiReq(http.MethodPost, "/v2/ResponsibleGaming/GetEndDateOfActiveResponsibleUserBlocks", &q, nil, &response, &headers, log)
+	return
+}
