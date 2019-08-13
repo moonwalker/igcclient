@@ -20,6 +20,9 @@ func (t *IGCTime) UnmarshalJSON(b []byte) (err error) {
 		return
 	}
 	t.Time, err = time.Parse(igcTimeFormat, s)
+	if err != nil {
+		t.Time, err = time.Parse(time.RFC3339Nano, s)
+	}
 	return
 }
 
