@@ -7,6 +7,7 @@ import (
 	"net/http/httptest"
 	"net/url"
 	"testing"
+	"time"
 )
 
 var (
@@ -14,7 +15,7 @@ var (
 	mux *http.ServeMux
 
 	// client is the IGC client being tested.
-	client IGCClient
+	client *IGCClient
 
 	// server is a test HTTP server used to provide mock API responses.
 	server *httptest.Server
@@ -33,42 +34,86 @@ func setup() func() {
 
 	parsed, _ := url.Parse(server.URL)
 	// IGCClient client configured to use test server
-	c, err := NewIGCClient(parsed.String(), &testLogger{})
+	c, err := NewClient(parsed.String())
 	if err != nil {
-		fmt.Println("Error setting up client")
+		log.Panic(err)
 	}
-	client = *c
+	client = c
 
 	return func() {
 		server.Close()
 	}
 }
 
-func TestNewIGCClient(t *testing.T) {
-	_, err := NewIGCClient("", &testLogger{})
-	if err == nil {
-		t.Errorf("Expected error since baseUrl is empty")
+func NewClient(serverHost string) (*IGCClient, error) {
+	logRequestBlacklist := []string{
+		"/user",
+		"/user/closeaccount",
+		"/v2/authentication/login",
+		"/authentication/change/password",
+		"/authentication/change/email",
+		"/authentication/change/securityquestion",
+		"/authentication/forgotpassword/change/sms",
+		"/authentication/forgotpassword/change",
+		"/v2/authentication/register",
 	}
 
-	c, err := NewIGCClient("not://valid!url", &testLogger{})
+	logResponseBlacklist := []string{
+		"/consent/getconsents",
+		"/consent/userconsents",
+		"/countries",
+		"/user",
+	}
+
+	logBlacklist := []string{
+		"/authentication/isloggedin",
+	}
+
+	invalidAuthCallback := tokenInvalid
+
+	igcClient, err := NewIGCClient(Config{
+		BaseURL:              fmt.Sprintf("%s", serverHost),
+		LogRequestBody:       true,
+		LogResponseData:      true,
+		LogRequestBlacklist:  logRequestBlacklist,
+		LogResponseBlacklist: logResponseBlacklist,
+		LogBlacklist:         logBlacklist,
+		Debug:                true,
+		InvalidAuthCallback:  &invalidAuthCallback,
+	})
+
 	if err != nil {
-		t.Errorf(err.Error())
+		return nil, err
 	}
 
-	err = c.apiPost("test", nil, &headers)
-	if err == nil {
-		t.Errorf("Expected error since the url should not be parseble")
-	}
+	return igcClient, nil
+}
 
+func tokenInvalid(token string) {
+
+}
+
+func TestTimeoutError(t *testing.T) {
 	teardown := setup()
 	defer teardown()
 
 	mux.HandleFunc("/devices", func(w http.ResponseWriter, r *http.Request) {
+		time.Sleep(31 * time.Second)
 		w.WriteHeader(200)
 		w.Write([]byte("{\"Data\":[{\"DeviceTypeId\":1},{\"DeviceTypeId\":2}],\"Success\":true,\"Errors\":[]}"))
 	})
 
-	client.Devices.Devices()
+	logger := testLogger{}
+
+	_, err := client.Devices.Devices(make(map[string]string), logger)
+
+	if err != nil && err.Error() == ErrorClientTimeout {
+		fmt.Println("Yey, we got timeout error as we wanted!")
+	} else if err != nil {
+		t.Errorf("Expected ErrorClientTimeout but got: %s", err)
+	} else {
+		t.Error("Expected ErrorClientTimeout")
+	}
 }
 
 type testLogger struct{}
