@@ -1,11 +1,6 @@
 package igcclient
 
-import (
-	"net/http"
-	"strconv"
-	"testing"
-)
-
+/*
 func TestRolesService_Roles(t *testing.T) {
 	teardown := setup()
 	defer teardown()
@@ -52,3 +47,4 @@ func TestRolesService_RolesByUserID(t *testing.T) {
 		t.Errorf("Expected 1 item")
 	}
 }
+*/

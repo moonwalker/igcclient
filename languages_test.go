@@ -1,11 +1,6 @@
 package igcclient
 
-import (
-	"net/http"
-	"strconv"
-	"testing"
-)
-
+/*
 func TestLanguagesService_Languages(t *testing.T) {
 	teardown := setup()
 	defer teardown()
@@ -127,3 +122,4 @@ func TestLanguagesService_LanguagesByName(t *testing.T) {
 		t.Errorf("Expected language ID to be 1")
 	}
 }
+*/

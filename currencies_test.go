@@ -1,10 +1,6 @@
 package igcclient
 
-import (
-	"net/http"
-	"testing"
-)
-
+/*
 func TestCurrenciesService_Currencies(t *testing.T) {
 	teardown := setup()
 	defer teardown()
@@ -58,3 +54,4 @@ func TestCurrenciesService_CurrencyByCode(t *testing.T) {
 		t.Errorf("CurrencyID is not 1")
 	}
 }
+*/

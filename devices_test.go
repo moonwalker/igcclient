@@ -1,14 +1,6 @@
 package igcclient
 
-import (
-	"encoding/json"
-	"net/http"
-	"strconv"
-	"testing"
-
-	"github.com/moonwalker/igcclient/models"
-)
-
+/*
 func TestDevicesService_Devices(t *testing.T) {
 	teardown := setup()
 	defer teardown()
@@ -86,3 +78,4 @@ func TestDevicesService_GetPlatform(t *testing.T) {
 		t.Errorf("Expected user agent to be: " + userAgent)
 	}
 }
+*/

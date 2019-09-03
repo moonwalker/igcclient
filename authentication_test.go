@@ -1,15 +1,6 @@
 package igcclient
 
-import (
-	"encoding/json"
-	"net/http"
-	"net/url"
-	"strconv"
-	"testing"
-
-	"github.com/moonwalker/igcclient/models"
-)
-
+/**
 func TestAuthenticationService_Login(t *testing.T) {
 	teardown := setup()
 	defer teardown()
@@ -800,3 +791,4 @@ func TestAuthenticationService_Register(t *testing.T) {
 		t.Errorf("Expected " + username)
 	}
 }
+*/

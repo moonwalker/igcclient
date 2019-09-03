@@ -1,10 +1,6 @@
 package igcclient
 
-import (
-	"net/http"
-	"testing"
-)
-
+/*
 func TestCountriesService_CountryByID(t *testing.T) {
 	teardown := setup()
 	defer teardown()
@@ -94,3 +90,4 @@ func TestCountriesService_Countries(t *testing.T) {
 		t.Errorf("Expected 2 countries")
 	}
 }
+*/

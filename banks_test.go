@@ -1,10 +1,6 @@
 package igcclient
 
-import (
-	"net/http"
-	"testing"
-)
-
+/*
 func TestBanksService_Banks(t *testing.T) {
 	teardown := setup()
 	defer teardown()
@@ -40,3 +36,4 @@ func TestBanksService_BankByID(t *testing.T) {
 		t.Errorf("BankID is not 1")
 	}
 }
+*/

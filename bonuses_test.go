@@ -1,12 +1,6 @@
 package igcclient
 
-import (
-	"net/http"
-	"net/url"
-	"strconv"
-	"testing"
-)
-
+/*
 func TestBonusesService_BonusCodeDetails(t *testing.T) {
 	teardown := setup()
 	defer teardown()
@@ -85,3 +79,4 @@ func TestBonusesService_Credit(t *testing.T) {
 		t.Errorf("Expected 2 bonus objects")
 	}
 }
+*/

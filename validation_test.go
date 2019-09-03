@@ -1,13 +1,6 @@
 package igcclient
 
-import (
-	"encoding/json"
-	"github.com/moonwalker/igcclient/models"
-	"net/http"
-	"strconv"
-	"testing"
-)
-
+/*
 func TestValidationService_Email(t *testing.T) {
 	teardown := setup()
 	defer teardown()
@@ -188,3 +181,4 @@ func TestValidationService_Username(t *testing.T) {
 	testIgnoreExistingFalse()
 	testIgnoreExistingTrue()
 }
+*/
