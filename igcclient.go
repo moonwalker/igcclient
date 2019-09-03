@@ -18,6 +18,7 @@ import (
 
 const (
 	timeout = 30 * time.Second
+	ErrorClientTimeout = "ErrorClientTimeout"
 )
 
 type IGCClient struct {
@@ -166,15 +167,18 @@ func (c IGCClient) apiReq(method, endpoint string, params *url.Values, body inte
 	startTime := time.Now()
 
 	resp, e := c.HTTPClient.Do(req)
-	if e != nil {
-		logInfo["error"] = e
-		log.Info(fmt.Sprintf("failed to make request to igc endpoint %s", query), logInfo)
-		return e
-	}
 
 	duration := time.Since(startTime)
-
 	logInfo["duration"] = durationToMilliseconds(duration)
+
+	if e != nil {
+		logInfo["error"] = e.Error()
+		log.Info(fmt.Sprintf("failed to make request to igc endpoint %s", query), logInfo)
+		if e.(*url.Error).Timeout() {
+			return errors.New(ErrorClientTimeout)
+		}
+		return e
+	}
 
 	defer resp.Body.Close()
 
