@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
+	"strconv"
 
 	"github.com/moonwalker/igcclient/models"
 	"github.com/moonwalker/logger"
@@ -161,5 +162,11 @@ func (s *UserService) CloseAccount(body models.CloseAccountDOBRequestDto, header
 
 func (s *UserService) PasswordSetOnce(body models.PasswordRequestDto, headers map[string]string, log logger.Logger) (response models.OperationResponse, err error) {
 	err = s.client.apiReq(http.MethodPost, "/user/password/setonce", nil, &body, &response, &headers, log)
+	return
+}
+
+func (s *UserService) GetUserActiveBlocks(userID int64, headers map[string]string, log logger.Logger) (response models.OperationResponseOfIListOfUserActiveBlock, err error) {
+	id := strconv.FormatInt(userID, 10)
+	err = s.client.apiReq(http.MethodGet, "/user/getuseractiveblocks/"+url.QueryEscape(id), nil, nil, &response, &headers, log)
 	return
 }

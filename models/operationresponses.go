@@ -344,3 +344,8 @@ type OperationResponseOfSowQuestionnaire struct {
 	*OperationResponse
 	Data *SowQuestionnaire `json:"data"`
 }
+
+type OperationResponseOfIListOfUserActiveBlock struct {
+	*OperationResponse
+	Data *[]UserActiveBlock `json:"data"`
+}
