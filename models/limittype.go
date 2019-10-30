@@ -11,4 +11,7 @@ const (
 	LT_Session         LimitType = 6
 	LT_StakePerSession LimitType = 7
 	LT_MaxStakePerBet  LimitType = 8
+	LT_NetLoss         LimitType = 9
+	LT_Wagering        LimitType = 10
+	LT_NetDeposit      LimitType = 11
 )
