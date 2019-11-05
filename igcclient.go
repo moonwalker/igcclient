@@ -17,8 +17,9 @@ import (
 )
 
 const (
-	timeout = 30 * time.Second
-	ErrorClientTimeout = "ErrorClientTimeout"
+	timeout                   = 30 * time.Second
+	ErrorClientTimeout        = "ErrorClientTimeout"
+	DefaultLogMaxResponseSize = 10000
 )
 
 type IGCClient struct {
@@ -51,6 +52,7 @@ type IGCClient struct {
 	logRequestBlacklist  []string
 	logResponseBlacklist []string
 	logBlacklist         []string
+	logMaxResponseSize   int64
 
 	debug bool
 
@@ -68,6 +70,7 @@ type Config struct {
 	LogRequestBlacklist  []string
 	LogResponseBlacklist []string
 	LogBlacklist         []string
+	LogMaxResponseSize   int64
 	Debug                bool
 	InvalidAuthCallback  *func(string)
 }
@@ -89,6 +92,11 @@ func NewIGCClient(cfg Config) (client *IGCClient, err error) {
 		logBlacklist:         cfg.LogBlacklist,
 		debug:                cfg.Debug,
 		invalidAuthCallback:  cfg.InvalidAuthCallback,
+		logMaxResponseSize:   cfg.LogMaxResponseSize,
+	}
+
+	if client.logMaxResponseSize == 0 {
+		client.logMaxResponseSize = DefaultLogMaxResponseSize
 	}
 
 	client.common.client = client
@@ -195,10 +203,10 @@ func (c IGCClient) apiReq(method, endpoint string, params *url.Values, body inte
 	err = json.Unmarshal(s, data)
 
 	if c.logResponseData && c.doLog(endpoint, c.logResponseBlacklist) {
-		if len([]byte(s)) < 20000 {
+		if int64(len([]byte(s))) < c.logMaxResponseSize {
 			logInfo["response"] = data
 		} else {
-			logInfo["response"] = "response data to large for log (>=20k byte)"
+			logInfo["response"] = fmt.Sprintf("response data to large for log (>=%d byte)", c.logMaxResponseSize)
 		}
 	}
 
