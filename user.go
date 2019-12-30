@@ -88,7 +88,7 @@ func (s *UserService) KYCUpload(body models.KYCUpload, headers map[string]string
 //Allows the requesting of the following documents: ID, Proof of address, Payment method
 func (s *UserService) KYCDocumentRequest(documentToRequest int64, headers map[string]string, log logger.Logger) (response models.OperationResponseOfBoolean, err error) {
 	id := strconv.FormatInt(documentToRequest, 10)
-	err = s.client.apiReq(http.MethodGet, "/user/kycdocumentrequest/"+url.QueryEscape(id), nil, nil, &response, &headers, log)
+	err = s.client.apiReq(http.MethodPost, "/user/kycdocumentrequest/"+url.QueryEscape(id), nil, nil, &response, &headers, log)
 	return
 }
 
