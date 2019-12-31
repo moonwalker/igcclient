@@ -45,3 +45,11 @@ func (dt DocumentType) String() string {
 	}
 	return documentTypeNames[dt-1]
 }
+
+func RequestableDocumentTypes() []DocumentType {
+	return []DocumentType{
+		DT_Id,
+		DT_ProofOfAddress,
+		DT_PaymentMethod,
+	}
+}

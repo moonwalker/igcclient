@@ -39,3 +39,11 @@ func (ld LimitDuration) String() string {
 	}
 	return limitDurationNames[ld-1]
 }
+
+func MandatoryLimitDurations() []LimitDuration {
+	return []LimitDuration{
+		LD_24Hours,
+		LD_1Week,
+		LD_1Month,
+	}
+}
