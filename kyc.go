@@ -20,3 +20,9 @@ func (s *KYCService) PostSowQuestionnaire(body models.UserSowQuestionnaireData, 
 	err = s.client.apiReq(http.MethodPost, "/kyc/postsowquestionnaire", nil, &body, &response, &headers, log)
 	return
 }
+
+// Gets the AML verification status. Headers required: AuthenticationToken
+func (s *KYCService) GetAMLVerificationStatus(headers map[string]string, log logger.Logger) (response models.OperationResponseOfGetAmlVerificationStatusDTO, err error) {
+	err = s.client.apiReq(http.MethodPost, "/kyc/getamlverificationstatus", nil, nil, &response, &headers, log)
+	return
+}
