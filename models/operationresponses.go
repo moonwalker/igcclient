@@ -351,5 +351,5 @@ type OperationResponseOfIListOfUserActiveBlock struct {
 }
 type OperationResponseOfGetAmlVerificationStatusDTO struct {
 	*OperationResponse
-	Data *[]GetAmlVerificationStatusDTO `json:"data"`
+	Data *GetAmlVerificationStatusDTO `json:"data"`
 }
