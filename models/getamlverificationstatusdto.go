@@ -14,7 +14,7 @@ const (
 	AVS_SourceOfFunds                AmlVerificationStatus = 3
 )
 
-func AmlVerificationStatuss() []AmlVerificationStatus {
+func AmlVerificationStatuses() []AmlVerificationStatus {
 	return []AmlVerificationStatus{
 		AVS_NotInProgress,
 		AVS_SourceOfWealthQuestionnaire,
