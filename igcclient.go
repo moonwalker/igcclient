@@ -151,9 +151,16 @@ func (c IGCClient) apiReq(method, endpoint string, params *url.Values, body inte
 
 	if headers != nil {
 		for k, v := range *headers {
-			if v != "" {
-				req.Header.Add(k, v)
-				logInfo[k] = v
+			if k == "X-Api-Key" {
+				if v != "" {
+					req.Header.Add(k, v)
+					logInfo[k] = c.obfuscate(v)
+				}
+			} else {
+				if v != "" {
+					req.Header.Add(k, v)
+					logInfo[k] = v
+				}
 			}
 		}
 	}
@@ -240,4 +247,13 @@ func (c IGCClient) checkForAuthError(data []byte, authToken string) {
 
 func durationToMilliseconds(duration time.Duration) float32 {
 	return float32(duration.Nanoseconds()/1000) / 1000
+}
+
+func (c IGCClient) obfuscate(val string) string {
+	if val == "" || len(val) < 3 {
+		return val
+	}
+	first3 := val[0:3]
+	last3 := val[len(val)-3:]
+	return fmt.Sprintf("%sxxxx%s", first3, last3)
 }
