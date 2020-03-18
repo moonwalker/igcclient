@@ -353,3 +353,7 @@ type OperationResponseOfGetAmlVerificationStatusDTO struct {
 	*OperationResponse
 	Data *GetAmlVerificationStatusDTO `json:"data"`
 }
+type OperationResponseOfListOfUserGracePeriodDTO struct {
+	*OperationResponse
+	Data *[]UserGracePeriodDTO `json:"data"`
+}

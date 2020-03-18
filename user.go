@@ -177,3 +177,9 @@ func (s *UserService) GetUserActiveBlocks(userID int64, headers map[string]strin
 	err = s.client.apiReq(http.MethodGet, "/user/getuseractiveblocks/"+url.QueryEscape(id), nil, nil, &response, &headers, log)
 	return
 }
+
+func (s *UserService) GracePeriod(userID int64, headers map[string]string, log logger.Logger) (response models.OperationResponseOfIListOfUserActiveBlock, err error) {
+	id := strconv.FormatInt(userID, 10)
+	err = s.client.apiReq(http.MethodGet, "/user/graceperiod/?userId="+url.QueryEscape(id), nil, nil, &response, &headers, log)
+	return
+}
