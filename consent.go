@@ -63,3 +63,12 @@ func (s *ConsentService) Unsubscribe(triggerCode string, userID int64, headers m
 	err = s.client.apiReq(http.MethodPost, "/Consent/Unsubscribe", &q, nil, &response, &headers, log)
 	return
 }
+
+// Gets list of user consents with content and user's acceptence X-Api-Key is required
+func (s *ConsentService) UserConsentsByUserID(languageAlpha2Code string, userID int64, headers map[string]string, log logger.Logger) (response models.OperationResponseOfPublicUserConsentsListModel, err error) {
+	q := url.Values{}
+	q.Add("languageAlpha2Code", languageAlpha2Code)
+	q.Add("userId", userID)
+	err = s.client.apiReq(http.MethodPost, "/Consent/UserConsents", &q, nil, &response, &headers, log)
+	return
+}
