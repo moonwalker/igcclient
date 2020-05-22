@@ -68,7 +68,7 @@ func (s *ConsentService) Unsubscribe(triggerCode string, userID int64, headers m
 func (s *ConsentService) UserConsentsByUserID(languageAlpha2Code string, userID int64, headers map[string]string, log logger.Logger) (response models.OperationResponseOfPublicUserConsentsListModel, err error) {
 	q := url.Values{}
 	q.Add("languageAlpha2Code", languageAlpha2Code)
-	q.Add("userId", userID)
+	q.Add("userId", fmt.Sprintf("%d", userID))
 	err = s.client.apiReq(http.MethodPost, "/Consent/UserConsents", &q, nil, &response, &headers, log)
 	return
 }
