@@ -200,20 +200,20 @@ func (c IGCClient) apiReq(method, endpoint string, params *url.Values, body inte
 	buf := new(bytes.Buffer)
 	buf.ReadFrom(resp.Body)
 	s := buf.Bytes()
+	ls := int64(len(s))
 
 	if headers != nil && (*headers)["AuthenticationToken"] != "" {
 		authToken := (*headers)["AuthenticationToken"]
 		c.checkForAuthError(s, authToken)
-
 	}
 
 	err = json.Unmarshal(s, data)
 
 	if c.logResponseData && c.doLog(endpoint, c.logResponseBlacklist) {
-		if int64(len([]byte(s))) < c.logMaxResponseSize {
+		if ls < c.logMaxResponseSize {
 			logInfo["response"] = data
 		} else {
-			logInfo["response"] = fmt.Sprintf("response data to large for log (>=%d byte)", c.logMaxResponseSize)
+			logInfo["response"] = fmt.Sprintf("response data is too large to log (>=%d byte)", c.logMaxResponseSize)
 		}
 	}
 
@@ -224,7 +224,11 @@ func (c IGCClient) apiReq(method, endpoint string, params *url.Values, body inte
 	if err != nil && log != nil {
 		logFields := make(map[string]interface{})
 		logFields["error"] = err
-		logFields["response"] = s
+		if ls < c.logMaxResponseSize {
+			logFields["response"] = s
+		} else {
+			logFields["response"] = s[:c.logMaxResponseSize]
+		}
 		log.Info(fmt.Sprintf("failed to parse response from igc endpoint %s", query), logFields)
 	}
 
