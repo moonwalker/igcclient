@@ -118,9 +118,15 @@ func TestTimeoutError(t *testing.T) {
 
 type testLogger struct{}
 
-func (l testLogger) DebugLevel(debug bool) {}
+func (l testLogger) UseTextFormatter() {}
+
+func (l testLogger) SetLevel(level int) {}
 
 func (l testLogger) SetContext(context map[string]interface{}) {}
+
+func (l testLogger) GetContext() map[string]interface{} {
+	return nil
+}
 
 func (l testLogger) Println(args ...interface{}) {
 	log.Println(args...)
@@ -128,6 +134,10 @@ func (l testLogger) Println(args ...interface{}) {
 
 func (l testLogger) Printf(format string, args ...interface{}) {
 	log.Printf(format, args...)
+}
+
+func (l testLogger) Trace(msg string, fields map[string]interface{}) {
+	log.Printf(msg, fields)
 }
 
 func (l testLogger) Debug(msg string, fields map[string]interface{}) {
@@ -138,10 +148,14 @@ func (l testLogger) Info(msg string, fields map[string]interface{}) {
 	log.Printf(msg, fields)
 }
 
-func (l testLogger) Error(msg string, err error) {
-	log.Printf(msg, err)
+func (l testLogger) Warning(msg string, fields map[string]interface{}) {
+	log.Printf(msg, fields)
 }
 
-func (l testLogger) Fatal(msg string, err error) {
-	log.Fatal(msg, err)
+func (l testLogger) Error(msg string, fields map[string]interface{}) {
+	log.Printf(msg, fields)
+}
+
+func (l testLogger) Fatal(msg string, fields map[string]interface{}) {
+	log.Fatal(msg, fields)
 }
