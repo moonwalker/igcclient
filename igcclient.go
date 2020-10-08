@@ -2,6 +2,7 @@ package igcclient
 
 import (
 	"bytes"
+	"encoding/base64"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -224,10 +225,15 @@ func (c IGCClient) apiReq(method, endpoint string, params *url.Values, body inte
 	if err != nil && log != nil {
 		logFields := make(map[string]interface{})
 		logFields["error"] = err
+		var response []byte
+		response, err = base64.StdEncoding.DecodeString(string(s))
+		if err != nil {
+			response = s
+		}
 		if ls < c.logMaxResponseSize {
-			logFields["response"] = s
+			logFields["response"] = response
 		} else {
-			logFields["response"] = s[:c.logMaxResponseSize]
+			logFields["response"] = response[:c.logMaxResponseSize]
 		}
 		log.Error(fmt.Sprintf("failed to parse response from igc endpoint %s", query), logFields)
 	}
