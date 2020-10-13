@@ -183,13 +183,12 @@ func (c IGCClient) apiReq(method, endpoint string, params *url.Values, body inte
 	startTime := time.Now()
 
 	resp, e := c.HTTPClient.Do(req)
-
-	duration := time.Since(startTime)
-	logInfo["duration"] = durationToMilliseconds(duration)
-
 	if e != nil {
 		return e
 	}
+
+	duration := time.Since(startTime)
+	logInfo["duration"] = durationToMilliseconds(duration)
 
 	defer resp.Body.Close()
 
