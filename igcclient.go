@@ -187,8 +187,7 @@ func (c IGCClient) apiReq(method, endpoint string, params *url.Values, body inte
 		return e
 	}
 
-	duration := time.Since(startTime)
-	logInfo["duration"] = durationToMilliseconds(duration)
+	logInfo["duration"] = time.Since(startTime).Milliseconds()
 
 	defer resp.Body.Close()
 
@@ -247,10 +246,6 @@ func (c IGCClient) checkForAuthError(data []byte, authToken string) {
 			}
 		}
 	}
-}
-
-func durationToMilliseconds(duration time.Duration) float32 {
-	return float32(duration.Nanoseconds()/1000) / 1000
 }
 
 func (c IGCClient) obfuscate(val string) string {
