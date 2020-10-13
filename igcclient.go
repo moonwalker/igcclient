@@ -188,11 +188,6 @@ func (c IGCClient) apiReq(method, endpoint string, params *url.Values, body inte
 	logInfo["duration"] = durationToMilliseconds(duration)
 
 	if e != nil {
-		logInfo["error"] = e.Error()
-		log.Error(fmt.Sprintf("failed to make request to igc endpoint %s", query), logInfo)
-		if e.(*url.Error).Timeout() {
-			return errors.New(ErrorClientTimeout)
-		}
 		return e
 	}
 
