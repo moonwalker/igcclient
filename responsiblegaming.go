@@ -42,14 +42,7 @@ func (s *ResponsibleGamingService) TimeoutDurations(headers map[string]string, l
 }
 
 //Add a self-exclusion for the current authenticated user.
-func (s *ResponsibleGamingService) AddSelfExclusion(selfExclusionCategoryID int64, headers map[string]string, log logger.Logger) (response models.OperationResponseOfBoolean, err error) {
-	q := url.Values{}
-	q.Add("selfExclusionCategoryID", fmt.Sprintf("%d", selfExclusionCategoryID))
-	err = s.client.apiReq(http.MethodPost, "/v2/ResponsibleGaming/SelfExclusion/AddSelfExclusion", &q, nil, &response, &headers, log)
-	return
-}
-
-func (s *ResponsibleGamingService) AddSelfExclusionWithBlockReason(selfExclusionCategoryID int64, blockReason int64, headers map[string]string, log logger.Logger) (response models.OperationResponseOfBoolean, err error) {
+func (s *ResponsibleGamingService) AddSelfExclusion(selfExclusionCategoryID int64, blockReason int64, headers map[string]string, log logger.Logger) (response models.OperationResponseOfBoolean, err error) {
 	q := url.Values{}
 	q.Add("selfExclusionCategoryID", fmt.Sprintf("%d", selfExclusionCategoryID))
 	q.Add("blockReason", fmt.Sprintf("%d", blockReason))
