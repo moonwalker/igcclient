@@ -49,10 +49,10 @@ func (s *ResponsibleGamingService) AddSelfExclusion(selfExclusionCategoryID int6
 	return
 }
 
-func (s *ResponsibleGamingService) AddSelfExclusionWithBlockReason(selfExclusionCategoryID int64, blockReason string, headers map[string]string, log logger.Logger) (response models.OperationResponseOfBoolean, err error) {
+func (s *ResponsibleGamingService) AddSelfExclusionWithBlockReason(selfExclusionCategoryID int64, blockReason int64, headers map[string]string, log logger.Logger) (response models.OperationResponseOfBoolean, err error) {
 	q := url.Values{}
 	q.Add("selfExclusionCategoryID", fmt.Sprintf("%d", selfExclusionCategoryID))
-	q.Add("blockReason", blockReason)
+	q.Add("blockReason", fmt.Sprintf("%d", blockReason))
 	err = s.client.apiReq(http.MethodPost, "/v2/ResponsibleGaming/SelfExclusion/AddSelfExclusion", &q, nil, &response, &headers, log)
 	return
 }
@@ -66,9 +66,10 @@ func (s *ResponsibleGamingService) AddTimeoutByEndDate(endDate string, headers m
 }
 
 //Add a timeout for the current authenticated user.
-func (s *ResponsibleGamingService) AddTimeoutByTimeoutCategoryID(timeoutCategoryID int64, headers map[string]string, log logger.Logger) (response models.OperationResponseOfBoolean, err error) {
+func (s *ResponsibleGamingService) AddTimeoutByTimeoutCategoryID(timeoutCategoryID int64, blockReason int64, headers map[string]string, log logger.Logger) (response models.OperationResponseOfBoolean, err error) {
 	q := url.Values{}
 	q.Add("timeoutCategoryID", fmt.Sprintf("%d", timeoutCategoryID))
+	q.Add("blockReason", fmt.Sprintf("%d", blockReason))
 	err = s.client.apiReq(http.MethodPost, "/v2/ResponsibleGaming/Timeout/AddTimeout", &q, nil, &response, &headers, log)
 	return
 }
