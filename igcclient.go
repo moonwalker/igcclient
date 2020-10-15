@@ -19,7 +19,6 @@ import (
 
 const (
 	timeout                   = 30 * time.Second
-	ErrorClientTimeout        = "ErrorClientTimeout"
 	DefaultLogMaxResponseSize = 10000
 )
 
