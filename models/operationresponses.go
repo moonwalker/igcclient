@@ -357,3 +357,7 @@ type OperationResponseOfListOfUserGracePeriodDTO struct {
 	*OperationResponse
 	Data *[]UserGracePeriodDTO `json:"data"`
 }
+type OperationResponseOfListOfUserKycStatusResponseDTO struct {
+	*OperationResponse
+	Data *[]UserKycStatusResponseDTO `json:"data"`
+}
