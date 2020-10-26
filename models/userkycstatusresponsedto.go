@@ -1,8 +1,8 @@
 package models
 
 type UserKycStatusResponseDTO struct {
-	ApprovalTypeId *KycApprovalType   `json:"ApprovalTypeId,omitempty"`
-	StatusId       *KycApprovalStatus `json:"StatusId,omitempty"`
+	ApprovalTypeID *KycApprovalType   `json:"ApprovalTypeId,omitempty"`
+	StatusID       *KycApprovalStatus `json:"StatusId,omitempty"`
 }
 
 type KycApprovalType int64
