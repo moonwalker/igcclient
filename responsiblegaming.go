@@ -45,7 +45,9 @@ func (s *ResponsibleGamingService) TimeoutDurations(headers map[string]string, l
 func (s *ResponsibleGamingService) AddSelfExclusion(selfExclusionCategoryID int64, blockReason int64, headers map[string]string, log logger.Logger) (response models.OperationResponseOfBoolean, err error) {
 	q := url.Values{}
 	q.Add("selfExclusionCategoryID", fmt.Sprintf("%d", selfExclusionCategoryID))
-	q.Add("blockReason", fmt.Sprintf("%d", blockReason))
+	if blockReason != 0 {
+		q.Add("blockReason", fmt.Sprintf("%d", blockReason))
+	}
 	err = s.client.apiReq(http.MethodPost, "/v2/ResponsibleGaming/SelfExclusion/AddSelfExclusion", &q, nil, &response, &headers, log)
 	return
 }
@@ -62,7 +64,9 @@ func (s *ResponsibleGamingService) AddTimeoutByEndDate(endDate string, headers m
 func (s *ResponsibleGamingService) AddTimeoutByTimeoutCategoryID(timeoutCategoryID int64, blockReason int64, headers map[string]string, log logger.Logger) (response models.OperationResponseOfBoolean, err error) {
 	q := url.Values{}
 	q.Add("timeoutCategoryID", fmt.Sprintf("%d", timeoutCategoryID))
-	q.Add("blockReason", fmt.Sprintf("%d", blockReason))
+	if blockReason != 0 {
+		q.Add("blockReason", fmt.Sprintf("%d", blockReason))
+	}
 	err = s.client.apiReq(http.MethodPost, "/v2/ResponsibleGaming/Timeout/AddTimeout", &q, nil, &response, &headers, log)
 	return
 }
