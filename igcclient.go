@@ -49,9 +49,9 @@ type IGCClient struct {
 
 	logRequestBody       bool
 	logResponseData      bool
-	logRequestBlacklist  []string
-	logResponseBlacklist []string
-	logBlacklist         []string
+	logRequestBlacklist  map[string]bool
+	logResponseBlacklist map[string]bool
+	logBlacklist         map[string]bool
 	logMaxResponseSize   int64
 
 	debug bool
@@ -87,9 +87,9 @@ func NewIGCClient(cfg Config) (client *IGCClient, err error) {
 		baseURL:              cfg.BaseURL,
 		logRequestBody:       cfg.LogRequestBody,
 		logResponseData:      cfg.LogResponseData,
-		logRequestBlacklist:  cfg.LogRequestBlacklist,
-		logResponseBlacklist: cfg.LogResponseBlacklist,
-		logBlacklist:         cfg.LogBlacklist,
+		logRequestBlacklist:  getLogBlacklist(cfg.LogRequestBlacklist),
+		logResponseBlacklist: getLogBlacklist(cfg.LogResponseBlacklist),
+		logBlacklist:         getLogBlacklist(cfg.LogBlacklist),
 		debug:                cfg.Debug,
 		invalidAuthCallback:  cfg.InvalidAuthCallback,
 		logMaxResponseSize:   cfg.LogMaxResponseSize,
@@ -123,13 +123,12 @@ func NewIGCClient(cfg Config) (client *IGCClient, err error) {
 	return
 }
 
-func (c IGCClient) doLog(endpoint string, blacklist []string) bool {
+func getLogBlacklist(blacklist []string) map[string]bool {
+	bl := make(map[string]bool)
 	for _, blacklisted := range blacklist {
-		if strings.HasPrefix(strings.ToLower(endpoint), strings.ToLower(blacklisted)) {
-			return false
-		}
+		bl[strings.ToLower(blacklisted)] = true
 	}
-	return true
+	return bl
 }
 
 func (c IGCClient) apiReq(method, endpoint string, params *url.Values, body interface{}, data interface{}, headers *map[string]string, log logger.Logger) error {
@@ -138,7 +137,9 @@ func (c IGCClient) apiReq(method, endpoint string, params *url.Values, body inte
 
 	logInfo := make(map[string]interface{})
 
-	if c.logRequestBody && body != nil && c.doLog(endpoint, c.logRequestBlacklist) {
+	ep := strings.ToLower(endpoint)
+
+	if c.logRequestBody && body != nil && !c.logRequestBlacklist[ep] {
 		logInfo["request"] = body
 	}
 
@@ -175,8 +176,9 @@ func (c IGCClient) apiReq(method, endpoint string, params *url.Values, body inte
 	logInfo["query"] = query
 
 	if params != nil {
-		req.URL.RawQuery = params.Encode()
-		logInfo["params"] = params.Encode()
+		pe := params.Encode()
+		req.URL.RawQuery = pe
+		logInfo["params"] = pe
 	}
 
 	startTime := time.Now()
@@ -202,16 +204,20 @@ func (c IGCClient) apiReq(method, endpoint string, params *url.Values, body inte
 
 	err = json.Unmarshal(s, data)
 
-	if c.logResponseData && c.doLog(endpoint, c.logResponseBlacklist) {
+	if c.logResponseData && !c.logResponseBlacklist[ep] {
 		if ls < c.logMaxResponseSize {
 			logInfo["response"] = data
 		} else {
-			logInfo["response"] = fmt.Sprintf("response data is too large to log (>=%d byte)", c.logMaxResponseSize)
+			logInfo["response"] = string(s)[:c.logMaxResponseSize]
 		}
 	}
 
-	if log != nil && (c.doLog(endpoint, c.logBlacklist) || c.debug) {
-		log.Info(query+" request", logInfo)
+	if log != nil && !c.logBlacklist[endpoint] {
+		if c.debug {
+			log.Info(query+" request", logInfo)
+		} else {
+			log.Debug(query+" request", logInfo)
+		}
 	}
 
 	if err != nil && log != nil {
