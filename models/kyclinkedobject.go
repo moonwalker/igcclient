@@ -20,3 +20,40 @@ type KYCLinkedObject struct {
 	NeedUserAction   *bool    `json:"NeedUserAction,omitempty"`
 	StatusText       *string  `json:"StatusText,omitempty"`
 }
+
+type KycDocumentStatus int64
+
+const (
+	KDS_NotSet     KycDocumentStatus = 0
+	KDS_Approved   KycDocumentStatus = 1
+	KDS_Requested  KycDocumentStatus = 2
+	KDS_Rejected   KycDocumentStatus = 3
+	KDS_Processing KycDocumentStatus = 4
+)
+
+func KYCDocumentStatuses() []KycDocumentStatus {
+	return []KycDocumentStatus{
+		KDS_NotSet,
+		KDS_Approved,
+		KDS_Requested,
+		KDS_Rejected,
+		KDS_Processing,
+	}
+}
+
+var (
+	kycDocumentStatusNames = [...]string{
+		"Not Set",
+		"Approved",
+		"Requested",
+		"Rejected",
+		"Processing",
+	}
+)
+
+func (kds KycDocumentStatus) String() string {
+	if kds < KDS_NotSet || kds > KDS_Processing {
+		return "Unknown"
+	}
+	return kycDocumentStatusNames[kds]
+}
