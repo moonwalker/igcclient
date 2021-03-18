@@ -24,11 +24,13 @@ type KYCLinkedObject struct {
 type KycDocumentStatus int64
 
 const (
-	KDS_NotSet     KycDocumentStatus = 0
-	KDS_Approved   KycDocumentStatus = 1
-	KDS_Requested  KycDocumentStatus = 2
-	KDS_Rejected   KycDocumentStatus = 3
-	KDS_Processing KycDocumentStatus = 4
+	KDS_NotSet         KycDocumentStatus = 0
+	KDS_Approved       KycDocumentStatus = 1
+	KDS_Requested      KycDocumentStatus = 2
+	KDS_Rejected       KycDocumentStatus = 3
+	KDS_Processing     KycDocumentStatus = 4
+	KDS_UserRequested  KycDocumentStatus = 5
+	KDS_PendingRequest KycDocumentStatus = 6
 )
 
 func KYCDocumentStatuses() []KycDocumentStatus {
@@ -38,6 +40,8 @@ func KYCDocumentStatuses() []KycDocumentStatus {
 		KDS_Requested,
 		KDS_Rejected,
 		KDS_Processing,
+		KDS_UserRequested,
+		KDS_PendingRequest,
 	}
 }
 
@@ -48,6 +52,8 @@ var (
 		"Requested",
 		"Rejected",
 		"Processing",
+		"UserRequested",
+		"PendingRequest",
 	}
 )
 
