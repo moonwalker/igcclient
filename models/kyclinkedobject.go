@@ -58,7 +58,7 @@ var (
 )
 
 func (kds KycDocumentStatus) String() string {
-	if kds < KDS_NotSet || kds > KDS_Processing {
+	if kds < KDS_NotSet || kds > KDS_PendingRequest {
 		return "Unknown"
 	}
 	return kycDocumentStatusNames[kds]
